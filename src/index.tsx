@@ -1,11 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { useState } from "react";
 import "./index.css";
-import App from "./App";
+import Grid from "./components/Grid";
+import Node from "./components/Node";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+const Index = () => {
+  const [nodeSelector, setNodeSelector] = useState<string>("wall");
+
+  return (
+    <React.StrictMode>
+      <Grid />
+    </React.StrictMode>
+  );
+};
+
+ReactDOM.render(<Index />, document.getElementById("root"));
