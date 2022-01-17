@@ -3,11 +3,9 @@ import ReactDOM from "react-dom";
 import { useState } from "react";
 import "./index.css";
 import Grid from "./components/Grid";
-import Node from "./components/Node";
 import Header from "./components/Header";
 
 const Index = () => {
-  const [nodeSelector, setNodeSelector] = useState<string>("wall");
   const [nodeSize, setNodeSize] = useState<Array<number>>([10, 18, 31]); // h-[0]; row-[1]; col-[2]
 
   return (

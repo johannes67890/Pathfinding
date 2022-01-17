@@ -31,9 +31,12 @@ const Header: FC<{
 
       <div className="flex flex-col p-2 gap-1">
         <h2 className="font-bold">Grid Size</h2>
-        <Button onClick={() => setNodeSize([10, 18, 31])}>Big</Button>
-        <Button onClick={() => setNodeSize([8, 23, 39])}>Default</Button>
-        <Button onClick={() => setNodeSize([5, 37, 63])}>Small</Button>
+        <Button onClick={() => setNodeSize([10, 18, 31])}>Big</Button>{" "}
+        {/*Big: [10, 18, 31] */}
+        <Button onClick={() => setNodeSize([8, 23, 39])}>Default</Button>{" "}
+        {/*Default: [8, 23, 39] */}
+        <Button onClick={() => setNodeSize([5, 37, 63])}>Small</Button>{" "}
+        {/*Small: [5, 37, 63] */}
       </div>
     </div>
   );

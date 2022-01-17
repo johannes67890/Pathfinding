@@ -1,16 +1,13 @@
 import Node from "./Node";
 import { MakeNode } from "./Node";
-import { FC, useState } from "react";
+import { FC } from "react";
 
 const Grid: FC<{ nodeSize: Array<number> }> = ({ nodeSize }) => {
   const grid = [];
 
   for (let row = 0; row <= nodeSize[1]; row++) {
-    //default 18
-    //make row
     const currentRow = [];
     for (let col = 0; col <= nodeSize[2]; col++) {
-      //default 31; big 39; small ;
       currentRow.push(MakeNode(col, row)); //push current row to node
     }
     grid.push(currentRow); // push to grid
