@@ -8,12 +8,13 @@ import Header from "./components/Header";
 
 const Index = () => {
   const [nodeSelector, setNodeSelector] = useState<string>("wall");
+  const [nodeSize, setNodeSize] = useState<Array<number>>([10, 18, 31]); // h-[0]; row-[1]; col-[2]
 
   return (
     <React.StrictMode>
       <div className="max-w-7xl mx-auto mt-3">
-        <Header />
-        <Grid />
+        <Header setNodeSize={setNodeSize} />
+        <Grid nodeSize={nodeSize} />
       </div>
     </React.StrictMode>
   );

@@ -5,7 +5,9 @@ const Node: FC<{
   nodeSelector?: string;
   col: number;
   row: number;
-}> = ({ nodeSelector, onClick, row, col }) => {
+  width: number;
+  height: number;
+}> = ({ nodeSelector, onClick, row, col, width, height }) => {
   // let nodeColor: string;
   // switch (nodeSelector) {
   //   case "wall":
@@ -28,12 +30,11 @@ const Node: FC<{
 
   return (
     <button
-      id={`row-${row}col-${col}`}
+      id={`row-${row} col-${col}`}
       onClick={() => {
         if (onClick) onClick();
       }}
-      // className={`w-7 h-7 border border-gray-300 bg-${nodeColor}`}
-      className={`h-10 w-10 p-3 border border-black`}
+      className={`h-${height} w-${width} border border-black`} //default h-10 w-10
     ></button>
   );
 };
