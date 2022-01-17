@@ -27,16 +27,14 @@ const Node: FC<{
   // }
 
   return (
-    <div
+    <button
       id={`row-${row}col-${col}`}
       onClick={() => {
         if (onClick) onClick();
       }}
       // className={`w-7 h-7 border border-gray-300 bg-${nodeColor}`}
-      className={`w-7 h-7 border border-gray-300`}
-    >
-      {Children}{" "}
-    </div>
+      className={`h-10 w-10 p-3 border border-black`}
+    ></button>
   );
 };
 
