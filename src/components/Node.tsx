@@ -1,10 +1,11 @@
 import React, { Children, FC } from "react";
 
-const Node: FC<{ nodeSelector?: string; col: number; row: number }> = ({
-  nodeSelector,
-  row,
-  col,
-}) => {
+const Node: FC<{
+  onClick?: () => unknown;
+  nodeSelector?: string;
+  col: number;
+  row: number;
+}> = ({ nodeSelector, onClick, row, col }) => {
   // let nodeColor: string;
   // switch (nodeSelector) {
   //   case "wall":
@@ -28,6 +29,9 @@ const Node: FC<{ nodeSelector?: string; col: number; row: number }> = ({
   return (
     <div
       id={`row-${row}col-${col}`}
+      onClick={() => {
+        if (onClick) onClick();
+      }}
       // className={`w-7 h-7 border border-gray-300 bg-${nodeColor}`}
       className={`w-7 h-7 border border-gray-300`}
     >

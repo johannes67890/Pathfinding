@@ -4,12 +4,13 @@ import { FC, useState } from "react";
 
 const Grid = () => {
   const grid = [];
-  for (let row = 0; row < 20; row++) {
+  for (let row = 0; row < 15; row++) {
+    //make row
     const currentRow = [];
     for (let col = 0; col < 20; col++) {
-      currentRow.push(MakeNode(col, row));
+      currentRow.push(MakeNode(col, row)); //push current row to node
     }
-    grid.push(currentRow);
+    grid.push(currentRow); // push to grid
   }
 
   return (
@@ -19,19 +20,17 @@ const Grid = () => {
           <div key={index}>
             {row.map((node, nodeIndex) => {
               return (
-                <Node key={nodeIndex} row={node.row} col={node.col}>
-                  {() =>
-                    console.log(
-                      "row:",
-                      node.row,
-                      "col: ",
-                      node.col,
-                      "node:",
-                      node
-                    )
-                  }
-                  test
-                </Node>
+                <Node
+                  onClick={() => console.log(node)}
+                  row={node.row}
+                  col={node.col}
+                ></Node>
+                // <button
+                //   className="p-3 border border-black"
+                //   onClick={() => console.log(node)}
+                // >
+                //   test
+                // </button>
               );
             })}
           </div>
@@ -40,17 +39,5 @@ const Grid = () => {
     </div>
   );
 };
-
-// const InitilizeGrid = () => {
-//   const grid = [];
-//   for (let row = 0; row < 20; row++) {
-//     const currentRow: Array<number> = [];
-//     for (let col = 0; col < 15; col++) {
-//       currentRow.push(MakeNode(col, row));
-//     }
-//     grid.push(currentRow);
-//     return grid;
-//   }
-// };
 
 export default Grid;
