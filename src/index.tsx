@@ -11,10 +11,9 @@ const Index = () => {
 
   function SetNodeSize(size: Size) {
     setNode((prev) => {
-      if (prev != undefined) {
+      if (prev !== undefined) {
         prev.size = size;
       }
-      console.log(prev);
       return prev;
     });
   }

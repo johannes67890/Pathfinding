@@ -13,9 +13,9 @@ export enum Size {
   big,
 }
 export const SizeGrid: Record<Size, [string, number, number]> = {
-  [Size.small]: ["h-5 w-5", 37, 63],
-  [Size.default]: ["h-8 w-8", 23, 39],
-  [Size.big]: ["h-10 w-10", 18, 31],
+  [Size.small]: ["h-5 w-5", 37, 63], // ["h-5 w-5", 37, 63]
+  [Size.default]: ["h-8 w-8", 23, 39], // ["h-8 w-8", 23, 39]
+  [Size.big]: ["h-10 w-10", 18, 31], // ["h-10 w-10", 18, 31]
 };
 
 function Node(props: NodeType) {

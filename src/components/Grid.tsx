@@ -1,6 +1,7 @@
 import Node, { NodeType, Size, SizeGrid } from "./Node";
 import { MakeNode } from "./Node";
-import { FC } from "react";
+import { FC, useEffect } from "react";
+import { classNames } from "..";
 
 const Grid: FC<{ nodeSize: NodeType }> = ({ nodeSize }) => {
   const grid = [];
@@ -12,18 +13,27 @@ const Grid: FC<{ nodeSize: NodeType }> = ({ nodeSize }) => {
     grid.push(currentRow); // push to grid
   }
 
+  useEffect(() => {
+    //might work?
+    console.log(nodeSize);
+  }, [nodeSize]);
+
   return (
     <div className="grid">
       {grid.map((row, index) => {
         return (
-          <div className={SizeGrid[nodeSize.size][0]} key={index}>
+          <div
+            className={classNames(SizeGrid[nodeSize.size][0], "w-full")}
+            key={index}
+          >
             {row.map((node, nodeIndex) => {
               return (
                 <Node
                   key={nodeIndex}
-                  onClick={() => console.log(node)}
+                  onClick={() => console.log(node, "2")}
                   row={node.row}
                   col={node.col}
+                  size={nodeSize.size} //component dosent render gotten paramater
                 ></Node>
               );
             })}
