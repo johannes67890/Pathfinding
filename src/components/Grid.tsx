@@ -12,7 +12,6 @@ const Grid: FC<{ nodeSize: NodeType }> = ({ nodeSize }) => {
     }
     grid.push(currentRow); // push to grid
   }
-
   useEffect(() => {
     //might work?
     console.log(nodeSize);
@@ -23,14 +22,14 @@ const Grid: FC<{ nodeSize: NodeType }> = ({ nodeSize }) => {
       {grid.map((row, index) => {
         return (
           <div
-            className={classNames(SizeGrid[nodeSize.size][0], "w-full")}
+            className={classNames(SizeGrid[nodeSize.size][0], "w-max")}
             key={index}
           >
             {row.map((node, nodeIndex) => {
               return (
                 <Node
                   key={nodeIndex}
-                  onClick={() => console.log(node, "2")}
+                  onClick={() => console.log(node)}
                   row={node.row}
                   col={node.col}
                   size={nodeSize.size} //component dosent render gotten paramater
