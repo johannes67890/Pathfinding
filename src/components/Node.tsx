@@ -12,10 +12,10 @@ export enum Size {
   default,
   big,
 }
-export const SizeGrid: Record<Size, [string, number, number]> = {
-  [Size.small]: ["h-5 w-5", 37, 63], // ["h-5 w-5", 37, 63]
-  [Size.default]: ["h-8 w-8", 23, 39], // ["h-8 w-8", 23, 39]
-  [Size.big]: ["h-10 w-10", 18, 31], // ["h-10 w-10", 18, 31]
+export const SizeGrid: Record<Size, [string, string, number, number]> = {
+  [Size.small]: ["h-5", "w-5", 37, 63], // ["h-5", "w-5", 37, 63]
+  [Size.default]: ["h-8", "w-8", 23, 39], // ["h-8", "w-8", 23, 39]
+  [Size.big]: ["h-10", "w-10", 18, 31], // ["h-10", "w-10", 18, 31]
 };
 
 function Node(props: NodeType) {
@@ -26,7 +26,11 @@ function Node(props: NodeType) {
       onClick={() => {
         if (onClick) onClick();
       }}
-      className={classNames(SizeGrid[size][0], `border border-black`)} //default h-10 w-10
+      className={classNames(
+        SizeGrid[size][0],
+        SizeGrid[size][1],
+        `border border-black`
+      )}
     ></button>
   );
 }

@@ -5,9 +5,9 @@ import { classNames } from "..";
 
 const Grid: FC<{ nodeSize: NodeType }> = ({ nodeSize }) => {
   const grid = [];
-  for (let row = 0; row <= SizeGrid[nodeSize.size][1]; row++) {
+  for (let row = 0; row <= SizeGrid[nodeSize.size][2]; row++) {
     const currentRow = [];
-    for (let col = 0; col <= SizeGrid[nodeSize.size][2]; col++) {
+    for (let col = 0; col <= SizeGrid[nodeSize.size][3]; col++) {
       currentRow.push(MakeNode(col, row)); //push current row to node
     }
     grid.push(currentRow); // push to grid
