@@ -1,4 +1,4 @@
-import Node, { NodeType, Size, SizeGrid } from "./Node";
+import Node, { NodeType, SizeGrid } from "./Node";
 import { MakeNode } from "./Node";
 import { FC, useEffect } from "react";
 import { classNames } from "..";
@@ -32,7 +32,7 @@ const Grid: FC<{ nodeSize: NodeType }> = ({ nodeSize }) => {
                   onClick={() => console.log(node)}
                   row={node.row}
                   col={node.col}
-                  size={nodeSize.size} //component dosent render gotten paramater
+                  size={nodeSize.size}
                 ></Node>
               );
             })}

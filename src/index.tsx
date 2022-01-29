@@ -7,7 +7,7 @@ import Header from "./components/Header";
 import { NodeType, Size } from "./components/Node";
 
 const Index = () => {
-  const [node, setNode] = useState<NodeType>({ size: Size.default }); // h-[0]; row-[1]; col-[2]
+  const [node, setNode] = useState<NodeType>({ size: Size.default });
 
   return (
     <React.StrictMode>

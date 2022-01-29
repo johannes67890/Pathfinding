@@ -4,7 +4,7 @@ import { NodeType, Size } from "./Node";
 const Header: FC<{
   setNode: React.Dispatch<React.SetStateAction<NodeType>>;
 }> = ({ setNode }) => {
-  const [currentBtn, setCurrentBtn] = useState<number>(1);
+  const [currentBtn, setCurrentBtn] = useState<number>(1); // current btn selected for size (default size: 1)
   function SetNodeSize(size: Size) {
     setNode({ size });
     setCurrentBtn(size);
