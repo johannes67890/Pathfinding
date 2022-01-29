@@ -1,11 +1,13 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import Button from "./Button";
 import { NodeType, Size } from "./Node";
 const Header: FC<{
   setNode: React.Dispatch<React.SetStateAction<NodeType>>;
 }> = ({ setNode }) => {
+  const [currentBtn, setCurrentBtn] = useState<number>(1);
   function SetNodeSize(size: Size) {
     setNode({ size });
+    setCurrentBtn(size);
   }
 
   return (
@@ -34,9 +36,24 @@ const Header: FC<{
 
       <div className="flex flex-col p-2 gap-1">
         <h2 className="font-bold">Grid Size</h2>
-        <Button onClick={() => SetNodeSize(Size.big)}>Big</Button>
-        <Button onClick={() => SetNodeSize(Size.default)}>Default</Button>
-        <Button onClick={() => SetNodeSize(Size.small)}>Small</Button>
+        <Button
+          classes={currentBtn === 2 ? "bg-blue-400" : ""}
+          onClick={() => SetNodeSize(Size.big)}
+        >
+          Big
+        </Button>
+        <Button
+          classes={currentBtn === 1 ? "bg-blue-400" : ""}
+          onClick={() => SetNodeSize(Size.default)}
+        >
+          Default
+        </Button>
+        <Button
+          classes={currentBtn === 0 ? "bg-blue-400" : ""}
+          onClick={() => SetNodeSize(Size.small)}
+        >
+          Small
+        </Button>
       </div>
     </div>
   );
