@@ -2,8 +2,12 @@ import React, { FC } from "react";
 import Button from "./Button";
 import { NodeType, Size } from "./Node";
 const Header: FC<{
-  setNodeSize: (size: Size) => void;
-}> = ({ setNodeSize }) => {
+  setNode: React.Dispatch<React.SetStateAction<NodeType>>;
+}> = ({ setNode }) => {
+  function SetNodeSize(size: Size) {
+    setNode({ size });
+  }
+
   return (
     <div className="bg-gray-400 rounded-t-md flex">
       <div className="flex flex-col p-3">
@@ -30,12 +34,9 @@ const Header: FC<{
 
       <div className="flex flex-col p-2 gap-1">
         <h2 className="font-bold">Grid Size</h2>
-        <Button onClick={() => setNodeSize(Size.big)}>Big</Button>
-        {/*Big: [10, 18, 31] */}
-        <Button onClick={() => setNodeSize(Size.default)}>Default</Button>{" "}
-        {/*Default: [8, 23, 39] */}
-        <Button onClick={() => setNodeSize(Size.small)}>Small</Button>{" "}
-        {/*Small: [5, 37, 63] */}
+        <Button onClick={() => SetNodeSize(Size.big)}>Big</Button>
+        <Button onClick={() => SetNodeSize(Size.default)}>Default</Button>
+        <Button onClick={() => SetNodeSize(Size.small)}>Small</Button>
       </div>
     </div>
   );
