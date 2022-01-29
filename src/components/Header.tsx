@@ -1,10 +1,15 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import Button from "./Button";
-
+import { NodeType, Size } from "./Node";
 const Header: FC<{
-  //nodeSize: Array<number>;
-  setNodeSize: React.Dispatch<React.SetStateAction<Array<number>>>;
-}> = ({ setNodeSize }) => {
+  setNode: React.Dispatch<React.SetStateAction<NodeType>>;
+}> = ({ setNode }) => {
+  const [currentBtn, setCurrentBtn] = useState<number>(1); // current btn selected for size (default size: 1)
+  function SetNodeSize(size: Size) {
+    setNode({ size });
+    setCurrentBtn(size);
+  }
+
   return (
     <div className="bg-gray-400 rounded-t-md flex">
       <div className="flex flex-col p-3">
@@ -31,12 +36,24 @@ const Header: FC<{
 
       <div className="flex flex-col p-2 gap-1">
         <h2 className="font-bold">Grid Size</h2>
-        <Button onClick={() => setNodeSize([10, 18, 31])}>Big</Button>{" "}
-        {/*Big: [10, 18, 31] */}
-        <Button onClick={() => setNodeSize([8, 23, 39])}>Default</Button>{" "}
-        {/*Default: [8, 23, 39] */}
-        <Button onClick={() => setNodeSize([5, 37, 63])}>Small</Button>{" "}
-        {/*Small: [5, 37, 63] */}
+        <Button
+          classes={currentBtn === 2 ? "bg-blue-400" : ""}
+          onClick={() => SetNodeSize(Size.big)}
+        >
+          Big
+        </Button>
+        <Button
+          classes={currentBtn === 1 ? "bg-blue-400" : ""}
+          onClick={() => SetNodeSize(Size.default)}
+        >
+          Default
+        </Button>
+        <Button
+          classes={currentBtn === 0 ? "bg-blue-400" : ""}
+          onClick={() => SetNodeSize(Size.small)}
+        >
+          Small
+        </Button>
       </div>
     </div>
   );

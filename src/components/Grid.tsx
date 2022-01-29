@@ -1,23 +1,30 @@
-import Node from "./Node";
+import Node, { NodeType, SizeGrid } from "./Node";
 import { MakeNode } from "./Node";
-import { FC } from "react";
+import { FC, useEffect } from "react";
+import { classNames } from "..";
 
-const Grid: FC<{ nodeSize: Array<number> }> = ({ nodeSize }) => {
+const Grid: FC<{ nodeSize: NodeType }> = ({ nodeSize }) => {
   const grid = [];
-
-  for (let row = 0; row <= nodeSize[1]; row++) {
+  for (let row = 0; row <= SizeGrid[nodeSize.size][2]; row++) {
     const currentRow = [];
-    for (let col = 0; col <= nodeSize[2]; col++) {
+    for (let col = 0; col <= SizeGrid[nodeSize.size][3]; col++) {
       currentRow.push(MakeNode(col, row)); //push current row to node
     }
     grid.push(currentRow); // push to grid
   }
+  useEffect(() => {
+    //might work?
+    console.log(nodeSize);
+  }, [nodeSize]);
 
   return (
     <div className="grid">
       {grid.map((row, index) => {
         return (
-          <div className={`h-${nodeSize[0]}`} key={index}>
+          <div
+            className={classNames(SizeGrid[nodeSize.size][0], "w-max")}
+            key={index}
+          >
             {row.map((node, nodeIndex) => {
               return (
                 <Node
@@ -25,8 +32,7 @@ const Grid: FC<{ nodeSize: Array<number> }> = ({ nodeSize }) => {
                   onClick={() => console.log(node)}
                   row={node.row}
                   col={node.col}
-                  width={nodeSize[0]}
-                  height={nodeSize[0]}
+                  size={nodeSize.size}
                 ></Node>
               );
             })}

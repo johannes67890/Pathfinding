@@ -1,13 +1,18 @@
 import React from "react";
+import { classNames } from "..";
 
 const Button: React.FC<{
   onClick?: () => unknown;
   style?: React.CSSProperties;
-}> = ({ children, onClick, style }) => {
+  classes?: string;
+}> = ({ children, onClick, style, classes }) => {
   return (
     <button
       style={style}
-      className={`bg-blue-600 text-white hover:bg-opacity-60 py-1 px-2 rounded-md`}
+      className={classNames(
+        classes,
+        "bg-blue-600 text-white hover:bg-opacity-60 py-1 px-2 rounded-md select-none"
+      )}
       onClick={() => {
         if (onClick) onClick();
       }}
