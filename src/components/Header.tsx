@@ -1,17 +1,14 @@
-import React, { FC, useState } from "react";
+import React, { CSSProperties, FC, useState } from "react";
 import Button from "./Button";
 import { NodeType, Size } from "./Node";
-const Header: FC<{
+export const Header: FC<{
   setNode: React.Dispatch<React.SetStateAction<NodeType>>;
-}> = ({ setNode }) => {
-  const [currentBtn, setCurrentBtn] = useState<number>(1); // current btn selected for size (default size: 1)
-  function SetNodeSize(size: Size) {
-    setNode({ size });
-    setCurrentBtn(size);
-  }
-
+  setNodeSelector: React.Dispatch<
+    React.SetStateAction<NodeSelectorType | undefined>
+  >;
+}> = ({ setNode, setNodeSelector }) => {
   return (
-    <div className="bg-gray-400 rounded-t-md flex">
+    <div className="bg-gray-400 rounded-t-md flex gap-2">
       <div className="flex flex-col p-3">
         <h1 className="text-4xl">Pathfinder</h1>
         <span className="text-center italic border-b mb-1 pb-2">
@@ -33,30 +30,72 @@ const Header: FC<{
           </a>
         </div>
       </div>
-
-      <div className="flex flex-col p-2 gap-1">
-        <h2 className="font-bold">Grid Size</h2>
-        <Button
-          classes={currentBtn === 2 ? "bg-blue-400" : ""}
-          onClick={() => SetNodeSize(Size.big)}
-        >
-          Big
-        </Button>
-        <Button
-          classes={currentBtn === 1 ? "bg-blue-400" : ""}
-          onClick={() => SetNodeSize(Size.default)}
-        >
-          Default
-        </Button>
-        <Button
-          classes={currentBtn === 0 ? "bg-blue-400" : ""}
-          onClick={() => SetNodeSize(Size.small)}
-        >
-          Small
-        </Button>
-      </div>
+      <GridSize setNode={setNode} />
+      <NodeSelectorMenu setNodeSelector={setNodeSelector} />
     </div>
   );
 };
 
-export default Header;
+export const GridSize: FC<{
+  setNode: React.Dispatch<React.SetStateAction<NodeType>>;
+}> = ({ setNode }) => {
+  const [currentBtn, setCurrentBtn] = useState<number>(1); // current btn selected for size (default size: 1)
+
+  function SetNodeSize(size: Size) {
+    setNode({ size });
+    setCurrentBtn(size);
+  }
+
+  return (
+    <div className="flex flex-col p-2 gap-1">
+      <h2 className="font-bold">Grid Size</h2>
+      <Button
+        classes={currentBtn === 2 ? "bg-blue-800" : ""}
+        onClick={() => SetNodeSize(Size.big)}
+      >
+        Big
+      </Button>
+      <Button
+        classes={currentBtn === 1 ? "bg-blue-800" : ""}
+        onClick={() => SetNodeSize(Size.default)}
+      >
+        Default
+      </Button>
+      <Button
+        classes={currentBtn === 0 ? "bg-blue-800" : ""}
+        onClick={() => SetNodeSize(Size.small)}
+      >
+        Small
+      </Button>
+    </div>
+  );
+};
+
+export type NodeSelectorType = {
+  variant: number;
+  color: NodeColor;
+};
+
+export enum NodeColor {
+  startNode,
+  endNode,
+  wall,
+  visited,
+  currentVisiting,
+}
+
+const NodeColorRecord: Record<NodeColor, string> = {
+  [NodeColor.startNode]: "bg-green-600",
+  [NodeColor.endNode]: "bg-red-600",
+  [NodeColor.wall]: "bg-grey-900",
+  [NodeColor.visited]: "bg-blue-700",
+  [NodeColor.currentVisiting]: "bg-orage-600",
+};
+
+const NodeSelectorMenu: FC<{
+  setNodeSelector: React.Dispatch<
+    React.SetStateAction<NodeSelectorType | undefined>
+  >;
+}> = ({ setNodeSelector }) => {
+  return <div className="grid col-start-1 col-end-auto"></div>;
+};
