@@ -26,8 +26,8 @@ function Node(props: NodeType) {
         if (onClick) onClick();
       }}
       className={classNames(
-        SizeGrid[size][0],
-        SizeGrid[size][1],
+        SizeGrid[size][0], // height
+        SizeGrid[size][1], // width
         `border border-black`
       )}
     ></button>

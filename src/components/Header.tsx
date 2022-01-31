@@ -77,11 +77,11 @@ export const GridSize: FC<{
 };
 
 export type NodeSelectorType = {
-  variant: number;
-  color: NodeColor;
+  variant: string;
+  color?: NodeVariants;
 };
 
-export enum NodeColor {
+export enum NodeVariants {
   startNode,
   endNode,
   wall,
@@ -89,12 +89,20 @@ export enum NodeColor {
   currentVisiting,
 }
 
-const NodeColorRecord: Record<NodeColor, string> = {
-  [NodeColor.startNode]: "bg-green-600",
-  [NodeColor.endNode]: "bg-red-600",
-  [NodeColor.wall]: "bg-gray-900",
-  [NodeColor.visited]: "bg-blue-700",
-  [NodeColor.currentVisiting]: "bg-orange-600",
+const NodeColorRecord: Record<NodeVariants, string> = {
+  [NodeVariants.startNode]: "bg-green-600",
+  [NodeVariants.endNode]: "bg-red-600",
+  [NodeVariants.wall]: "bg-gray-900",
+  [NodeVariants.visited]: "bg-blue-700",
+  [NodeVariants.currentVisiting]: "bg-orange-600",
+};
+
+const NodeTextRecord: Record<NodeVariants, string> = {
+  [NodeVariants.startNode]: "Start Node",
+  [NodeVariants.endNode]: "End Node",
+  [NodeVariants.wall]: "Wall",
+  [NodeVariants.visited]: "Visited",
+  [NodeVariants.currentVisiting]: "Currently Visiting",
 };
 
 const NodeSelectorMenu: FC<{
@@ -105,15 +113,9 @@ const NodeSelectorMenu: FC<{
 }> = ({ setNodeSelector, nodeSelector }) => {
   console.log(nodeSelector);
   let nodeColorSelector: Array<string> = [];
-  let nodeColorText: Array<string> = [
-    "Start Node",
-    "End Node",
-    "Wall",
-    "Visited Node",
-    "Currently Visting Node",
-  ];
+
   for (let i = 0; i < Object.keys(NodeColorRecord).length; i++) {
-    const element = NodeColorRecord[i as NodeColor]; //cast i as NodeColor type
+    const element = NodeColorRecord[i as NodeVariants]; //cast i as NodeColor type
     nodeColorSelector.push(element);
   }
   return (
@@ -122,10 +124,17 @@ const NodeSelectorMenu: FC<{
         {nodeColorSelector.map((bgColor, index) => {
           return (
             <li className="flex gap-2" key={index}>
-              <span className="w-24 text-xs font-bold">
-                {nodeColorText[index]}{" "}
+              <span className="w-28 my-auto text-xs font-bold">
+                {NodeTextRecord[index as NodeVariants]}{" "}
               </span>
-              <Button classes={classNames(bgColor, "h-6 w-6 my-auto")}></Button>
+              <Button
+                onClick={() =>
+                  setNodeSelector({
+                    variant: NodeTextRecord[index as NodeVariants],
+                  })
+                }
+                classes={classNames(bgColor, "h-6 w-6 my-auto")}
+              ></Button>
             </li>
           );
         })}
