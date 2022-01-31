@@ -13,7 +13,11 @@ const Index = () => {
   return (
     <React.StrictMode>
       <div className="max-w-7xl mx-auto mt-3">
-        <Header setNode={setNode} setNodeSelector={setNodeSelector} />
+        <Header
+          setNode={setNode}
+          nodeSelector={nodeSelector}
+          setNodeSelector={setNodeSelector}
+        />
         <Grid nodeSize={node} />
       </div>
     </React.StrictMode>

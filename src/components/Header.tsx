@@ -1,4 +1,5 @@
 import React, { CSSProperties, FC, useState } from "react";
+import { classNames } from "..";
 import Button from "./Button";
 import { NodeType, Size } from "./Node";
 export const Header: FC<{
@@ -6,7 +7,8 @@ export const Header: FC<{
   setNodeSelector: React.Dispatch<
     React.SetStateAction<NodeSelectorType | undefined>
   >;
-}> = ({ setNode, setNodeSelector }) => {
+  nodeSelector: NodeSelectorType | undefined;
+}> = ({ setNode, setNodeSelector, nodeSelector }) => {
   return (
     <div className="bg-gray-400 rounded-t-md flex gap-2">
       <div className="flex flex-col p-3">
@@ -31,7 +33,10 @@ export const Header: FC<{
         </div>
       </div>
       <GridSize setNode={setNode} />
-      <NodeSelectorMenu setNodeSelector={setNodeSelector} />
+      <NodeSelectorMenu
+        nodeSelector={nodeSelector}
+        setNodeSelector={setNodeSelector}
+      />
     </div>
   );
 };
@@ -87,15 +92,44 @@ export enum NodeColor {
 const NodeColorRecord: Record<NodeColor, string> = {
   [NodeColor.startNode]: "bg-green-600",
   [NodeColor.endNode]: "bg-red-600",
-  [NodeColor.wall]: "bg-grey-900",
+  [NodeColor.wall]: "bg-gray-900",
   [NodeColor.visited]: "bg-blue-700",
-  [NodeColor.currentVisiting]: "bg-orage-600",
+  [NodeColor.currentVisiting]: "bg-orange-600",
 };
 
 const NodeSelectorMenu: FC<{
   setNodeSelector: React.Dispatch<
     React.SetStateAction<NodeSelectorType | undefined>
   >;
-}> = ({ setNodeSelector }) => {
-  return <div className="grid col-start-1 col-end-auto"></div>;
+  nodeSelector: NodeSelectorType | undefined;
+}> = ({ setNodeSelector, nodeSelector }) => {
+  console.log(nodeSelector);
+  let nodeColorSelector: Array<string> = [];
+  let nodeColorText: Array<string> = [
+    "Start Node",
+    "End Node",
+    "Wall",
+    "Visited Node",
+    "Currently Visting Node",
+  ];
+  for (let i = 0; i < Object.keys(NodeColorRecord).length; i++) {
+    const element = NodeColorRecord[i as NodeColor]; //cast i as NodeColor type
+    nodeColorSelector.push(element);
+  }
+  return (
+    <div>
+      <ul className="flex gap-1 p-1 flex-col">
+        {nodeColorSelector.map((bgColor, index) => {
+          return (
+            <li className="flex gap-2" key={index}>
+              <span className="w-24 text-xs font-bold">
+                {nodeColorText[index]}{" "}
+              </span>
+              <Button classes={classNames(bgColor, "h-6 w-6 my-auto")}></Button>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
 };
