@@ -53,7 +53,7 @@ export const GridSize: FC<{
 
   return (
     <div className="flex flex-col p-2 gap-1">
-      <h2 className="font-bold">Grid Size</h2>
+      <h2 className="font-bold">Node Size</h2>
       <Button
         classes={currentBtn === 2 ? "bg-blue-800" : ""}
         onClick={() => SetNodeSize(Size.big)}
