@@ -3,12 +3,12 @@ import ReactDOM from "react-dom";
 import { useState } from "react";
 import "./index.css";
 import Grid from "./components/Grid";
-import { Header, NodeColorRecord, NodeSelectorType } from "./components/Header";
-import { CellProps, CellSize } from "./components/Cell";
+import { Header, NodeColorRecord } from "./components/Header";
+import { CellProps, CellSize, NodeVariant } from "./components/Cell";
 
 const Index = () => {
   const [cellSize, setCellSize] = useState<CellSize>(CellSize.default);
-  const [nodeSelector, setNodeSelector] = useState<NodeSelectorType>({
+  const [nodeSelector, setNodeSelector] = useState<NodeVariant>({
     variant: "Wall",
     color: NodeColorRecord[2],
   });
@@ -21,7 +21,7 @@ const Index = () => {
           nodeSelector={nodeSelector}
           setNodeSelector={setNodeSelector}
         />
-        <Grid nodeSize={cellSize} nodeSelector={nodeSelector} />
+        <Grid cellSize={cellSize} nodeSelector={nodeSelector} />
       </div>
     </React.StrictMode>
   );

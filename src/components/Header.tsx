@@ -4,7 +4,7 @@ import Button from "./Button";
 import { CellProps, CellSize, NodeVariant } from "./Cell";
 export const Header: FC<{
   setCellSize: React.Dispatch<React.SetStateAction<CellSize>>;
-  setNodeSelector: React.Dispatch<React.SetStateAction<NodeSelectorType>>;
+  setNodeSelector: React.Dispatch<React.SetStateAction<NodeVariant>>;
 }> = ({ setNodeSelector, setCellSize }) => {
   return (
     <div className="bg-gray-400 rounded-t-md flex gap-2">
@@ -29,19 +29,19 @@ export const Header: FC<{
           </a>
         </div>
       </div>
-      <GridSize setCellSize={setNode} />
+      <GridSize setCellSize={setCellSize} />
       <NodeSelectorMenu setNodeSelector={setNodeSelector} />
     </div>
   );
 };
 
 export const GridSize: FC<{
-  setNode: React.Dispatch<React.SetStateAction<NodeType>>;
-}> = ({ setNode }) => {
+  setCellSize: React.Dispatch<React.SetStateAction<CellSize>>;
+}> = ({ setCellSize }) => {
   const [currentBtn, setCurrentBtn] = useState<number>(1); // current btn selected for size (default size: 1)
 
-  function SetNodeSize(size: CellSize) {
-    setNode({ size });
+  function SetSize(size: CellSize) {
+    setCellSize(size);
     setCurrentBtn(size);
   }
 
@@ -50,19 +50,19 @@ export const GridSize: FC<{
       <h2 className="font-bold">Node Size</h2>
       <Button
         classes={currentBtn === 2 ? "bg-blue-800" : ""}
-        onClick={() => SetNodeSize(CellSize.big)}
+        onClick={() => SetSize(CellSize.big)}
       >
         Big
       </Button>
       <Button
         classes={currentBtn === 1 ? "bg-blue-800" : ""}
-        onClick={() => SetNodeSize(CellSize.default)}
+        onClick={() => SetSize(CellSize.default)}
       >
         Default
       </Button>
       <Button
         classes={currentBtn === 0 ? "bg-blue-800" : ""}
-        onClick={() => SetNodeSize(CellSize.small)}
+        onClick={() => SetSize(CellSize.small)}
       >
         Small
       </Button>
@@ -87,16 +87,12 @@ const NodeTextRecord: Record<NodeVariant, string> = {
 };
 
 const NodeSelectorMenu: FC<{
-  setNodeSelector: React.Dispatch<
-    React.SetStateAction<NodeSelectorType | undefined>
-  >;
-  nodeSelector: NodeSelectorType | undefined;
-}> = ({ setNodeSelector, nodeSelector }) => {
-  console.log(nodeSelector);
+  setNodeSelector: React.Dispatch<React.SetStateAction<NodeVariant>>;
+}> = ({ setNodeSelector }) => {
   let nodeColorSelector: Array<string> = [];
 
   for (let i = 0; i < Object.keys(NodeColorRecord).length; i++) {
-    const element = NodeColorRecord[i as NodeVariants]; //cast i as NodeColor type
+    const element = NodeColorRecord[i as NodeVariant]; //cast i as NodeColor type
     nodeColorSelector.push(element);
   }
   return (
@@ -106,12 +102,12 @@ const NodeSelectorMenu: FC<{
           return (
             <li className="flex gap-2" key={index}>
               <span className="w-28 my-auto text-xs font-bold">
-                {NodeTextRecord[index as NodeVariants]}{" "}
+                {NodeTextRecord[index as NodeVariant]}{" "}
               </span>
               <Button
                 onClick={() =>
                   setNodeSelector({
-                    variant: NodeTextRecord[index as NodeVariants],
+                    variant: NodeTextRecord[index],
                     color: nodeColorSelector[index],
                   })
                 }

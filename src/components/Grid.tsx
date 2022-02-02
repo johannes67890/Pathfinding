@@ -1,17 +1,16 @@
-import Cell, { CellProps, SizeGrid } from "./Cell";
+import Cell, { CellProps, CellSize, NodeVariant, SizeGrid } from "./Cell";
 import { MakeNode } from "./Cell";
 import { FC } from "react";
 import { classNames } from "..";
-import { NodeSelectorType } from "./Header";
 
-const Grid: FC<{ nodeSize: NodeType; nodeSelector: NodeSelectorType }> = ({
-  nodeSize,
+const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
+  cellSize,
   nodeSelector,
 }) => {
   const grid = [];
-  for (let row = 0; row <= SizeGrid[nodeSize.size][2]; row++) {
+  for (let row = 0; row <= SizeGrid[cellSize.size][2]; row++) {
     const currentRow = [];
-    for (let col = 0; col <= SizeGrid[nodeSize.size][3]; col++) {
+    for (let col = 0; col <= SizeGrid[cellSize.size][3]; col++) {
       currentRow.push(MakeNode(col, row)); //push current row to node
     }
     grid.push(currentRow); // push to grid
@@ -22,7 +21,7 @@ const Grid: FC<{ nodeSize: NodeType; nodeSelector: NodeSelectorType }> = ({
       {grid.map((row, index) => {
         return (
           <div
-            className={classNames(SizeGrid[nodeSize.size][0], "w-max")}
+            className={classNames(SizeGrid[cellSize.size][0], "w-max")}
             key={index}
           >
             {row.map((node, nodeIndex) => {
