@@ -1,14 +1,11 @@
 import React, { CSSProperties, FC, useState } from "react";
 import { classNames } from "..";
 import Button from "./Button";
-import { NodeType, Size } from "./Node";
+import { CellProps, CellSize, NodeVariant } from "./Cell";
 export const Header: FC<{
-  setNode: React.Dispatch<React.SetStateAction<NodeType>>;
-  setNodeSelector: React.Dispatch<
-    React.SetStateAction<NodeSelectorType | undefined>
-  >;
-  nodeSelector: NodeSelectorType | undefined;
-}> = ({ setNode, setNodeSelector, nodeSelector }) => {
+  setCellSize: React.Dispatch<React.SetStateAction<CellSize>>;
+  setNodeSelector: React.Dispatch<React.SetStateAction<NodeSelectorType>>;
+}> = ({ setNodeSelector, setCellSize }) => {
   return (
     <div className="bg-gray-400 rounded-t-md flex gap-2">
       <div className="flex flex-col p-3">
@@ -32,11 +29,8 @@ export const Header: FC<{
           </a>
         </div>
       </div>
-      <GridSize setNode={setNode} />
-      <NodeSelectorMenu
-        nodeSelector={nodeSelector}
-        setNodeSelector={setNodeSelector}
-      />
+      <GridSize setCellSize={setNode} />
+      <NodeSelectorMenu setNodeSelector={setNodeSelector} />
     </div>
   );
 };
@@ -46,7 +40,7 @@ export const GridSize: FC<{
 }> = ({ setNode }) => {
   const [currentBtn, setCurrentBtn] = useState<number>(1); // current btn selected for size (default size: 1)
 
-  function SetNodeSize(size: Size) {
+  function SetNodeSize(size: CellSize) {
     setNode({ size });
     setCurrentBtn(size);
   }
@@ -56,19 +50,19 @@ export const GridSize: FC<{
       <h2 className="font-bold">Node Size</h2>
       <Button
         classes={currentBtn === 2 ? "bg-blue-800" : ""}
-        onClick={() => SetNodeSize(Size.big)}
+        onClick={() => SetNodeSize(CellSize.big)}
       >
         Big
       </Button>
       <Button
         classes={currentBtn === 1 ? "bg-blue-800" : ""}
-        onClick={() => SetNodeSize(Size.default)}
+        onClick={() => SetNodeSize(CellSize.default)}
       >
         Default
       </Button>
       <Button
         classes={currentBtn === 0 ? "bg-blue-800" : ""}
-        onClick={() => SetNodeSize(Size.small)}
+        onClick={() => SetNodeSize(CellSize.small)}
       >
         Small
       </Button>
@@ -76,33 +70,20 @@ export const GridSize: FC<{
   );
 };
 
-export type NodeSelectorType = {
-  variant: string;
-  color?: NodeVariants;
+export const NodeColorRecord: Record<NodeVariant, string> = {
+  [NodeVariant.startNode]: "bg-green-600",
+  [NodeVariant.endNode]: "bg-red-600",
+  [NodeVariant.wall]: "bg-gray-900",
+  [NodeVariant.visited]: "bg-blue-700",
+  [NodeVariant.visiting]: "bg-orange-600",
 };
 
-export enum NodeVariants {
-  startNode,
-  endNode,
-  wall,
-  visited,
-  currentVisiting,
-}
-
-const NodeColorRecord: Record<NodeVariants, string> = {
-  [NodeVariants.startNode]: "bg-green-600",
-  [NodeVariants.endNode]: "bg-red-600",
-  [NodeVariants.wall]: "bg-gray-900",
-  [NodeVariants.visited]: "bg-blue-700",
-  [NodeVariants.currentVisiting]: "bg-orange-600",
-};
-
-const NodeTextRecord: Record<NodeVariants, string> = {
-  [NodeVariants.startNode]: "Start Node",
-  [NodeVariants.endNode]: "End Node",
-  [NodeVariants.wall]: "Wall",
-  [NodeVariants.visited]: "Visited",
-  [NodeVariants.currentVisiting]: "Currently Visiting",
+const NodeTextRecord: Record<NodeVariant, string> = {
+  [NodeVariant.startNode]: "Start Node",
+  [NodeVariant.endNode]: "End Node",
+  [NodeVariant.wall]: "Wall",
+  [NodeVariant.visited]: "Visited",
+  [NodeVariant.visiting]: "Currently Visiting",
 };
 
 const NodeSelectorMenu: FC<{
@@ -131,6 +112,7 @@ const NodeSelectorMenu: FC<{
                 onClick={() =>
                   setNodeSelector({
                     variant: NodeTextRecord[index as NodeVariants],
+                    color: nodeColorSelector[index],
                   })
                 }
                 classes={classNames(bgColor, "h-6 w-6 my-auto")}

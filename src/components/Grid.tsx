@@ -1,9 +1,13 @@
-import Node, { NodeType, SizeGrid } from "./Node";
-import { MakeNode } from "./Node";
-import { FC, useEffect } from "react";
+import Cell, { CellProps, SizeGrid } from "./Cell";
+import { MakeNode } from "./Cell";
+import { FC } from "react";
 import { classNames } from "..";
+import { NodeSelectorType } from "./Header";
 
-const Grid: FC<{ nodeSize: NodeType }> = ({ nodeSize }) => {
+const Grid: FC<{ nodeSize: NodeType; nodeSelector: NodeSelectorType }> = ({
+  nodeSize,
+  nodeSelector,
+}) => {
   const grid = [];
   for (let row = 0; row <= SizeGrid[nodeSize.size][2]; row++) {
     const currentRow = [];
@@ -12,10 +16,6 @@ const Grid: FC<{ nodeSize: NodeType }> = ({ nodeSize }) => {
     }
     grid.push(currentRow); // push to grid
   }
-  useEffect(() => {
-    //might work?
-    console.log(nodeSize);
-  }, [nodeSize]);
 
   return (
     <div className="grid">
@@ -27,13 +27,14 @@ const Grid: FC<{ nodeSize: NodeType }> = ({ nodeSize }) => {
           >
             {row.map((node, nodeIndex) => {
               return (
-                <Node
+                <Cell
                   key={nodeIndex}
+                  variant={nodeSelector}
                   onClick={() => console.log(node)}
                   row={node.row}
                   col={node.col}
-                  size={nodeSize.size}
-                ></Node>
+                  // size={nodeSize.size}
+                ></Cell>
               );
             })}
           </div>
