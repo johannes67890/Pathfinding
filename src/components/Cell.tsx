@@ -32,7 +32,7 @@ function Cell(props: CellProps) {
         if (onClick) onClick();
       }}
       className={classNames(
-        variant,
+        //variant,
         SizeGrid[size as CellSize][0], // height
         SizeGrid[size as CellSize][1], // width
         `border border-black`

@@ -1,4 +1,4 @@
-import Cell, { CellProps, CellSize, NodeVariant, SizeGrid } from "./Cell";
+import Cell, { CellSize, NodeVariant, SizeGrid } from "./Cell";
 import { MakeNode } from "./Cell";
 import { FC } from "react";
 import { classNames } from "..";
@@ -8,9 +8,9 @@ const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
   nodeSelector,
 }) => {
   const grid = [];
-  for (let row = 0; row <= SizeGrid[cellSize.size][2]; row++) {
+  for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
     const currentRow = [];
-    for (let col = 0; col <= SizeGrid[cellSize.size][3]; col++) {
+    for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
       currentRow.push(MakeNode(col, row)); //push current row to node
     }
     grid.push(currentRow); // push to grid
@@ -21,7 +21,7 @@ const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
       {grid.map((row, index) => {
         return (
           <div
-            className={classNames(SizeGrid[cellSize.size][0], "w-max")}
+            className={classNames(SizeGrid[cellSize][0], "w-max")}
             key={index}
           >
             {row.map((node, nodeIndex) => {
@@ -32,7 +32,7 @@ const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
                   onClick={() => console.log(node)}
                   row={node.row}
                   col={node.col}
-                  // size={nodeSize.size}
+                  size={cellSize}
                 ></Cell>
               );
             })}

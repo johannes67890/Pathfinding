@@ -1,7 +1,7 @@
-import React, { CSSProperties, FC, useState } from "react";
+import React, { FC, useState } from "react";
 import { classNames } from "..";
 import Button from "./Button";
-import { CellProps, CellSize, NodeVariant } from "./Cell";
+import { CellSize, NodeVariant } from "./Cell";
 export const Header: FC<{
   setCellSize: React.Dispatch<React.SetStateAction<CellSize>>;
   setNodeSelector: React.Dispatch<React.SetStateAction<NodeVariant>>;
@@ -105,12 +105,9 @@ const NodeSelectorMenu: FC<{
                 {NodeTextRecord[index as NodeVariant]}{" "}
               </span>
               <Button
-                onClick={() =>
-                  setNodeSelector({
-                    variant: NodeTextRecord[index],
-                    color: nodeColorSelector[index],
-                  })
-                }
+                // onClick={() =>
+                //   setNodeSelector()
+                // }
                 classes={classNames(bgColor, "h-6 w-6 my-auto")}
               ></Button>
             </li>
