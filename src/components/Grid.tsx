@@ -29,7 +29,10 @@ const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
                 <Cell
                   key={nodeIndex}
                   variant={nodeSelector}
-                  onClick={() => console.log(node)}
+                  onClick={() => {
+                    console.log(nodeSelector);
+                    console.log(node);
+                  }}
                   row={node.row}
                   col={node.col}
                   size={cellSize}
