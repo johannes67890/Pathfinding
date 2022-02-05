@@ -1,39 +1,42 @@
-import Node, { NodeType, SizeGrid } from "./Node";
-import { MakeNode } from "./Node";
-import { FC, useEffect } from "react";
+import Cell, { CellSize, NodeVariant, SizeGrid } from "./Cell";
+import { MakeNode } from "./Cell";
+import { FC } from "react";
 import { classNames } from "..";
 
-const Grid: FC<{ nodeSize: NodeType }> = ({ nodeSize }) => {
+const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
+  cellSize,
+  nodeSelector,
+}) => {
   const grid = [];
-  for (let row = 0; row <= SizeGrid[nodeSize.size][2]; row++) {
+  for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
     const currentRow = [];
-    for (let col = 0; col <= SizeGrid[nodeSize.size][3]; col++) {
+    for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
       currentRow.push(MakeNode(col, row)); //push current row to node
     }
     grid.push(currentRow); // push to grid
   }
-  useEffect(() => {
-    //might work?
-    console.log(nodeSize);
-  }, [nodeSize]);
 
   return (
     <div className="grid">
       {grid.map((row, index) => {
         return (
           <div
-            className={classNames(SizeGrid[nodeSize.size][0], "w-max")}
+            className={classNames(SizeGrid[cellSize][0], "w-max")}
             key={index}
           >
             {row.map((node, nodeIndex) => {
               return (
-                <Node
+                <Cell
                   key={nodeIndex}
-                  onClick={() => console.log(node)}
+                  variant={nodeSelector}
+                  onClick={() => {
+                    console.log(nodeSelector);
+                    console.log(node);
+                  }}
                   row={node.row}
                   col={node.col}
-                  size={nodeSize.size}
-                ></Node>
+                  size={cellSize}
+                ></Cell>
               );
             })}
           </div>
