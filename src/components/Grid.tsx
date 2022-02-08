@@ -1,20 +1,13 @@
-import Cell, { CellSize, NodeVariant, SizeGrid } from "./Cell";
+import Cell, { CellProps, CellSize, NodeVariant, SizeGrid } from "./Cell";
 import { MakeNode } from "./Cell";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { classNames } from "..";
 
 const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
   cellSize,
   nodeSelector,
 }) => {
-  const grid = [];
-  for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
-    const currentRow = [];
-    for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
-      currentRow.push(MakeNode(col, row)); //push current row to node
-    }
-    grid.push(currentRow); // push to grid
-  }
+  const [grid] = useState<CellProps[][]>(InitlizeGrid(cellSize, nodeSelector));
 
   return (
     <div className="grid">
@@ -45,5 +38,20 @@ const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
     </div>
   );
 };
+
+function InitlizeGrid(
+  cellSize: CellSize,
+  nodeSelector: NodeVariant
+): CellProps[][] {
+  let newGrid: CellProps[][] = [];
+  for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
+    const currentRow = [];
+    for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
+      currentRow.push(MakeNode(col, row, nodeSelector)); //push current row to node
+    }
+    newGrid.push(currentRow);
+  }
+  return newGrid; // push to grid
+}
 
 export default Grid;
