@@ -18,7 +18,7 @@ export type CellProps = {
   onClick?: () => unknown;
   col: number;
   row: number;
-  variant: NodeVariant;
+  variant?: NodeVariant;
   size?: CellSize;
 };
 

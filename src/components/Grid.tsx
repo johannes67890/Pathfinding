@@ -7,7 +7,7 @@ const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
   cellSize,
   nodeSelector,
 }) => {
-  const [grid] = useState<CellProps[][]>(InitlizeGrid(cellSize, nodeSelector));
+  const [grid] = useState<CellProps[][]>(InitlizeGrid(cellSize));
 
   return (
     <div className="grid">
@@ -39,15 +39,12 @@ const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
   );
 };
 
-function InitlizeGrid(
-  cellSize: CellSize,
-  nodeSelector: NodeVariant
-): CellProps[][] {
+function InitlizeGrid(cellSize: CellSize): CellProps[][] {
   let newGrid: CellProps[][] = [];
   for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
     const currentRow = [];
     for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
-      currentRow.push(MakeNode(col, row, nodeSelector)); //push current row to node
+      currentRow.push(MakeNode(col, row)); //push current row to node
     }
     newGrid.push(currentRow);
   }
