@@ -25,7 +25,9 @@ const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
               return (
                 <Cell
                   key={nodeIndex}
-                  variant={nodeSelector}
+                  isFinish={node.isFinish}
+                  isStart={node.isStart}
+                  isWall={node.isWall}
                   onClick={() => {
                     console.log(nodeSelector);
                     console.log(node);
@@ -44,11 +46,9 @@ const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
 };
 
 function InitlizeGrid(cellSize: CellSize): CellProps[][] {
-  console.log(SizeGrid[cellSize][3]);
-
   let newGrid: CellProps[][] = [];
   for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
-    const currentRow = [];
+    const currentRow: any = [];
     for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
       currentRow.push(MakeNode(col, row)); //push current row to node
     }

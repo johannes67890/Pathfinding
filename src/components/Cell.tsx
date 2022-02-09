@@ -18,12 +18,22 @@ export type CellProps = {
   onClick?: () => unknown;
   col: number;
   row: number;
-  variant?: NodeVariant;
   size?: CellSize;
+  isStart: { col: number; row: number };
+  isFinish: { col: number; row: number };
+  isWall: boolean;
 };
 
 function Cell(props: CellProps) {
-  const { onClick, variant, col, row, size } = props;
+  const { onClick, col, row, size, isStart, isFinish, isWall } = props;
+
+  const VariantClassName = isFinish
+    ? "bg-red-500"
+    : isStart
+    ? "bg-green-500"
+    : isWall
+    ? "bg-black"
+    : "";
 
   return (
     <button
@@ -32,7 +42,7 @@ function Cell(props: CellProps) {
         if (onClick) onClick();
       }}
       className={classNames(
-        //variant,
+        VariantClassName,
         SizeGrid[size as CellSize][0], // height
         SizeGrid[size as CellSize][1], // width
         `border border-black`
@@ -49,6 +59,12 @@ export const MakeNode = (col: number, row: number) => {
   return {
     col,
     row,
+    isStart: row === 10 && col === 15,
+    isFinish: row === 10 && col === 30,
+    distance: Infinity,
+    isVisited: false,
+    isWall: false,
+    previousNode: null,
   };
 };
 
