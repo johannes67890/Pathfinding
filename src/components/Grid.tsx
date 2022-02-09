@@ -1,39 +1,42 @@
-import Node, { NodeType, SizeGrid } from "./Node";
-import { MakeNode } from "./Node";
-import { FC, useEffect } from "react";
+import Cell, { CellProps, CellSize, NodeVariant, SizeGrid } from "./Cell";
+import { MakeNode } from "./Cell";
+import { FC, useState, useEffect } from "react";
 import { classNames } from "..";
 
-const Grid: FC<{ nodeSize: NodeType }> = ({ nodeSize }) => {
-  const grid = [];
-  for (let row = 0; row <= SizeGrid[nodeSize.size][2]; row++) {
-    const currentRow = [];
-    for (let col = 0; col <= SizeGrid[nodeSize.size][3]; col++) {
-      currentRow.push(MakeNode(col, row)); //push current row to node
-    }
-    grid.push(currentRow); // push to grid
-  }
+const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
+  cellSize,
+  nodeSelector,
+}) => {
+  const [grid, setGrid] = useState<CellProps[][]>([]);
+
   useEffect(() => {
-    //might work?
-    console.log(nodeSize);
-  }, [nodeSize]);
+    setGrid(InitlizeGrid(cellSize));
+  }, [cellSize]);
 
   return (
     <div className="grid">
       {grid.map((row, index) => {
         return (
           <div
-            className={classNames(SizeGrid[nodeSize.size][0], "w-max")}
+            className={classNames(SizeGrid[cellSize][0], "w-max")}
             key={index}
           >
             {row.map((node, nodeIndex) => {
               return (
-                <Node
+                <Cell
                   key={nodeIndex}
-                  onClick={() => console.log(node)}
+                  isFinish={node.isFinish}
+                  isStart={node.isStart}
+                  isWall={node.isWall}
+                  distance={node.distance}
+                  onClick={() => {
+                    console.log(nodeSelector);
+                    console.log(node);
+                  }}
                   row={node.row}
                   col={node.col}
-                  size={nodeSize.size}
-                ></Node>
+                  size={cellSize}
+                ></Cell>
               );
             })}
           </div>
@@ -42,5 +45,17 @@ const Grid: FC<{ nodeSize: NodeType }> = ({ nodeSize }) => {
     </div>
   );
 };
+
+function InitlizeGrid(cellSize: CellSize): CellProps[][] {
+  let newGrid: CellProps[][] = [];
+  for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
+    const currentRow: any = [];
+    for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
+      currentRow.push(MakeNode(col, row, cellSize)); //push current row to node
+    }
+    newGrid.push(currentRow);
+  }
+  return newGrid; // push to grid
+}
 
 export default Grid;

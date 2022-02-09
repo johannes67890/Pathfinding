@@ -1,19 +1,22 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import { useState } from "react";
 import "./index.css";
 import Grid from "./components/Grid";
-import Header from "./components/Header";
-import { NodeType, Size } from "./components/Node";
+import { Header } from "./components/Header";
+import { CellSize, NodeVariant } from "./components/Cell";
 
 const Index = () => {
-  const [node, setNode] = useState<NodeType>({ size: Size.default });
+  const [cellSize, setCellSize] = useState<CellSize>(CellSize.default);
+  const [nodeSelector, setNodeSelector] = useState<NodeVariant>(
+    NodeVariant.wall
+  );
 
   return (
     <React.StrictMode>
       <div className="max-w-7xl mx-auto mt-3">
-        <Header setNode={setNode} />
-        <Grid nodeSize={node} />
+        <Header setCellSize={setCellSize} setNodeSelector={setNodeSelector} />
+        <Grid cellSize={cellSize} nodeSelector={nodeSelector} />
       </div>
     </React.StrictMode>
   );

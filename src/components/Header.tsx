@@ -1,17 +1,13 @@
 import React, { FC, useState } from "react";
+import { classNames } from "..";
 import Button from "./Button";
-import { NodeType, Size } from "./Node";
-const Header: FC<{
-  setNode: React.Dispatch<React.SetStateAction<NodeType>>;
-}> = ({ setNode }) => {
-  const [currentBtn, setCurrentBtn] = useState<number>(1); // current btn selected for size (default size: 1)
-  function SetNodeSize(size: Size) {
-    setNode({ size });
-    setCurrentBtn(size);
-  }
-
+import { CellProps, CellSize, NodeVariant } from "./Cell";
+export const Header: FC<{
+  setCellSize: React.Dispatch<React.SetStateAction<CellSize>>;
+  setNodeSelector: React.Dispatch<React.SetStateAction<NodeVariant>>;
+}> = ({ setNodeSelector, setCellSize }) => {
   return (
-    <div className="bg-gray-400 rounded-t-md flex">
+    <div className="bg-gray-400 rounded-t-md flex gap-2">
       <div className="flex flex-col p-3">
         <h1 className="text-4xl">Pathfinder</h1>
         <span className="text-center italic border-b mb-1 pb-2">
@@ -33,30 +29,93 @@ const Header: FC<{
           </a>
         </div>
       </div>
-
-      <div className="flex flex-col p-2 gap-1">
-        <h2 className="font-bold">Grid Size</h2>
-        <Button
-          classes={currentBtn === 2 ? "bg-blue-400" : ""}
-          onClick={() => SetNodeSize(Size.big)}
-        >
-          Big
-        </Button>
-        <Button
-          classes={currentBtn === 1 ? "bg-blue-400" : ""}
-          onClick={() => SetNodeSize(Size.default)}
-        >
-          Default
-        </Button>
-        <Button
-          classes={currentBtn === 0 ? "bg-blue-400" : ""}
-          onClick={() => SetNodeSize(Size.small)}
-        >
-          Small
-        </Button>
-      </div>
+      <GridSize setCellSize={setCellSize} />
+      <NodeSelectorMenu setNodeSelector={setNodeSelector} />
+      <Button classes={"h-8 my-auto"}>Run</Button>
     </div>
   );
 };
 
-export default Header;
+export const GridSize: FC<{
+  setCellSize: React.Dispatch<React.SetStateAction<CellSize>>;
+}> = ({ setCellSize }) => {
+  const [currentBtn, setCurrentBtn] = useState<number>(1); // current btn selected for size (default size: 1)
+
+  function SetSize(size: CellSize) {
+    setCellSize(size);
+    setCurrentBtn(size);
+  }
+
+  return (
+    <div className="flex flex-col p-2 gap-1">
+      <h2 className="font-bold">Node Size</h2>
+      <Button
+        classes={currentBtn === 2 ? "bg-blue-800" : ""}
+        onClick={() => SetSize(CellSize.big)}
+      >
+        Big
+      </Button>
+      <Button
+        classes={currentBtn === 1 ? "bg-blue-800" : ""}
+        onClick={() => SetSize(CellSize.default)}
+      >
+        Default
+      </Button>
+      <Button
+        classes={currentBtn === 0 ? "bg-blue-800" : ""}
+        onClick={() => SetSize(CellSize.small)}
+      >
+        Small
+      </Button>
+    </div>
+  );
+};
+
+export const NodeColorRecord: Record<NodeVariant, string> = {
+  [NodeVariant.startNode]: "bg-green-600",
+  [NodeVariant.endNode]: "bg-red-600",
+  [NodeVariant.wall]: "bg-gray-900",
+  [NodeVariant.visited]: "bg-blue-700",
+  [NodeVariant.visiting]: "bg-orange-600",
+};
+
+const NodeTextRecord: Record<NodeVariant, string> = {
+  [NodeVariant.startNode]: "Start Node",
+  [NodeVariant.endNode]: "End Node",
+  [NodeVariant.wall]: "Wall",
+  [NodeVariant.visited]: "Visited",
+  [NodeVariant.visiting]: "Currently Visiting",
+};
+
+const NodeSelectorMenu: FC<{
+  setNodeSelector: React.Dispatch<React.SetStateAction<NodeVariant>>;
+}> = ({ setNodeSelector }) => {
+  let nodeColorSelector: Array<string> = [];
+
+  for (let i = 0; i < Object.keys(NodeColorRecord).length; i++) {
+    const element = NodeColorRecord[i as NodeVariant]; //cast i as NodeColor type
+    nodeColorSelector.push(element);
+  }
+  return (
+    <div>
+      <ul className="flex gap-1 p-1 flex-col">
+        {nodeColorSelector.map((bgColor, index) => {
+          return (
+            <li className="flex gap-2" key={index}>
+              <span className="w-28 my-auto text-xs font-bold">
+                {NodeTextRecord[index as NodeVariant]}{" "}
+              </span>
+              <Button
+                onClick={() => {
+                  setNodeSelector(NodeVariant[index] as any);
+                  console.log(NodeVariant[index] as any);
+                }}
+                classes={classNames(bgColor, "h-6 w-6 my-auto")}
+              ></Button>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
