@@ -55,12 +55,21 @@ Cell.defaultProps = {
   size: CellSize.default,
 };
 
-export const MakeNode = (col: number, row: number) => {
+export const MakeNode = (col: number, row: number, cellSize: CellSize) => {
+  const STARTCELL: Array<Number> = [
+    Math.round(SizeGrid[cellSize][2] / 2),
+    Math.round(SizeGrid[cellSize][3] / 3 / 1.35),
+  ];
+  const FINISHCELL: Array<Number> = [
+    Math.round(SizeGrid[cellSize][2] / 2),
+    Math.round((SizeGrid[cellSize][3] / 2) * 1.35 + 1),
+  ];
+
   return {
     col,
     row,
-    isStart: row === 10 && col === 15,
-    isFinish: row === 10 && col === 30,
+    isStart: row === STARTCELL[0] && col === STARTCELL[1],
+    isFinish: row === FINISHCELL[0] && col === FINISHCELL[1],
     distance: Infinity,
     isVisited: false,
     isWall: false,

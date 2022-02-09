@@ -50,7 +50,7 @@ function InitlizeGrid(cellSize: CellSize): CellProps[][] {
   for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
     const currentRow: any = [];
     for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
-      currentRow.push(MakeNode(col, row)); //push current row to node
+      currentRow.push(MakeNode(col, row, cellSize)); //push current row to node
     }
     newGrid.push(currentRow);
   }
