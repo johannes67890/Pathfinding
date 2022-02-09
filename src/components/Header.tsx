@@ -31,6 +31,7 @@ export const Header: FC<{
       </div>
       <GridSize setCellSize={setCellSize} />
       <NodeSelectorMenu setNodeSelector={setNodeSelector} />
+      <Button classes={"h-8 my-auto"}>Run</Button>
     </div>
   );
 };

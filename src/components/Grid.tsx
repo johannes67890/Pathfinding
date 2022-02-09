@@ -28,6 +28,7 @@ const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
                   isFinish={node.isFinish}
                   isStart={node.isStart}
                   isWall={node.isWall}
+                  distance={node.distance}
                   onClick={() => {
                     console.log(nodeSelector);
                     console.log(node);

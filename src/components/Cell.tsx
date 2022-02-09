@@ -21,6 +21,7 @@ export type CellProps = {
   size?: CellSize;
   isStart: { col: number; row: number };
   isFinish: { col: number; row: number };
+  distance: number;
   isWall: boolean;
 };
 
@@ -57,12 +58,12 @@ Cell.defaultProps = {
 
 export const MakeNode = (col: number, row: number, cellSize: CellSize) => {
   const STARTCELL: Array<Number> = [
-    Math.round(SizeGrid[cellSize][2] / 2),
+    Math.round(SizeGrid[cellSize][2] / 2 / 1.2),
     Math.round(SizeGrid[cellSize][3] / 3 / 1.35),
   ];
   const FINISHCELL: Array<Number> = [
-    Math.round(SizeGrid[cellSize][2] / 2),
-    Math.round((SizeGrid[cellSize][3] / 2) * 1.35 + 1),
+    Math.round(SizeGrid[cellSize][2] / 2 / 1.2),
+    Math.round((SizeGrid[cellSize][3] / 2) * 1.35),
   ];
 
   return {
