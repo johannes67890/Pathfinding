@@ -1,13 +1,17 @@
 import Cell, { CellProps, CellSize, NodeVariant, SizeGrid } from "./Cell";
 import { MakeNode } from "./Cell";
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { classNames } from "..";
 
 const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
   cellSize,
   nodeSelector,
 }) => {
-  const [grid] = useState<CellProps[][]>(InitlizeGrid(cellSize));
+  const [grid, setGrid] = useState<CellProps[][]>([]);
+
+  useEffect(() => {
+    setGrid(InitlizeGrid(cellSize));
+  }, [cellSize]);
 
   return (
     <div className="grid">
@@ -40,6 +44,8 @@ const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
 };
 
 function InitlizeGrid(cellSize: CellSize): CellProps[][] {
+  console.log(SizeGrid[cellSize][3]);
+
   let newGrid: CellProps[][] = [];
   for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
     const currentRow = [];
