@@ -21,8 +21,9 @@ export type CellProps = {
   size?: CellSize;
   isStart: { col: number; row: number };
   isFinish: { col: number; row: number };
-  distance: number;
   isWall: boolean;
+  isVisited: boolean;
+  distance: number;
 };
 
 function Cell(props: CellProps) {

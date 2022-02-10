@@ -2,6 +2,8 @@ import React, { FC, useState } from "react";
 import { classNames } from "..";
 import Button from "./Button";
 import { CellProps, CellSize, NodeVariant } from "./Cell";
+import { dijkstra } from "../algoritme/Dijksta";
+
 export const Header: FC<{
   setCellSize: React.Dispatch<React.SetStateAction<CellSize>>;
   setNodeSelector: React.Dispatch<React.SetStateAction<NodeVariant>>;
@@ -31,7 +33,6 @@ export const Header: FC<{
       </div>
       <GridSize setCellSize={setCellSize} />
       <NodeSelectorMenu setNodeSelector={setNodeSelector} />
-      <Button classes={"h-8 my-auto"}>Run</Button>
     </div>
   );
 };
