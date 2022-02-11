@@ -5,10 +5,7 @@ import { classNames } from "..";
 import Button from "./Button";
 import { dijkstra } from "../algoritme/Dijksta";
 
-const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
-  cellSize,
-  nodeSelector,
-}) => {
+const Grid: FC<{ cellSize: CellSize }> = ({ cellSize }) => {
   const [grid, setGrid] = useState<CellProps[][]>([]);
 
   useEffect(() => {
@@ -32,9 +29,10 @@ const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
       setTimeout(() => {
         const cell = visitedNodesInOrder[i];
+
         document.getElementById(
           `row-${cell.row} col-${cell.col}`
-        )!.className = `bg-blue-500 border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+        )!.className = `animate-visited-cell bg-blue-500 border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
         console.log(document.getElementById(`node-${cell.row}-${cell.col}`)!);
       }, 10 * i);
     }
@@ -61,7 +59,7 @@ const Grid: FC<{ cellSize: CellSize; nodeSelector: NodeVariant }> = ({
                   isWall={node.isWall}
                   distance={node.distance}
                   onClick={() => {
-                    console.log(nodeSelector);
+                    node.isWall = true;
                     console.log(node);
                   }}
                   row={node.row}
