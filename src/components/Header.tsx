@@ -1,8 +1,7 @@
 import React, { FC, useState } from "react";
 import { classNames } from "..";
 import Button from "./Button";
-import { CellProps, CellSize, NodeVariant } from "./Cell";
-import { dijkstra } from "../algoritme/Dijksta";
+import { CellSize, NodeVariant } from "./Cell";
 
 export const Header: FC<{
   setCellSize: React.Dispatch<React.SetStateAction<CellSize>>;

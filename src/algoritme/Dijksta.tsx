@@ -1,4 +1,4 @@
-import { CellProps } from "../components/Cell";
+import { CellProps, CellSize, SizeGrid } from "../components/Cell";
 
 export function dijkstra(
   grid: CellProps[][],
@@ -46,6 +46,20 @@ function getUnvisitedNeighbors(cell: CellProps, grid: any) {
   return neighbors.filter((neighbor) => !neighbor.isVisited);
 }
 
+export function animateDijkstra(
+  visitedNodesInOrder: CellProps[],
+  cellSize: CellSize
+) {
+  for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+    setTimeout(() => {
+      const cell = visitedNodesInOrder[i];
+
+      document.getElementById(
+        `row-${cell.row} col-${cell.col}`
+      )!.className = `animate-visited-cell bg-blue-500 border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+    }, 10 * i);
+  }
+}
 function sortNodesByDistance(unvisitedNodes: CellProps[]) {
   unvisitedNodes.sort(
     (cellA: CellProps, cellB: CellProps) => cellA.distance - cellB.distance

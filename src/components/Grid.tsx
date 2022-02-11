@@ -3,10 +3,11 @@ import { MakeNode } from "./Cell";
 import { FC, useState, useEffect } from "react";
 import { classNames } from "..";
 import Button from "./Button";
-import { dijkstra } from "../algoritme/Dijksta";
+import { animateDijkstra, dijkstra } from "../algoritme/Dijksta";
 
 const Grid: FC<{ cellSize: CellSize }> = ({ cellSize }) => {
   const [grid, setGrid] = useState<CellProps[][]>([]);
+  const [cellClicked, setCellClicked] = useState<boolean>(false);
 
   useEffect(() => {
     setGrid(InitlizeGrid(cellSize));
@@ -22,24 +23,17 @@ const Grid: FC<{ cellSize: CellSize }> = ({ cellSize }) => {
         Math.round((SizeGrid[cellSize][3] / 2) * 1.35)
       ];
     const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
-    return animateDijkstra(visitedNodesInOrder!);
-  }
-
-  function animateDijkstra(visitedNodesInOrder: CellProps[]) {
-    for (let i = 0; i <= visitedNodesInOrder.length; i++) {
-      setTimeout(() => {
-        const cell = visitedNodesInOrder[i];
-
-        document.getElementById(
-          `row-${cell.row} col-${cell.col}`
-        )!.className = `animate-visited-cell bg-blue-500 border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
-        console.log(document.getElementById(`node-${cell.row}-${cell.col}`)!);
-      }, 10 * i);
-    }
+    return animateDijkstra(visitedNodesInOrder!, cellSize);
   }
 
   return (
     <div className="grid">
+      <Button
+        onClick={() => setGrid(InitlizeGridWithRandomWalls(grid))}
+        classes={"h-8 my-auto rounded-none"}
+      >
+        Random
+      </Button>
       <Button onClick={playDijkstra} classes={"h-8 my-auto rounded-none"}>
         Run
       </Button>
@@ -60,6 +54,7 @@ const Grid: FC<{ cellSize: CellSize }> = ({ cellSize }) => {
                   distance={node.distance}
                   onClick={() => {
                     node.isWall = true;
+                    setCellClicked(!cellClicked);
                     console.log(node);
                   }}
                   row={node.row}
@@ -75,6 +70,28 @@ const Grid: FC<{ cellSize: CellSize }> = ({ cellSize }) => {
   );
 };
 
+function InitlizeGridWithRandomWalls(grid: CellProps[][]): CellProps[][] {
+  let newGridWithWalls: CellProps[][] = [];
+  grid.map((row, index) => {
+    const currentRow: any = [];
+    row.map((cell, id) => {
+      if (cell == cell.isFinish || cell == cell.isStart) {
+        console.log("skiped");
+      } else {
+        for (let i = 0; i <= grid.length; i++) {
+          const count = getRandomInt(0, 10);
+          if (count <= 5) {
+            cell.isWall = true;
+          }
+          currentRow.push(cell);
+          console.log(cell);
+        }
+      }
+    });
+  });
+  return newGridWithWalls;
+}
+
 function InitlizeGrid(cellSize: CellSize): CellProps[][] {
   let newGrid: CellProps[][] = [];
   for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
@@ -86,5 +103,9 @@ function InitlizeGrid(cellSize: CellSize): CellProps[][] {
   }
   return newGrid; // push to grid
 }
-
+function getRandomInt(min: number, max: number) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+}
 export default Grid;
