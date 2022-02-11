@@ -3,7 +3,11 @@ import { MakeNode } from "./Cell";
 import { FC, useState, useEffect } from "react";
 import { classNames } from "..";
 import Button from "./Button";
-import { animateDijkstra, dijkstra } from "../algoritme/Dijksta";
+import {
+  animateDijkstra,
+  dijkstra,
+  getCellsInShortestPathOrder,
+} from "../algoritme/Dijksta";
 
 const Grid: FC<{ cellSize: CellSize }> = ({ cellSize }) => {
   const [grid, setGrid] = useState<CellProps[][]>([]);
@@ -23,7 +27,12 @@ const Grid: FC<{ cellSize: CellSize }> = ({ cellSize }) => {
         Math.round((SizeGrid[cellSize][3] / 2) * 1.35)
       ];
     const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
-    return animateDijkstra(visitedNodesInOrder!, cellSize);
+    const CellsInShortestPathOrder = getCellsInShortestPathOrder(finishNode);
+    return animateDijkstra(
+      visitedNodesInOrder!,
+      CellsInShortestPathOrder!,
+      cellSize
+    );
   }
 
   return (

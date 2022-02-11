@@ -9,7 +9,7 @@ export function dijkstra(
   startNode.distance = 0;
   const unvisitedNodes = getAllNodes(grid);
   while (!!unvisitedNodes.length) {
-    sortNodesByDistance(unvisitedNodes);
+    sortCellsByDistance(unvisitedNodes);
     const closestNode: CellProps | undefined = unvisitedNodes.shift();
 
     if (closestNode != undefined) {
@@ -23,7 +23,6 @@ export function dijkstra(
       if (closestNode === finishNode) return visitedNodesInOrder;
 
       updateUnvisitedNeighbors(closestNode, grid);
-      //console.log(closestNode, grid);
     } else console.log("error, closestNode returned 0");
   }
 }
@@ -46,11 +45,29 @@ function getUnvisitedNeighbors(cell: CellProps, grid: any) {
   return neighbors.filter((neighbor) => !neighbor.isVisited);
 }
 
+export function getCellsInShortestPathOrder(finishNode: CellProps) {
+  const CellsInShortestPathOrder: CellProps[] = [];
+  let currentNode: any = finishNode;
+  while (currentNode !== null) {
+    CellsInShortestPathOrder.unshift(currentNode);
+    currentNode = currentNode.previousNode;
+  }
+  return CellsInShortestPathOrder;
+}
+
 export function animateDijkstra(
   visitedNodesInOrder: CellProps[],
+  ShortestPathOrder: CellProps[],
   cellSize: CellSize
 ) {
   for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+    if (i === visitedNodesInOrder.length) {
+      setTimeout(() => {
+        animateShortestPath(ShortestPathOrder, cellSize);
+      }, 10 * i);
+      return;
+    }
+
     setTimeout(() => {
       const cell = visitedNodesInOrder[i];
 
@@ -60,7 +77,22 @@ export function animateDijkstra(
     }, 10 * i);
   }
 }
-function sortNodesByDistance(unvisitedNodes: CellProps[]) {
+
+function animateShortestPath(
+  nodesInShortestPathOrder: CellProps[],
+  cellSize: CellSize
+) {
+  for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
+    setTimeout(() => {
+      const cell = nodesInShortestPathOrder[i];
+      document.getElementById(
+        `row-${cell.row} col-${cell.col}`
+      )!.className = `animate-visited-cell bg-yellow-500 border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+    }, 50 * i);
+  }
+}
+
+function sortCellsByDistance(unvisitedNodes: CellProps[]) {
   unvisitedNodes.sort(
     (cellA: CellProps, cellB: CellProps) => cellA.distance - cellB.distance
   );
