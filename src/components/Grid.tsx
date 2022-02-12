@@ -66,7 +66,7 @@ const Grid: FC<{ cellSize: CellSize }> = ({ cellSize }) => {
                   isWall={node.isWall}
                   distance={node.distance}
                   onClick={() => {
-                    if (node.isWall == false) {
+                    if (node.isWall === false) {
                       node.isWall = true;
                     } else node.isWall = false;
                     setCellClicked(!cellClicked);
@@ -87,23 +87,24 @@ const Grid: FC<{ cellSize: CellSize }> = ({ cellSize }) => {
 
 function InitlizeGridWithRandomWalls(grid: CellProps[][]): CellProps[][] {
   let newGridWithWalls: CellProps[][] = [];
-  let cells: CellProps[] = getAllCells(grid);
-  const len: CellProps[] = [];
+  const NewCells: CellProps[] = []; // store new cells
+  let cells: CellProps[] = getAllCells(grid); // get all cells from grid
   cells.map((cell, index) => {
     let salt = getRandomInt(0, 10);
-    if (salt == 2) {
+    if (salt === 2) {
+      // salt for randomness
       if (cell.isStart || cell.isFinish) {
         return;
       } else {
         cell.isWall = true;
-        len.push(cell);
+        NewCells.push(cell);
       }
     }
+    return index;
   });
-  newGridWithWalls.push(len);
-  console.log(newGridWithWalls);
+  newGridWithWalls.push(NewCells); // push new cells to grid
 
-  return newGridWithWalls;
+  return newGridWithWalls; //return new grid
 }
 
 function getRandomInt(min: number, max: number) {

@@ -73,7 +73,7 @@ export function animateDijkstra(
 
       document.getElementById(
         `row-${cell.row} col-${cell.col}`
-      )!.className = `animate-visited-cell bg-blue-500 border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+      )!.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
     }, 10 * i);
   }
 }
@@ -87,7 +87,7 @@ function animateShortestPath(
       const cell = nodesInShortestPathOrder[i];
       document.getElementById(
         `row-${cell.row} col-${cell.col}`
-      )!.className = `animate-visited-cell bg-yellow-500 border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+      )!.className = `bg-yellow-500 border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
     }, 50 * i);
   }
 }

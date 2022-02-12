@@ -10,8 +10,12 @@ module.exports = {
           "0%": {
             transform: "scale(0.5)",
           },
+          "20%": {
+            backgroundColor: "orange",
+          },
           "100%": {
             transform: "scale(1)",
+            backgroundColor: "blue",
           },
         },
       },
