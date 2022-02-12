@@ -7,7 +7,7 @@ export function dijkstra(
 ) {
   const visitedNodesInOrder = [];
   startNode.distance = 0;
-  const unvisitedNodes = getAllNodes(grid);
+  const unvisitedNodes = getAllCells(grid);
   while (!!unvisitedNodes.length) {
     sortCellsByDistance(unvisitedNodes);
     const closestNode: CellProps | undefined = unvisitedNodes.shift();
@@ -98,7 +98,7 @@ function sortCellsByDistance(unvisitedNodes: CellProps[]) {
   );
 }
 
-function getAllNodes(grid: CellProps[][]) {
+export function getAllCells(grid: CellProps[][]) {
   const cells = [];
   for (const row of grid) {
     for (const node of row) {

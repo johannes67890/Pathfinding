@@ -6,6 +6,7 @@ import Button from "./Button";
 import {
   animateDijkstra,
   dijkstra,
+  getAllCells,
   getCellsInShortestPathOrder,
 } from "../algoritme/Dijksta";
 
@@ -38,7 +39,10 @@ const Grid: FC<{ cellSize: CellSize }> = ({ cellSize }) => {
   return (
     <div className="grid">
       <Button
-        onClick={() => setGrid(InitlizeGridWithRandomWalls(grid))}
+        onClick={() => {
+          InitlizeGridWithRandomWalls(grid);
+          setCellClicked(!cellClicked);
+        }}
         classes={"h-8 my-auto rounded-none"}
       >
         Random
@@ -81,24 +85,29 @@ const Grid: FC<{ cellSize: CellSize }> = ({ cellSize }) => {
 
 function InitlizeGridWithRandomWalls(grid: CellProps[][]): CellProps[][] {
   let newGridWithWalls: CellProps[][] = [];
-  grid.map((row, index) => {
-    const currentRow: any = [];
-    row.map((cell, id) => {
-      if (cell == cell.isFinish || cell == cell.isStart) {
-        console.log("skiped");
+  let cells: CellProps[] = getAllCells(grid);
+  const len: CellProps[] = [];
+  cells.map((cell, index) => {
+    let salt = getRandomInt(0, 10);
+    if (salt == 2) {
+      if (cell.isStart || cell.isFinish) {
+        return;
       } else {
-        for (let i = 0; i <= grid.length; i++) {
-          const count = getRandomInt(0, 10);
-          if (count <= 5) {
-            cell.isWall = true;
-          }
-          currentRow.push(cell);
-          console.log(cell);
-        }
+        cell.isWall = true;
+        len.push(cell);
       }
-    });
+    }
   });
+  newGridWithWalls.push(len);
+  console.log(newGridWithWalls);
+
   return newGridWithWalls;
+}
+
+function getRandomInt(min: number, max: number) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 }
 
 function InitlizeGrid(cellSize: CellSize): CellProps[][] {
@@ -112,9 +121,5 @@ function InitlizeGrid(cellSize: CellSize): CellProps[][] {
   }
   return newGrid; // push to grid
 }
-function getRandomInt(min: number, max: number) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
-}
+
 export default Grid;
