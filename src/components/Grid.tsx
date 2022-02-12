@@ -66,7 +66,9 @@ const Grid: FC<{ cellSize: CellSize }> = ({ cellSize }) => {
                   isWall={node.isWall}
                   distance={node.distance}
                   onClick={() => {
-                    node.isWall = true;
+                    if (node.isWall == false) {
+                      node.isWall = true;
+                    } else node.isWall = false;
                     setCellClicked(!cellClicked);
                     console.log(node);
                   }}
