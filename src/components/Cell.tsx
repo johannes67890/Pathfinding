@@ -79,10 +79,9 @@ export const MakeNode = (col: number, row: number, cellSize: CellSize) => {
   };
 };
 
-export default Cell;
-
 export const SizeGrid: Record<CellSize, [string, string, number, number]> = {
-  [CellSize.small]: ["h-5", "w-5", 37, 63], // norm: ["h-5", "w-5", 37, 63]
-  [CellSize.default]: ["h-8", "w-8", 23, 39], // norm: ["h-8", "w-8", 23, 39]
-  [CellSize.big]: ["h-10", "w-10", 18, 31], // norm: ["h-10", "w-10", 18, 31]
+  [CellSize.small]: ["h-5", "w-5", 36, 63], // norm: ["h-5", "w-5", row: 37, col: 63]
+  [CellSize.default]: ["h-8", "w-8", 22, 39], // norm: ["h-8", "w-8", row: 23, col: 39]
+  [CellSize.big]: ["h-10", "w-10", 17, 31], // norm: ["h-10", "w-10", row: 18, col: 31]
 };
+export default Cell;
