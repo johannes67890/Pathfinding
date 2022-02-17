@@ -5,7 +5,8 @@ import { CellSize, NodeVariant } from "./Cell";
 
 export const Header: FC<{
   setCellSize: React.Dispatch<React.SetStateAction<CellSize>>;
-}> = ({ setCellSize }) => {
+  cellCost: number;
+}> = ({ setCellSize, cellCost }) => {
   return (
     <div className="bg-gray-400 rounded-t-md flex gap-2">
       <div className="flex flex-col p-3">
@@ -31,6 +32,7 @@ export const Header: FC<{
       </div>
       <GridSize setCellSize={setCellSize} />
       <NodeSelectorMenu />
+      <CellCostOverView cellCost={cellCost} />
     </div>
   );
 };
@@ -66,6 +68,14 @@ export const GridSize: FC<{
       >
         Small
       </Button>
+    </div>
+  );
+};
+
+const CellCostOverView: FC<{ cellCost: number }> = ({ cellCost }) => {
+  return (
+    <div>
+      <h2>{cellCost}</h2>
     </div>
   );
 };

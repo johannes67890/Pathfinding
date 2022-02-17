@@ -1,19 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { useState } from "react";
 import "./index.css";
 import Grid from "./components/Grid";
 import { Header } from "./components/Header";
-import { CellSize, NodeVariant } from "./components/Cell";
+import { CellSize } from "./components/Cell";
 
 const Index = () => {
   const [cellSize, setCellSize] = useState<CellSize>(CellSize.default);
-
+  const [cellCost, setCellCost] = useState<number>(0);
   return (
     <React.StrictMode>
       <div className="max-w-7xl mx-auto mt-3">
-        <Header setCellSize={setCellSize} />
-        <Grid cellSize={cellSize} />
+        <Header setCellSize={setCellSize} cellCost={cellCost} />
+        <Grid cellSize={cellSize} setCellCost={setCellCost} />
       </div>
     </React.StrictMode>
   );

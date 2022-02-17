@@ -10,7 +10,10 @@ import {
   getCellsInShortestPathOrder,
 } from "../algoritme/Dijksta";
 
-const Grid: FC<{ cellSize: CellSize }> = ({ cellSize }) => {
+const Grid: FC<{
+  cellSize: CellSize;
+  setCellCost: React.Dispatch<React.SetStateAction<number>>;
+}> = ({ cellSize, setCellCost }) => {
   const [grid, setGrid] = useState<CellProps[][]>([]);
   const [cellClicked, setCellClicked] = useState<boolean>(false);
 
@@ -32,7 +35,8 @@ const Grid: FC<{ cellSize: CellSize }> = ({ cellSize }) => {
     return animateDijkstra(
       visitedNodesInOrder!,
       CellsInShortestPathOrder!,
-      cellSize
+      cellSize,
+      setCellCost
     );
   }
 
