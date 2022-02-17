@@ -8,15 +8,12 @@ import { CellSize, NodeVariant } from "./components/Cell";
 
 const Index = () => {
   const [cellSize, setCellSize] = useState<CellSize>(CellSize.default);
-  const [nodeSelector, setNodeSelector] = useState<NodeVariant>(
-    NodeVariant.wall
-  );
 
   return (
     <React.StrictMode>
       <div className="max-w-7xl mx-auto mt-3">
-        <Header setCellSize={setCellSize} setNodeSelector={setNodeSelector} />
-        <Grid cellSize={cellSize} nodeSelector={nodeSelector} />
+        <Header setCellSize={setCellSize} />
+        <Grid cellSize={cellSize} />
       </div>
     </React.StrictMode>
   );

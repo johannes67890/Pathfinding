@@ -1,11 +1,11 @@
 import React, { FC, useState } from "react";
 import { classNames } from "..";
 import Button from "./Button";
-import { CellProps, CellSize, NodeVariant } from "./Cell";
+import { CellSize, NodeVariant } from "./Cell";
+
 export const Header: FC<{
   setCellSize: React.Dispatch<React.SetStateAction<CellSize>>;
-  setNodeSelector: React.Dispatch<React.SetStateAction<NodeVariant>>;
-}> = ({ setNodeSelector, setCellSize }) => {
+}> = ({ setCellSize }) => {
   return (
     <div className="bg-gray-400 rounded-t-md flex gap-2">
       <div className="flex flex-col p-3">
@@ -30,8 +30,7 @@ export const Header: FC<{
         </div>
       </div>
       <GridSize setCellSize={setCellSize} />
-      <NodeSelectorMenu setNodeSelector={setNodeSelector} />
-      <Button classes={"h-8 my-auto"}>Run</Button>
+      <NodeSelectorMenu />
     </div>
   );
 };
@@ -87,9 +86,7 @@ const NodeTextRecord: Record<NodeVariant, string> = {
   [NodeVariant.visiting]: "Currently Visiting",
 };
 
-const NodeSelectorMenu: FC<{
-  setNodeSelector: React.Dispatch<React.SetStateAction<NodeVariant>>;
-}> = ({ setNodeSelector }) => {
+const NodeSelectorMenu: FC<{}> = () => {
   let nodeColorSelector: Array<string> = [];
 
   for (let i = 0; i < Object.keys(NodeColorRecord).length; i++) {
@@ -105,13 +102,9 @@ const NodeSelectorMenu: FC<{
               <span className="w-28 my-auto text-xs font-bold">
                 {NodeTextRecord[index as NodeVariant]}{" "}
               </span>
-              <Button
-                onClick={() => {
-                  setNodeSelector(NodeVariant[index] as any);
-                  console.log(NodeVariant[index] as any);
-                }}
-                classes={classNames(bgColor, "h-6 w-6 my-auto")}
-              ></Button>
+              <rect
+                className={classNames(bgColor, "h-6 w-6 my-auto rounded-md")}
+              ></rect>
             </li>
           );
         })}
