@@ -7,6 +7,15 @@
 \usepackage{fancyhdr}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+ }
+
+
 \definecolor{comment}{rgb}{0,0.45,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
@@ -30,7 +39,20 @@
     tabsize=2
 }
 \lstset{style=CodeStyle}
-
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{purple}\bfseries,
+  ndkeywords={class, export, const, boolean, throw, implements, import, this, !!, !=, ===, ;},
+  ndkeywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{comment}\ttfamily,
+  stringstyle=\color{orange}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
 
 \begin{document}
 
@@ -41,11 +63,41 @@
 \pagebreak
 \tableofcontents
 \pagebreak
+
 \section{Introduktion}
 Dijkstra's Algoritme er en kendt algoritmen indenfor pathfinding. Formål er at finde den korteste vej fra punkt a til punkt b. Dette er en større del af almindelige menneskers liv end man tænker. Hvad er den hurtigste vej til skole eller arbejde? Er det via motorvejen som måske har vejarbejde? Vil det så være hurtigere at tag vejen igennem byen? Disse spørgsmål kan man ofte få hurtigt svar på med ens GPS, som har implementeret diverse pathfinding algoritmer og er tilkoblet internettet med de seneste nyheder om vejarbejde, kø osv. 
 \\Jeg vil med brug af Dijkstra's Algoritme finde sammenhængen mellem den matematiske del af rekursion som og et rekursion-kald i programmering.  
 
-\begin{lstlisting}[language=Java, caption=Dijkstra's Algoritme]
+\section{Teori}
+\subsection{Hvad er rekursion?}
+Ordet rekursion er en betegnelse for noget som referere til sig selv. Når noget referere sig selv betyder det at noget behøver information eller data fra sit forrige jeg. Rekursion er oftest betegnet som en rekursionligning i matematik og en som en funktion der kalder sig selv i programmering. 
+\subsection{Rekursion i Matematik}
+\subsection{Programmering}
+\subsubsection{Variabler}
+Et variabel er en pladsholder for et stykke data. Typisk set bruger man variabler i brug når man skal gemme et stykke data som man skal bruge forskellige steder i programmet. Disse variabler kan ændres under programmets køretid afhængig i hvordan variables data bliver manipuleret. Variablers data kan eventuelt ændres under programmets køretid, hvis man ønsker. Lidt mere teknisk indeholder et variable særlige set af bits eller af variablenes datatype. Et variable har en datatype som identificere hvilke slags data variabelt kan indeholde. Her et en tabel med forskellige datatyper.
+\begin{table}
+  \centering
+  \begin{tabular}{ |c|c|c|c| } 
+   \hline
+   \textbf{Datatype} & \textbf{Skrivemåder} & \textbf{Eksempel på data} & \textbf{Kommentar} \\ 
+   \hline
+   Integer & int & \small{…-3, -2, -1, 0, 1, 2,... 1000} & \shortstack{Kun heltal\\ \footnotesize{(både negativ og positiv)}} \\
+   \hline
+   Floating Point & float & …, -3.25, -2.11,... 100,12  & Decimaltal (både negativ og positiv) \\ 
+   \hline
+   String & str eller text & “hello world”, “This is a string”  & Et række af karakterer, oftest tekst. \\ 
+   \hline
+   Array & [ data1,data2,… ] & int val = [-2,-1,0,1,5] & Indeholder en række data under et navn \\ 
+   \hline
+   Character & char & cell9  & Kun et symbol \\ 
+   \hline
+   Boolean & bool & True (1) eller False (0)  & Enten sandt eller falsk \\ 
+   \hline
+  \end{tabular}
+\end{table}
+
+% dijkstra algo
+\begin{lstlisting}[language=JavaScript, caption=Dijkstra's Algoritme]
 function dijkstra(
   grid: CellProps[][],
   startNode: CellProps,
@@ -72,6 +124,5 @@ function dijkstra(
   }
 }
 \end{lstlisting}
-
 
 \end{document}
