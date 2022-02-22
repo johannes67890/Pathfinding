@@ -3,8 +3,75 @@
 \documentclass[12pt]{article}
 \usepackage{lingmacros}
 \usepackage{tree-dvips}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{xcolor}
+\definecolor{comment}{rgb}{0,0.45,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{CodeStyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{comment},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=CodeStyle}
+
 
 \begin{document}
+
+\title{Dijkstra's Algoritme}
+\author{Johannes Jørgensen\\ S2o}
+\date{2021 Febuar}
+\maketitle
+\pagebreak
+\tableofcontents
+\pagebreak
+\section{Introduktion}
+Dijkstra's Algoritme er en kendt algoritmen indenfor pathfinding. Formål er at finde den korteste vej fra punkt a til punkt b. Dette er en større del af almindelige menneskers liv end man tænker. Hvad er den hurtigste vej til skole eller arbejde? Er det via motorvejen som måske har vejarbejde? Vil det så være hurtigere at tag vejen igennem byen? Disse spørgsmål kan man ofte få hurtigt svar på med ens GPS, som har implementeret diverse pathfinding algoritmer og er tilkoblet internettet med de seneste nyheder om vejarbejde, kø osv. 
+\\Jeg vil med brug af Dijkstra's Algoritme finde sammenhængen mellem den matematiske del af rekursion som og et rekursion-kald i programmering.  
+
+\begin{lstlisting}[language=Java, caption=Dijkstra's Algoritme]
+function dijkstra(
+  grid: CellProps[][],
+  startNode: CellProps,
+  finishNode: CellProps
+) {
+  const visitedNodesInOrder = [];
+  startNode.distance = 0;
+  const unvisitedNodes = getAllCells(grid);
+  while (!!unvisitedNodes.length) {
+    sortCellsByDistance(unvisitedNodes);
+    const closestNode: CellProps | undefined = unvisitedNodes.shift();
+
+    if (closestNode != undefined) {
+      // If we encounter a wall, we skip it.
+      if (closestNode.isWall) continue;
+      // If the closest node is at a distance of infinity,
+      // we must be trapped and should therefore stop.
+      if (closestNode.distance === Infinity) return visitedNodesInOrder;
+      closestNode.isVisited = true;
+      visitedNodesInOrder.push(closestNode);
+      if (closestNode === finishNode) return visitedNodesInOrder;
+      updateUnvisitedNeighbors(closestNode, grid);
+    } else console.log("error, closestNode returned 0");
+  }
+}
+\end{lstlisting}
 
 
 \end{document}
