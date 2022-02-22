@@ -12,8 +12,7 @@ import {
 
 const Grid: FC<{
   cellSize: CellSize;
-  setCellCost: React.Dispatch<React.SetStateAction<number>>;
-}> = ({ cellSize, setCellCost }) => {
+}> = ({ cellSize }) => {
   const [grid, setGrid] = useState<CellProps[][]>([]);
   const [cellClicked, setCellClicked] = useState<boolean>(false);
 
@@ -35,8 +34,7 @@ const Grid: FC<{
     return animateDijkstra(
       visitedNodesInOrder!,
       CellsInShortestPathOrder!,
-      cellSize,
-      setCellCost
+      cellSize
     );
   }
 

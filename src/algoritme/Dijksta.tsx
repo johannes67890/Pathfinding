@@ -23,7 +23,6 @@ export function dijkstra(
       if (closestNode === finishNode) return visitedNodesInOrder;
 
       updateUnvisitedNeighbors(closestNode, grid);
-      console.log("Cells visited:", visitedNodesInOrder.length);
     } else console.log("error, closestNode returned 0");
   }
 }
@@ -61,8 +60,7 @@ export function getCellsInShortestPathOrder(finishNode: CellProps) {
 export function animateDijkstra(
   visitedNodesInOrder: CellProps[],
   ShortestPathOrder: CellProps[],
-  cellSize: CellSize,
-  setCellCost: React.Dispatch<React.SetStateAction<number>>
+  cellSize: CellSize
 ) {
   for (let i = 0; i <= visitedNodesInOrder.length; i++) {
     if (i === visitedNodesInOrder.length) {
@@ -79,7 +77,6 @@ export function animateDijkstra(
       document.getElementById(
         `row-${cell.row} col-${cell.col}`
       )!.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
-      setCellCost(i);
     }, 10 * i);
   }
 }

@@ -12,8 +12,8 @@ const Index = () => {
   return (
     <React.StrictMode>
       <div className="max-w-7xl mx-auto mt-3">
-        <Header setCellSize={setCellSize} cellCost={cellCost} />
-        <Grid cellSize={cellSize} setCellCost={setCellCost} />
+        <Header setCellSize={setCellSize} />
+        <Grid cellSize={cellSize} />
       </div>
     </React.StrictMode>
   );
