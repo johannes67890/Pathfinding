@@ -42,7 +42,7 @@
 \lstdefinelanguage{JavaScript}{
   keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
   keywordstyle=\color{purple}\bfseries,
-  ndkeywords={class, export, const, boolean, throw, implements, import, this, !!, !=, ===, ;},
+  ndkeywords={class, export, const, var, let, boolean, throw, implements, import, this, !!, !=, ===, ;},
   ndkeywordstyle=\color{blue}\bfseries,
   identifierstyle=\color{black},
   sensitive=false,
@@ -122,9 +122,20 @@ cars[0] = "Audi" // Index 0 of array
 \end{lstlisting}
 \subsubsection{Løkker}
 En løkke er et stykke kode som vil fortsætte med at køre indtil en given betingelse er opfyldt. der er to slags løkker, “while” - løkker og “for”-løkker. “While” løkker kører ind til betingelsen i parentesen bliver opfyldt. Mens “for” løkker lavet selv et variabel, som i det simpleste tilfælde vil tælle op eller ned fra og køre det antal gange ifølge betingelse. Løkker er meget brugbare siden det stopper en fra at skulle skrive mange linjer af den samme kode hvis man skal køre noget flere gange.
+\begin{lstlisting}[language=JavaScript, caption=Eksempel på et for løkke]
+for (let i = 0; i < 5; i++) {
+  console.log(i);
+} // exprected output: 0,1,2,3,4
+\end{lstlisting}
 \subsubsection{Betinget udførelse (if statement)}
 Betinget udførelse eller “if statement”, er et stykke kode som checker om en betingelse opfyldt nogle specifikke kriterier. Hvis de betingelser bliver opfyldt vil koden inde i dette if statement blive kørt. Med et if statement kan man give den flere kriterier ved at lave en “else if” eller “else” statement efter den første stykke kode. “else if” er et til if statement med en betingelse før den bliver kørt, samtidig med at dette stykke kode kun bliver kørt hvis det første if statement ikke opfylder sin betingelse. Et “else” statement er bare et stykke kode som vil blive kørt hvis koden ikke opfyldte sin betingelse.
+\begin{lstlisting}[language=JavaScript, caption=Eksempel på betinget udførelse]
+let val = 5; 
 
+if(val == 1){
+  console.log("The value is now 1!");
+}else console.log("The value is not 1"); // exprected execution of statement
+\end{lstlisting}
 % dijkstra algo
 \begin{lstlisting}[language=JavaScript, caption=Dijkstra's Algoritme]
 function dijkstra(
