@@ -54,6 +54,7 @@
   morestring=[b]"
 }
 
+%%%%%%% Document begin %%%%%%%%%%%
 \begin{document}
 
 \title{Dijkstra's Algoritme}
@@ -64,15 +65,24 @@
 \tableofcontents
 \pagebreak
 
+%% Introduktion
 \section{Introduktion}
 Dijkstra's Algoritme er en kendt algoritmen indenfor pathfinding. Formål er at finde den korteste vej fra punkt a til punkt b. Dette er en større del af almindelige menneskers liv end man tænker. Hvad er den hurtigste vej til skole eller arbejde? Er det via motorvejen som måske har vejarbejde? Vil det så være hurtigere at tag vejen igennem byen? Disse spørgsmål kan man ofte få hurtigt svar på med ens GPS, som har implementeret diverse pathfinding algoritmer og er tilkoblet internettet med de seneste nyheder om vejarbejde, kø osv. 
 \\Jeg vil med brug af Dijkstra's Algoritme finde sammenhængen mellem den matematiske del af rekursion som og et rekursion-kald i programmering.  
 
+%% Teori
 \section{Teori}
+
+% Hvad er rekursion?
 \subsection{Hvad er rekursion?}
-Ordet rekursion er en betegnelse for noget som referere til sig selv. Når noget referere sig selv betyder det at noget behøver information eller data fra sit forrige jeg. Rekursion er oftest betegnet som en rekursionligning i matematik og en som en funktion der kalder sig selv i programmering. 
+Ordet rekursion er en betegnelse for noget som refererer til sig selv. Når noget refererer sig selv betyder det at noget behøver information eller data fra sit forrige jeg. Rekursion er oftest betegnet som en rekursionligning i matematik og en som en funktion der kalder sig selv i programmering. 
+
+%Rekursion i Matematik
 \subsection{Rekursion i Matematik}
+
+%% Programmering
 \subsection{Programmering}
+% Rekursion i programmering
 \subsubsection{Rekursion i programmering}
 Rekursion i programmering er en funktion som har et rekursivts kald, alså funktion kalder sig selv. Dette kald kan være meget direkte som i eksempel 1 (Simpel rekursions funktion), eller indirekte hvor det ikke er lige så overskuligt at se et rekursivt kald.
 \begin{lstlisting}[language=JavaScript, caption=Simpel rekursions funktion]
@@ -87,7 +97,7 @@ Funktionen i eksempel 1 indtag en værdi \textit{n} som parameter. Hvis denne pa
 \[n(3) = 3*2 \Leftrightarrow   6\]
 \[n(4) = 4*6 \Leftrightarrow  \textbf{24}\]
 
-
+% Varialber
 \subsubsection{Variabler}
 Et variabel er en pladsholder for et stykke data. Typisk set bruger man variabler i brug når man skal gemme et stykke data som man skal bruge forskellige steder i programmet. Disse variabler kan ændres under programmets køretid afhængig i hvordan variables data bliver manipuleret. Variablers data kan eventuelt ændres under programmets køretid, hvis man ønsker. Lidt mere teknisk indeholder et variable særlige set af bits eller af variablenes datatype. Et variable har en datatype som identificere hvilke slags data variabelt kan indeholde. Diverse programmeringssprog bruger dynamiske datatyper, hvor variabler kan indeholde forskellige datatyper. Her et en tabel med forskellige datatyper.
 \begin{table}[ht]
@@ -112,7 +122,11 @@ Et variabel er en pladsholder for et stykke data. Typisk set bruger man variable
    \hline
   \end{tabular}
 \end{table}
+
+%Objekter
 \subsubsection{Objekter}
+
+%Arrays
 \subsubsection{Arrays}
 Et array er en datastruktur, der indeholder en gruppe af elementer. Disse elementer er typisk alle af samme datatype, såsom et integer eller en string. Arrays bruges typisk set i computerprogrammer til at organisere data, så et relateret sæt værdier nemt kan sorteres eller søges.
 \begin{lstlisting}[language=JavaScript, caption=Eksempel på et array]
@@ -120,6 +134,8 @@ Et array er en datastruktur, der indeholder en gruppe af elementer. Disse elemen
 const cars = ["Audi", "Volvo", "BMW"];
 cars[0] = "Audi" // Index 0 of array
 \end{lstlisting}
+
+% Løkker
 \subsubsection{Løkker}
 En løkke er et stykke kode som vil fortsætte med at køre indtil en given betingelse er opfyldt. der er to slags løkker, “while” - løkker og “for”-løkker. “While” løkker kører ind til betingelsen i parentesen bliver opfyldt. Mens “for” løkker lavet selv et variabel, som i det simpleste tilfælde vil tælle op eller ned fra og køre det antal gange ifølge betingelse. Løkker er meget brugbare siden det stopper en fra at skulle skrive mange linjer af den samme kode hvis man skal køre noget flere gange.
 \begin{lstlisting}[language=JavaScript, caption=Eksempel på et for løkke]
@@ -127,6 +143,8 @@ for (let i = 0; i < 5; i++) {
   console.log(i);
 } // exprected output: 0,1,2,3,4
 \end{lstlisting}
+
+% Betinget udførelse
 \subsubsection{Betinget udførelse (if statement)}
 Betinget udførelse eller “if statement”, er et stykke kode som checker om en betingelse opfyldt nogle specifikke kriterier. Hvis de betingelser bliver opfyldt vil koden inde i dette if statement blive kørt. Med et if statement kan man give den flere kriterier ved at lave en “else if” eller “else” statement efter den første stykke kode. “else if” er et til if statement med en betingelse før den bliver kørt, samtidig med at dette stykke kode kun bliver kørt hvis det første if statement ikke opfylder sin betingelse. Et “else” statement er bare et stykke kode som vil blive kørt hvis koden ikke opfyldte sin betingelse.
 \begin{lstlisting}[language=JavaScript, caption=Eksempel på betinget udførelse]
@@ -136,6 +154,7 @@ if(val == 1){
   console.log("The value is now 1!");
 }else console.log("The value is not 1"); // exprected execution of statement
 \end{lstlisting}
+
 % dijkstra algo
 \begin{lstlisting}[language=JavaScript, caption=Dijkstra's Algoritme]
 function dijkstra(
