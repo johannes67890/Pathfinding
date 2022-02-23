@@ -1,4 +1,4 @@
-import Cell, { CellProps, CellSize, NodeVariant, SizeGrid } from "./Cell";
+import Cell, { CellProps, CellSize, SizeGrid } from "./Cell";
 import { MakeNode } from "./Cell";
 import { FC, useState, useEffect } from "react";
 import { classNames } from "..";
@@ -10,7 +10,9 @@ import {
   getCellsInShortestPathOrder,
 } from "../algoritme/Dijksta";
 
-const Grid: FC<{ cellSize: CellSize }> = ({ cellSize }) => {
+const Grid: FC<{
+  cellSize: CellSize;
+}> = ({ cellSize }) => {
   const [grid, setGrid] = useState<CellProps[][]>([]);
   const [cellClicked, setCellClicked] = useState<boolean>(false);
 
