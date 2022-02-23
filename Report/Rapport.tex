@@ -79,13 +79,17 @@ Rekursion i programmering er en funktion som har et rekursivts kald, alså funkt
 function fractorial(n) {        
   if (n == 1) return 1; 
   else return n*fractorial(n-1) 
-} // if n = 3, then exprected output: 6
+} // if n = 4, then exprected output: 24
 \end{lstlisting}
 Funktionen i eksempel 1 indtag en værdi \textit{n} som parameter. Hvis denne parameteren \textit{n} er 1 stopper det rekursive kald (se linje 2.). Dette betyder også at dette eksempel har et meget direkte grænse hvor \textit{n} ikke kan komme under 1. Linje 3 beskriver så hvordan \textit{n} skal reagere hvis dens værdi ikke er 1. Hvis \textit{n} ikke er 1, men eksempelvis 3 skal den gange nuværende \textit{n} med forrige \textit{n}. I forrige \textit{n} af 3 er 2, derfor skal 2 ganges med dens forrige \textit{n} og således.
- 
+\[n(1) = 1 \Leftrightarrow 1\] 
+\[n(2) = 2*1 \Leftrightarrow   2\]
+\[n(3) = 3*2 \Leftrightarrow   6\]
+\[n(4) = 4*6 \Leftrightarrow  \textbf{24}\]
+
 
 \subsubsection{Variabler}
-Et variabel er en pladsholder for et stykke data. Typisk set bruger man variabler i brug når man skal gemme et stykke data som man skal bruge forskellige steder i programmet. Disse variabler kan ændres under programmets køretid afhængig i hvordan variables data bliver manipuleret. Variablers data kan eventuelt ændres under programmets køretid, hvis man ønsker. Lidt mere teknisk indeholder et variable særlige set af bits eller af variablenes datatype. Et variable har en datatype som identificere hvilke slags data variabelt kan indeholde. Her et en tabel med forskellige datatyper.
+Et variabel er en pladsholder for et stykke data. Typisk set bruger man variabler i brug når man skal gemme et stykke data som man skal bruge forskellige steder i programmet. Disse variabler kan ændres under programmets køretid afhængig i hvordan variables data bliver manipuleret. Variablers data kan eventuelt ændres under programmets køretid, hvis man ønsker. Lidt mere teknisk indeholder et variable særlige set af bits eller af variablenes datatype. Et variable har en datatype som identificere hvilke slags data variabelt kan indeholde. Diverse programmeringssprog bruger dynamiske datatyper, hvor variabler kan indeholde forskellige datatyper. Her et en tabel med forskellige datatyper.
 \begin{table}[ht]
   \centering
   \begin{tabular}{ |c|c|c|c| }
@@ -104,8 +108,22 @@ Et variabel er en pladsholder for et stykke data. Typisk set bruger man variable
    \hline
    Boolean & bool & True (1) eller False (0)  & Enten sandt eller falsk \\ 
    \hline
+   Constant & const & "Hello", -3, 22, [1, 2, 3] & \shortstack{Dynamisk datatype, \\ men konstant værdi} \\ 
+   \hline
   \end{tabular}
 \end{table}
+\subsubsection{Objekter}
+\subsubsection{Arrays}
+Et array er en datastruktur, der indeholder en gruppe af elementer. Disse elementer er typisk alle af samme datatype, såsom et integer eller en string. Arrays bruges typisk set i computerprogrammer til at organisere data, så et relateret sæt værdier nemt kan sorteres eller søges.
+\begin{lstlisting}[language=JavaScript, caption=Eksempel på et array]
+// Array with constant values of datatype String
+const cars = ["Audi", "Volvo", "BMW"];
+cars[0] = "Audi" // Index 0 of array
+\end{lstlisting}
+\subsubsection{Løkker}
+En løkke er et stykke kode som vil fortsætte med at køre indtil en given betingelse er opfyldt. der er to slags løkker, “while” - løkker og “for”-løkker. “While” løkker kører ind til betingelsen i parentesen bliver opfyldt. Mens “for” løkker lavet selv et variabel, som i det simpleste tilfælde vil tælle op eller ned fra og køre det antal gange ifølge betingelse. Løkker er meget brugbare siden det stopper en fra at skulle skrive mange linjer af den samme kode hvis man skal køre noget flere gange.
+\subsubsection{Betinget udførelse (if statement)}
+Betinget udførelse eller “if statement”, er et stykke kode som checker om en betingelse opfyldt nogle specifikke kriterier. Hvis de betingelser bliver opfyldt vil koden inde i dette if statement blive kørt. Med et if statement kan man give den flere kriterier ved at lave en “else if” eller “else” statement efter den første stykke kode. “else if” er et til if statement med en betingelse før den bliver kørt, samtidig med at dette stykke kode kun bliver kørt hvis det første if statement ikke opfylder sin betingelse. Et “else” statement er bare et stykke kode som vil blive kørt hvis koden ikke opfyldte sin betingelse.
 
 % dijkstra algo
 \begin{lstlisting}[language=JavaScript, caption=Dijkstra's Algoritme]
