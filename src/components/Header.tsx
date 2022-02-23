@@ -70,14 +70,6 @@ export const GridSize: FC<{
   );
 };
 
-const CellCostOverView: FC<{ cellCost: number }> = ({ cellCost }) => {
-  return (
-    <div>
-      <h2>{cellCost}</h2>
-    </div>
-  );
-};
-
 export const NodeColorRecord: Record<NodeVariant, string> = {
   [NodeVariant.startNode]: "bg-green-600",
   [NodeVariant.endNode]: "bg-red-600",

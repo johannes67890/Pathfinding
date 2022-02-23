@@ -1,4 +1,4 @@
-import Cell, { CellProps, CellSize, NodeVariant, SizeGrid } from "./Cell";
+import Cell, { CellProps, CellSize, SizeGrid } from "./Cell";
 import { MakeNode } from "./Cell";
 import { FC, useState, useEffect } from "react";
 import { classNames } from "..";
