@@ -11,7 +11,7 @@
  \geometry{
  a4paper,
  total={170mm,257mm},
- left=20mm,
+ left=15mm,
  top=20mm,
  }
 
@@ -73,23 +73,34 @@ Dijkstra's Algoritme er en kendt algoritmen indenfor pathfinding. Formål er at 
 Ordet rekursion er en betegnelse for noget som referere til sig selv. Når noget referere sig selv betyder det at noget behøver information eller data fra sit forrige jeg. Rekursion er oftest betegnet som en rekursionligning i matematik og en som en funktion der kalder sig selv i programmering. 
 \subsection{Rekursion i Matematik}
 \subsection{Programmering}
+\subsubsection{Rekursion i programmering}
+Rekursion i programmering er en funktion som har et rekursivts kald, alså funktion kalder sig selv. Dette kald kan være meget direkte som i eksempel 1 (Simpel rekursions funktion), eller indirekte hvor det ikke er lige så overskuligt at se et rekursivt kald.
+\begin{lstlisting}[language=JavaScript, caption=Simpel rekursions funktion]
+function fractorial(n) {        
+  if (n == 1) return 1; 
+  else return n*fractorial(n-1) 
+} // if n = 3, then exprected output: 6
+\end{lstlisting}
+Funktionen i eksempel 1 indtag en værdi \textit{n} som parameter. Hvis denne parameteren \textit{n} er 1 stopper det rekursive kald (se linje 2.). Dette betyder også at dette eksempel har et meget direkte grænse hvor \textit{n} ikke kan komme under 1. Linje 3 beskriver så hvordan \textit{n} skal reagere hvis dens værdi ikke er 1. Hvis \textit{n} ikke er 1, men eksempelvis 3 skal den gange nuværende \textit{n} med forrige \textit{n}. I forrige \textit{n} af 3 er 2, derfor skal 2 ganges med dens forrige \textit{n} og således.
+ 
+
 \subsubsection{Variabler}
 Et variabel er en pladsholder for et stykke data. Typisk set bruger man variabler i brug når man skal gemme et stykke data som man skal bruge forskellige steder i programmet. Disse variabler kan ændres under programmets køretid afhængig i hvordan variables data bliver manipuleret. Variablers data kan eventuelt ændres under programmets køretid, hvis man ønsker. Lidt mere teknisk indeholder et variable særlige set af bits eller af variablenes datatype. Et variable har en datatype som identificere hvilke slags data variabelt kan indeholde. Her et en tabel med forskellige datatyper.
-\begin{table}
+\begin{table}[ht]
   \centering
-  \begin{tabular}{ |c|c|c|c| } 
+  \begin{tabular}{ |c|c|c|c| }
    \hline
    \textbf{Datatype} & \textbf{Skrivemåder} & \textbf{Eksempel på data} & \textbf{Kommentar} \\ 
    \hline
    Integer & int & \small{…-3, -2, -1, 0, 1, 2,... 1000} & \shortstack{Kun heltal\\ \footnotesize{(både negativ og positiv)}} \\
    \hline
-   Floating Point & float & …, -3.25, -2.11,... 100,12  & Decimaltal (både negativ og positiv) \\ 
+   Floating Point & float & …, -3.25, -2.11,... 100,12  & \shortstack{Decimaltal\\ \footnotesize{(både negativ og positiv)}} \\ 
    \hline
-   String & str eller text & “hello world”, “This is a string”  & Et række af karakterer, oftest tekst. \\ 
+   String & str eller text & \shortstack{"hello world”, \\ "This is a string"}  &  \shortstack{Et række af karakterer\\ oftest tekst.} \\ 
    \hline
-   Array & [ data1,data2,… ] & int val = [-2,-1,0,1,5] & Indeholder en række data under et navn \\ 
+   Array & [ data1,data2,… ] & int val = [-2,-1,0,1,5] & \shortstack{Indeholder en række data \\ under et navn} \\ 
    \hline
-   Character & char & cell9  & Kun et symbol \\ 
+   Character & char & @, s, ¤, k…  & Kun et symbol \\ 
    \hline
    Boolean & bool & True (1) eller False (0)  & Enten sandt eller falsk \\ 
    \hline
