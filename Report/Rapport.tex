@@ -125,7 +125,7 @@ ud fra eksemplet er talfølgen:
 %% Programmering
 \subsection{Programmering}
 % Rekursion i programmering
-\subsubsection{Rekursion i programmering}
+\subsubsection{Rekursion i programmering}\label{Rekursion i programmering}
 Rekursion i programmering er en funktion som har et rekursivts kald, alså funktion kalder sig selv. Dette kald kan være meget direkte som i eksempel 1 (Simpel rekursions funktion), eller indirekte hvor det ikke er lige så overskuligt at se et rekursivt kald.
 \begin{lstlisting}[language=JavaScript, caption=Simpel rekursions funktion]
 function fractorial(n) {        
@@ -270,12 +270,31 @@ er en form for et “brute force” på et problem, da den bare søger løs for 
 Ordet “brute force” betyder at algorithmen løser et problem den mest simple måde, dette er ofte mindre elegant og en langsom måde at løse problemer på. 
 Dette eksempel viser et eksempel på Dijkstra’s algoritme og A* 
 search og hvordan de hver især løser en labyrint.  
-\begin{figure}[ht]\label{A*vsDjikstra}
+\begin{figure}[ht]
   \includegraphics[width=\textwidth]{AstarvsDjikstra.png}
-  \caption{A* search vs. Dijkstra algoritme}
+  \caption{A* search vs. Dijkstra algoritme}\label{A*vsDjikstra}
 \end{figure}\footnote{Kevin Wang - \href{http://plainaslife.blogspot.com/2015/02/compare-with-dijkstra-algorithm.html}{Compare A* with Dijkstra algorithm}}
+\\Figur \ref{A*vsDjikstra} viser et godt eksempel på hvordan A* har haft en bedre fornemmelse for hvor slut noden er på grund af dens brug af Heuristics. A* har meget færre besøgte nodes (blå celler i labyrinten) som har øget dens hastighed i at løse problemet. 
+Hvor imod Dijkstra har over dobbelt så mange besøgte nodes som den skulle gå igennem. 
 \newpage
 \subsection{Rekursion i min kode}
+Som nævnt \ref{Rekursion i programmering} kan det rekursive kald i en funktion være direkte og indirekte. 
+Det rekursive kald i mit tilfælde er indirekte og kan være svær at gennemskue. \\
+Min kode for Dijkstra’s Algoritme (\ref{lst:Dijkstra}) er opbygget på den starter med indtag alle nodes 
+fra gridet. Alle nodes bliver opsamlet i et array "unvisitedNodes" fra ekstern funktion getAllNodes (\ref{lst:getAllNodes}). Dermed er der allerede et loft på funktionen, 
+dette loft vil så stoppe det rekursive kald, hvis der ikke er flere nodes tilbage i gridet:
+\begin{lstlisting}[language=JavaScript]
+const unvisitedNodes = getAllNodes(grid); // get nodes from grid
+\end{lstlisting}
+Dette er ligesom linje 2 i \ref{Rekursion i programmering}, her stopper det rekursive kalde også: 
+\begin{lstlisting}[language=JavaScript]
+if (n == 1) return 1;
+\end{lstlisting}
+Det rekursive kald kommer via et while loop (linje 5 i \ref{lst:Dijkstra}). 
+Dette while loop brydes kun hvis alle “unvisitedNodes” har en længde (altså blevet søgt igennem). 
+\begin{lstlisting}[language=JavaScript]
+while (!!unvisitedNodes.length)
+\end{lstlisting}
 
 \section{Konklution}
 
@@ -285,7 +304,7 @@ search og hvordan de hver især løser en labyrint.
 \section{Bilag}
 % dijkstra algo
 
-\begin{lstlisting}[language=JavaScript, caption=Kode for Dijkstra's Algoritme]
+\begin{lstlisting}[language=JavaScript, caption=Kode for Dijkstra's Algoritme, label={lst:Dijkstra}]
 function dijkstra(grid, startNode, finishNode) {
   const visitedNodesInOrder = [];
   startNode.distance = 0;
@@ -348,5 +367,17 @@ for (const neighbor of unvisitedNeighbors) {
   return CellsInShortestPathOrder;
 }
 \end{lstlisting}
+\begin{lstlisting}[language=JavaScript, caption=Kode for finde alle nodes i grid, label={lst:getAllNodes}]
+function getAllNodes(grid) {
+  const Nodes = [];
+  for (const row of grid) {
+    for (const node of row) {
+      Nodes.push(node);
+    }
+  }
+  return Nodes;
+}
+\end{lstlisting}
+
 % https://i.gyazo.com/0b387356445aefc069204298e796aff7.mp4 
 \end{document}
