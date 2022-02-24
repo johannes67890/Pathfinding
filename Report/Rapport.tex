@@ -130,7 +130,23 @@ Et variabel er en pladsholder for et stykke data. Typisk set bruger man variable
 
 %Objekter
 \subsubsection{Objekter}
+Et objekt er en abstrakt enhed med specifikke karakteriseringer og opførelse. Et objekt kan være et variable, datastruktur, en funktion eller en kombination alle dem alle. Et praktiskt eksempl på dette kan være en bil som objekt. En bil har specifikke karakteriseringer såsom hjul, farve, producent osv. En bil har også opførsel som at starte motoren, accelerere bilen m.m. 
+\\Hvis vi tager samme praktiske eksempel på en bil som objekt, kan vi overføre det til kode med en “Klasse” som er en form for plan over alle klassens objekter
+\begin{lstlisting}[language=Java, caption=Eksempel på et objekt]
+  class Car { // Blueprint a car
+   int model;
+   int year;
+   string color;
+   
+    void drive() { // objekt
+      // Get the car to drive
+    }
 
+    void reverse() { // objekt
+      // Get the car to drive
+    }
+}
+\end{lstlisting}
 %Arrays
 \subsubsection{Arrays}
 Et array er en datastruktur, der indeholder en gruppe af elementer. Disse elementer er typisk alle af samme datatype, såsom et integer eller en string. Arrays bruges typisk set i computerprogrammer til at organisere data, så et relateret sæt værdier nemt kan sorteres eller søges.
@@ -178,9 +194,12 @@ Dijkstra’s algoritme er designet til at finde den korteste vej mellem 2 notes.
 \\Eksemplet her viser en datatree med følgende nodes $A,B,C,D,F,G$. Algoritmen skal finde den korteste vej fra node $A \rightarrow G$. Algorithmen vil først søge igennem nabo nodes til vores start node A. Vejen fra node $A \rightarrow B$ koster 2 og vejen fra $A \rightarrow C$ koster 4. Derfor indtil videre er den korteste vej B. Så søger algorithmen fra node $B \rightarrow C$ og D, vejen til C koster nu kun 3 ud fra forrige $A \rightarrow C$. Så søges vejen fra $C \rightarrow F$, og den er kortere end $B \rightarrow D$ som kostet 5. Til sidst søges den korteste vej fra $F \rightarrow G$ og $D \rightarrow G$, som vejen $F \rightarrow G$ er stadig den korteste vej. Dermed bliver den korteste vej $A \rightarrow B \rightarrow C \rightarrow F \rightarrow G$ med total vægtkost på 9. 
 
 \subsubsection{Dijkstra’s Algorithm Pseudocode}
-\begin{lstlisting}[language=JavaScript, caption=Dijkstra’s Algorithm Pseudocode]
-function Dijkstra(G, S){ // G = Graf, S = Source
-  for hver V i Graf // V = vej
+Nu når vi ved hvordan Dijkstra’s Algorithm virker skal vi prøve så oversætte det til kode.
+Den bedste måde at generelt oversætte algoritmen kan vi lave en Pseudokode. En Pseudokode er en måde at skrive en algoritme eller en processen på en general programmerings måde uden at implementere direkte kode. Dette kan være hjælpe andre med generelt at forstå en algoritme kodemæssigt. 
+
+\begin{lstlisting}[language=JavaScript, caption=Dijkstra’s Algorithm Pseudocode oversat til dansk]
+function Dijkstra(G, S); // G = Graf, S = Source
+  for hver V i G // V = vej
     afstand[V] = infinity // set alle veje til infinity
     forrige[V] = null
     hvis V != Start
@@ -196,10 +215,9 @@ function Dijkstra(G, S){ // G = Graf, S = Source
           forrige[V] // U
 
   return afstand[], forrige[]
-}
 \end{lstlisting}
 \newpage
-
+\section{Analyse}
 % dijkstra algo
 % \begin{lstlisting}[language=JavaScript, caption=Dijkstra's Algoritme]
 % function dijkstra(
