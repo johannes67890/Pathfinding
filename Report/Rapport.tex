@@ -244,32 +244,8 @@ function Dijkstra(G, S); // G = Graf, S = Source
   return afstand[], forrige[]
 \end{lstlisting}
 \newpage
-\section{Analyse}
-
-\begin{lstlisting}[language=JavaScript, caption=Dijkstra's Algoritme]
-  function dijkstra(grid, startCell, finishCell) {
-  const visitedCellsInOrder = [];
-  startCell.distance = 0;
-  const unvisitedNodes = getAllCells(grid);
-  while (!!unvisitedNodes.length) {
-    sortCellsByDistance(unvisitedNodes);
-    const closestCell: CellProps | undefined = unvisitedNodes.shift();
-
-    if (closestCell !== undefined) {
-      // If we encounter a wall, we skip it.
-      if (closestCell.isWall) continue;
-      // If the closest node is at a distance of infinity,
-      // we must be trapped and should therefore stop.
-      if (closestCell.distance === Infinity) return visitedCellsInOrder;
-      closestCell.isVisited = true; // set current node to visited
-      visitedCellsInOrder.push(closestCell);
-      if (closestCell === finishCell) return visitedCellsInOrder; // if reached finishcell
-
-      updateUnvisitedNeighbors(closestCell, grid);
-    } else console.log("error, closestNode returned 0");
-  }
-}
-\end{lstlisting}
+\section{Metode og Analyse}
+this is \ref{test}
 \section{Konklution}
 
 \section{Litteraturliste}
@@ -277,6 +253,7 @@ function Dijkstra(G, S); // G = Graf, S = Source
 \newpage
 \section{Bilag}
 % dijkstra algo
+
 \begin{lstlisting}[language=JavaScript, caption=Kode for Dijkstra's Algoritme]
 function dijkstra(grid, startNode, finishNode) {
   const visitedNodesInOrder = [];
@@ -340,4 +317,5 @@ for (const neighbor of unvisitedNeighbors) {
   return CellsInShortestPathOrder;
 }
 \end{lstlisting}
+% https://i.gyazo.com/0b387356445aefc069204298e796aff7.mp4 
 \end{document}
