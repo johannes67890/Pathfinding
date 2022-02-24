@@ -72,9 +72,8 @@
 
 %% Introduktion
 \section{Introduktion}
-Dijkstra's Algoritme er en kendt algoritmen indenfor pathfinding. Formål er at finde den korteste vej fra punkt a til punkt b. Dette er en større del af almindelige menneskers liv end man tænker. Hvad er den hurtigste vej til skole eller arbejde? Er det via motorvejen som måske har vejarbejde? Vil det så være hurtigere at tag vejen igennem byen? Disse spørgsmål kan man ofte få hurtigt svar på med ens GPS, som har implementeret diverse pathfinding algoritmer og er tilkoblet internettet med de seneste nyheder om vejarbejde, kø osv. 
-\\Jeg vil med brug af Dijkstra's Algoritme finde sammenhængen mellem den matematiske del af rekursion som og et rekursion-kald i programmering.  
-
+Dijkstra's Algoritme er en kendt algoritmen indenfor pathfinding. Formål er at finde den korteste vej fra punkt $a$ til punkt $b$. Dette er en større del af almindelige menneskers liv end man tænker. Hvad er den hurtigste vej til skole eller arbejde? Er det via motorvejen som måske har vejarbejde? Vil det så være hurtigere at tag vejen igennem byen? Disse spørgsmål kan man ofte få hurtigt svar på med ens GPS, som har implementeret diverse pathfinding algoritmer og er tilkoblet internettet med de seneste nyheder om vejarbejde, kø osv. 
+\\Jeg vil i denne case med brug af Dijkstra's Algoritm finde sammenhængen mellem den matematiske og programmerings del af rekursion. Rekursion er en stor del af Pathfinding algorithms. Dijkstra's Algoritme kan hjælpe os til at finde den korteste vej fra punkt $a$ til punkt $b$.
 %% Teori
 \section{Teori}
 
@@ -84,7 +83,35 @@ Ordet rekursion er en betegnelse for noget som refererer til sig selv. Når noge
 
 %Rekursion i Matematik
 \subsection{Rekursion i Matematik}
-
+\subsubsection{rekursionligning}
+Når der snakkes om rekursion i matematik, snakkes der oftest om en rekursion ligning. 
+En rekursion ligning opfattes som en regel der beskriver, hvordan et tal eller element i en talfølge skal beregnes. Hvis vi ser på en simpel talfølge som: {0,1,2,3,4,5...}. Denne talfølge har det næste element i talfølgen altid 1 større end den forrige. Denne talfølge kan dermed beregnes generelt med en rekursion ligning. 
+\[x_n = x_{n-1} + 1\] 
+Rekursion ligning beregner et vilkårligt element i talfølgen. Dette gøres ved at finde forrige værdi af $n$ med $x_{n-1}$ og derefter gøre $x$ en større. 
+Dette eksempelt var meget simpelt da hvad end man vælger $n$ til at være blevet $x$ det samme. 
+Et lidt mere kompliceret eksempel af en rekursion ligning er:
+\[x_n = 2x_{n-1}\] 
+Hvis vi sætter en begyndelsesbetingelse på $x_{0}$.
+Med en begyndelsesbetingelse kan der kun komme en talfølge som løsning, 
+ud fra eksemplet er talfølgen:
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{ |c|c| }
+   \hline
+   \textbf{$n$} & \textbf{$x_{n}$}  \\ 
+   \hline
+   0 & 1  \\
+   \hline
+   1 & 2 \\ 
+   \hline
+   2 & 4 \\ 
+   \hline
+   3 & 8  \\ 
+   \hline
+   4 & 16  \\ 
+   \hline
+  \end{tabular}
+\end{table}
 %% Programmering
 \subsection{Programmering}
 % Rekursion i programmering
@@ -178,7 +205,7 @@ if(val == 1){
 \subsubsection{Dijkstra's algoritme}
 Dijkstra’s algoritme består af Breadth-First Search Algorithm (BFS) med et lille twist. BFS er designet til at søge igennem et data tree eller en graf struktur. BFS algoritmen søger først alle “neighbors” til et givne “node” før den søge i naboernes “children”. Twistet i Dijkstra's algoritme er dog Dijkstra gøre brug af en prioriterings kø af “nodes”, for at prioritere hvilke naboer Dijkstra’s skal søge igennem først. 
 \\“Node” indenfor programmering er datapunkter i et data tree eller en anden form for datastruktur. “Neighbors” eller naboer er nodes som har direkte kommunikation for den første node. “Children” er så tredje leds nodes til første node. 
-\begin{figure}[h]\label{gennemgang af datatree}
+\begin{figure}[ht]\label{gennemgang af datatree}
   \centering
   \includegraphics[width=0.80\textwidth]{img/nodeSetup.png}
   \caption{Illustration af et datatree med Nodes}
@@ -219,35 +246,98 @@ function Dijkstra(G, S); // G = Graf, S = Source
 \newpage
 \section{Analyse}
 
+\begin{lstlisting}[language=JavaScript, caption=Dijkstra's Algoritme]
+  function dijkstra(grid, startCell, finishCell) {
+  const visitedCellsInOrder = [];
+  startCell.distance = 0;
+  const unvisitedNodes = getAllCells(grid);
+  while (!!unvisitedNodes.length) {
+    sortCellsByDistance(unvisitedNodes);
+    const closestCell: CellProps | undefined = unvisitedNodes.shift();
 
+    if (closestCell !== undefined) {
+      // If we encounter a wall, we skip it.
+      if (closestCell.isWall) continue;
+      // If the closest node is at a distance of infinity,
+      // we must be trapped and should therefore stop.
+      if (closestCell.distance === Infinity) return visitedCellsInOrder;
+      closestCell.isVisited = true; // set current node to visited
+      visitedCellsInOrder.push(closestCell);
+      if (closestCell === finishCell) return visitedCellsInOrder; // if reached finishcell
 
+      updateUnvisitedNeighbors(closestCell, grid);
+    } else console.log("error, closestNode returned 0");
+  }
+}
+\end{lstlisting}
+\section{Konklution}
+
+\section{Litteraturliste}
+
+\newpage
+\section{Bilag}
 % dijkstra algo
-% \begin{lstlisting}[language=JavaScript, caption=Dijkstra's Algoritme]
-% function dijkstra(
-%   grid: CellProps[][],
-%   startNode: CellProps,
-%   finishNode: CellProps
-% ) {
-%   const visitedNodesInOrder = [];
-%   startNode.distance = 0;
-%   const unvisitedNodes = getAllCells(grid);
-%   while (!!unvisitedNodes.length) {
-%     sortCellsByDistance(unvisitedNodes);
-%     const closestNode: CellProps | undefined = unvisitedNodes.shift();
+\begin{lstlisting}[language=JavaScript, caption=Kode for Dijkstra's Algoritme]
+function dijkstra(grid, startNode, finishNode) {
+  const visitedNodesInOrder = [];
+  startNode.distance = 0;
+  const unvisitedNodes = getAllCells(grid); // get cells from grid
+  while (!!unvisitedNodes.length) {
+    sortCellsByDistance(unvisitedNodes);
+    const closestNode = unvisitedNodes.shift();
 
-%     if (closestNode != undefined) {
-%       // If we encounter a wall, we skip it.
-%       if (closestNode.isWall) continue;
-%       // If the closest node is at a distance of infinity,
-%       // we must be trapped and should therefore stop.
-%       if (closestNode.distance === Infinity) return visitedNodesInOrder;
-%       closestNode.isVisited = true;
-%       visitedNodesInOrder.push(closestNode);
-%       if (closestNode === finishNode) return visitedNodesInOrder;
-%       updateUnvisitedNeighbors(closestNode, grid);
-%     } else console.log("error, closestNode returned 0");
-%   }
-% }
-% \end{lstlisting}
+    if (closestNode != undefined) {
+      // If we encounter a wall, we skip it.
+      if (closestNode.isWall) continue;
+      // If the closest nodes distance = infinity, then we are trapped 
+      // and should stop.
+      if (closestNode.distance === Infinity) return visitedNodesInOrder;
+      // If node passed parameters, then visited
+      closestNode.isVisited = true; 
+      // Push node to priority queue
+      visitedNodesInOrder.push(closestNode);
+      // If reached finishNode, return visitedNodesInOrder for furthere use.
+      if (closestNode === finishNode) return visitedNodesInOrder;
+      // Update grid with new visited nodes
+      updateUnvisitedNeighbors(closestNode, grid); 
+    } else console.log("error, closestNode returned 0");
+  }
+}
+\end{lstlisting}
+\begin{lstlisting}[language=JavaScript, caption=Kode for opdatering af unvisitedNodes]
+function updateUnvisitedNeighbors(node, grid) {
+const unvisitedNeighbors = getUnvisitedNeighbors(node, grid);
 
+for (const neighbor of unvisitedNeighbors) {
+  // set node from infinity to 1 (now visited).
+  neighbor.distance = node.distance + 1;
+  neighbor.previousNode = node; // set new node to previous node
+  }
+}
+\end{lstlisting}
+\begin{lstlisting}[language=JavaScript, caption=Kode for at søge nye nodes]
+  function getUnvisitedNeighbors(node, grid) {
+    const neighbors = [];
+    const { col, row } = node;
+    if (row > 0) neighbors.push(grid[row - 1][col]);
+    if (row < grid.length - 1) neighbors.push(grid[row + 1][col]);
+    if (col > 0) neighbors.push(grid[row][col - 1]);
+    if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]);
+    return neighbors.filter((neighbor) => !neighbor.isVisited);
+  }
+  
+\end{lstlisting}
+\begin{lstlisting}[language=JavaScript, caption=Kode for finde korteste vej]
+  function getCellsInShortestPathOrder(finishNode) {
+  const CellsInShortestPathOrder = [];
+  let currentNode = finishNode;
+  while (currentNode !== null) {
+    CellsInShortestPathOrder.unshift(currentNode); //shift back though finishNode
+    currentNode = currentNode.previousNode;
+  }
+  console.log("Shorstes path length: ", CellsInShortestPathOrder.length);
+
+  return CellsInShortestPathOrder;
+}
+\end{lstlisting}
 \end{document}
