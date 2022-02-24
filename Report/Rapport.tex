@@ -280,7 +280,7 @@ Hvor imod Dijkstra har over dobbelt så mange besøgte nodes som den skulle gå 
 \subsection{Rekursion i min kode}
 Som nævnt \ref{Rekursion i programmering} kan det rekursive kald i en funktion være direkte og indirekte. 
 Det rekursive kald i mit tilfælde er indirekte og kan være svær at gennemskue. \\
-Min kode for Dijkstra’s Algoritme (\ref{lst:Dijkstra}) er opbygget på den starter med indtag alle nodes 
+Min kode for Dijkstra’s Algoritme (\ref{lst:Dijkstra}) er opbygget på at den starter med indtag alle nodes 
 fra gridet. Alle nodes bliver opsamlet i et array "unvisitedNodes" fra ekstern funktion getAllNodes (\ref{lst:getAllNodes}). Dermed er der allerede et loft på funktionen, 
 dette loft vil så stoppe det rekursive kald, hvis der ikke er flere nodes tilbage i gridet:
 \begin{lstlisting}[language=JavaScript]
