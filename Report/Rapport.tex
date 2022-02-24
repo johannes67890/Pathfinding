@@ -167,15 +167,37 @@ Dijkstra’s algoritme består af Breadth-First Search Algorithm (BFS) med et li
   \includegraphics[width=0.80\textwidth]{img/nodeSetup.png}
   \caption{Illustration af et datatree med Nodes}
 \end{figure}
-
+\newpage
 \begin{wrapfigure}{r}{0.40\textwidth} %this figure will be at the right 
-  \includegraphics[width=0.4\textwidth]{img/AlgoViz.png}
+  \includegraphics[width=0.4\textwidth, height=0.417\textheight]{img/AlgoViz.png}
   \caption{Eksempel på gennemgang af datatree af Dijkstra’s Algorithm}\label{eksempel af datatree}
   \centering
 \end{wrapfigure}
 
 Dijkstra’s algoritme er designet til at finde den korteste vej mellem 2 notes. Algorithmen søger og finder diverse veje med den korteste vej og beregner den korteste vej gennem hver node som ikke er søgt igennem. Derefter opdatere den nabo nodernes med den korteste vej imens den holder øje med hvilke nodes algoritmen allerede har søgt igennem. Vejen til hver node har en "vægt". En vægt betyder sværhedsgraden for at kommer til valgte node. Et praktisk eksempel på dette kunne være transport. En højere vægt værdi kan være på grund af eventuelt vejarbejde, kø osv. Figur \ref{eksempel af datatree} har også lignende vægte bare data raleterende.
 \\Eksemplet her viser en datatree med følgende nodes $A,B,C,D,F,G$. Algoritmen skal finde den korteste vej fra node $A \rightarrow G$. Algorithmen vil først søge igennem nabo nodes til vores start node A. Vejen fra node $A \rightarrow B$ koster 2 og vejen fra $A \rightarrow C$ koster 4. Derfor indtil videre er den korteste vej B. Så søger algorithmen fra node $B \rightarrow C$ og D, vejen til C koster nu kun 3 ud fra forrige $A \rightarrow C$. Så søges vejen fra $C \rightarrow F$, og den er kortere end $B \rightarrow D$ som kostet 5. Til sidst søges den korteste vej fra $F \rightarrow G$ og $D \rightarrow G$, som vejen $F \rightarrow G$ er stadig den korteste vej. Dermed bliver den korteste vej $A \rightarrow B \rightarrow C \rightarrow F \rightarrow G$ med total vægtkost på 9. 
+
+\subsubsection{Dijkstra’s Algorithm Pseudocode}
+\begin{lstlisting}[language=JavaScript, caption=Dijkstra’s Algorithm Pseudocode]
+function Dijkstra(G, S){ // G = Graf, S = Source
+  for hver V i Graf // V = vej
+    afstand[V] = infinity // set alle veje til infinity
+    forrige[V] = null
+    hvis V != Start
+      V += Q // Q = prioriterings queue
+  afstand[S] // afstand fra node til node
+
+  imens Q er tom
+      U // U = min value fra Q
+      for hver nabo V af U som stadig i Q
+        midlertidigAfstand  // afstabd[U] + G.Sider[U, V]
+        hvis midlertidigAfstand < afstand[V]
+          afstand[V] // midlertidigAfstand
+          forrige[V] // U
+
+  return afstand[], forrige[]
+}
+\end{lstlisting}
 \newpage
 
 % dijkstra algo
