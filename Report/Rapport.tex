@@ -11,6 +11,16 @@
 \usepackage{graphicx}
 \usepackage{wrapfig}
 \usepackage{amsmath}
+\usepackage{hyperref}
+\definecolor{link}{rgb}{0,0,215}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=link,
+    filecolor=link,      
+    urlcolor=link,
+    pdfpagemode=FullScreen,
+}
+
 \graphicspath{ {./img} }
 
  \geometry{
@@ -245,7 +255,28 @@ function Dijkstra(G, S); // G = Graf, S = Source
 \end{lstlisting}
 \newpage
 \section{Metode og Analyse}
-this is \ref{test}
+At bruge Dijkstra's algoritme til at finde den korteste var fra a til b, er på papir en effektiv måde at gøre det på. Men er det dog også sådan i praksis? Hvilke scenarier er Dijkstra's algoritme god imod andre pathfinding algoritmer såsom A* search algorithmen? 
+\subsection{Dijkstra mod andre algoritmer}
+Dijkstra er en af de mest kendte algoritmer indenfor pathfinding. 
+Der er andre pathfinding algorithms som bygger videre på Dijkstra’s algoritme 
+som er bedre til at løse andre problemer end Dijkstra. En af efterkommerne af Dijkstra’s algorithm er A* 
+(udtalt A star). A* er en generelt mere effektiv algoritme i forhold til Dijkstra’s, 
+dette er fordi A* hænger tungt på “heuristic”. Heuristic (eller heuristik på dansk) inde for programmering, 
+er en designet teknik til at løse et problem hurtigere. Man kan se det som en form for systematisk søgning 
+efter information eller afprøvning af de bedste muligheder.\footnote{\href{https://softjourn.com/insights/heuristic-programming}{Heuristic Programming}} Det der også gøre A* algoritmen hurtigere 
+og bedre i de fleste tilfælde er at den er en informeret algoritme. Dette betyder at A* har mulighed for lidt 
+mere infomation på grund af dens brug af Heuristics. Dijkstra’s har ikke denne fordel, som A* har \footnote{\href{https://stackabuse.com/dijkstras-algorithm-vs-a-algorithm/}{Dijkstra's Algorithm vs A* Algorithm}}. Dijkstra’s 
+er en form for et “brute force” på et problem, da den bare søger løs for slut noden. 
+Ordet “brute force” betyder at algorithmen løser et problem den mest simple måde, dette er ofte mindre elegant og en langsom måde at løse problemer på. 
+Dette eksempel viser et eksempel på Dijkstra’s algoritme og A* 
+search og hvordan de hver især løser en labyrint.  
+\begin{figure}[ht]\label{A*vsDjikstra}
+  \includegraphics[width=\textwidth]{AstarvsDjikstra.png}
+  \caption{A* search vs. Dijkstra algoritme}
+\end{figure}\footnote{Kevin Wang - \href{http://plainaslife.blogspot.com/2015/02/compare-with-dijkstra-algorithm.html}{Compare A* with Dijkstra algorithm}}
+\newpage
+\subsection{Rekursion i min kode}
+
 \section{Konklution}
 
 \section{Litteraturliste}
