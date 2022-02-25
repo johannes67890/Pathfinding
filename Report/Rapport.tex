@@ -83,14 +83,15 @@ top=20mm,
 
 %% Introduktion
 \section{Introduktion}
-Dijkstra's Algoritme er en kendt algoritmen indenfor pathfinding. Formål er at finde den korteste vej fra punkt $a$ til punkt $b$. Dette er en større del af almindelige menneskers liv end man tænker. Hvad er den hurtigste vej til skole eller arbejde? Er det via motorvejen som måske har vejarbejde? Vil det så være hurtigere at tag vejen igennem byen? Disse spørgsmål kan man ofte få hurtigt svar på med ens GPS, som har implementeret diverse pathfinding algoritmer og er tilkoblet internettet med de seneste nyheder om vejarbejde, kø osv. 
-\\Jeg vil i denne case med brug af Dijkstra's Algoritm finde sammenhængen mellem den matematiske og programmerings del af rekursion. Rekursion er en stor del af Pathfinding algorithms. Dijkstra's Algoritme kan hjælpe os til at finde den korteste vej fra punkt $a$ til punkt $b$.
+Dijkstra's Algoritme er en kendt algoritme indenfor pathfinding. Formål er at finde den korteste vej fra punkt $a$ til punkt $b$. Dette er en større del af almindelige menneskers liv end man tænker. Hvad er den hurtigste vej til skole eller arbejde? Er det via motorvejen som måske har vejarbejde? Vil det så være hurtigere at tag vejen igennem byen? Disse spørgsmål kan man ofte få hurtigt svar på med ens GPS, som har implementeret diverse pathfinding algoritmer og er tilkoblet internettet med de seneste nyheder om vejarbejde, kø osv. 
+\\Jeg vil i denne case med brug af Dijkstra's Algoritme finde sammenhængen mellem den matematiske og programmerings del af rekursion. Rekursion er en stor del af Pathfinding algorithms. Er Dijkstra's Algoritme en god måde at få hjælpe på at finde den korteste vej fra punkt $a$ til punkt $b$.
 %% Teori
 \section{Teori}
 
 % Hvad er rekursion?
 \subsection{Hvad er rekursion?}
-Ordet rekursion er en betegnelse for noget som refererer til sig selv. Når noget refererer sig selv betyder det at noget behøver information eller data fra sit forrige jeg. Rekursion er oftest betegnet som en rekursionligning i matematik og en som en funktion der kalder sig selv i programmering. 
+Ordet rekursion er en betegnelse for noget som refererer til sig selv. Når noget refererer sig selv betyder det at noget behøver information eller data fra sit forrige jeg. 
+Rekursion er oftest betegnet som en rekursionligning i matematik og en som en funktion der kalder sig selv i programmering. 
 
 %Rekursion i Matematik
 \subsection{Rekursion i Matematik}
@@ -147,7 +148,7 @@ $f(n)$ er den ikke homogene del af rekursionligningen og er kun en funktion af $
 \subsection{Programmering}
 % Rekursion i programmering
 \subsubsection{Rekursion i programmering}\label{Rekursion i programmering}
-Rekursion i programmering er en funktion som har et rekursivts kald, alså funktion kalder sig selv. Dette kald kan være meget direkte som i eksempel 1 (Simpel rekursions funktion), eller indirekte hvor det ikke er lige så overskuligt at se et rekursivt kald.\footnote{\href{https://www.oreilly.com/library/view/functional-programming-in/9780470971109/xhtml/sec55.html}{Indirect Recursion}}
+Rekursion i programmering er en funktion som har et rekursivt kald, alså funktion kalder sig selv. Dette kald kan være meget direkte som i eksempel 1 (Simpel rekursions funktion), eller indirekte hvor det ikke er lige så overskuligt at se et rekursivt kald.\footnote{\href{https://www.oreilly.com/library/view/functional-programming-in/9780470971109/xhtml/sec55.html}{Indirect Recursion}}
 \begin{lstlisting}[language=JavaScript, caption=Simpel rekursions funktion]
 function fractorial(n) {        
   if (n == 1) return 1; 
@@ -297,7 +298,7 @@ return afstand[], forrige[]
 
 \newpage
 \section{Metode og Analyse}
-At bruge Dijkstra's algoritme til at finde den korteste var fra a til b, er på papir en effektiv måde at gøre det på. Men er det dog også sådan i praksis? Hvilke scenarier er Dijkstra's algoritme god imod andre pathfinding algoritmer såsom A* search algorithmen? 
+At bruge Dijkstra's algoritme til at finde den korteste var fra $a$ til $b$, er på papir en effektiv måde at gøre det på. Men er det dog også sådan i praksis? Hvilke scenarier er Dijkstra's algoritme god imod andre pathfinding algoritmer såsom A* search algorithmen? 
 \subsection{Dijkstra mod andre algoritmer}
 Dijkstra er en af de mest kendte algoritmer indenfor pathfinding. 
 Der er andre pathfinding algorithms som bygger videre på Dijkstra’s algoritme, 
@@ -321,8 +322,7 @@ Hvor imod Dijkstra har over dobbelt så mange besøgte nodes som den skulle gå 
 \newpage
 \subsection{Gennemgang i min kode}
 Første step til at gennemgå funktionen Dijkstra’s algoritme (\ref{lst:Dijkstra}), er at den indtager 3 parameter. parametere er “grid”, 
-“startNode” og “Finishnode”. Disse parameter bliver brugt til diverse ting i algorithmen.
-“grid” bruges til at indsamle alle “unvisitedNodes” nodes fra griddet. 
+“startNode” og “Finishnode”. Disse parameter bliver brugt til diverse ting i algorithmen. “grid” bruges til at indsamle alle “unvisitedNodes” nodes fra griddet. 
 “StartNode” bruges til at definere hvor algoritmen skal starte, og selfølig “Finishnode” til at definere hvor vi skal slutte. Bemærk at algoritmen ved ikke på forhånd hvor “FinishNode” er, algoritmen skal blot bruge den til at se om det har fundet “FinishNode”.   
 \begin{lstlisting}[language=JavaScript]
 function dijkstra(grid , startNode , finishNode)
@@ -332,7 +332,7 @@ Algorithmen sortere så alle nodes i griddet ud fra deres afstand fra hinanden, 
 sortNodesByDistance(unvisitedNodes);
 const closestNode = unvisitedNodes.shift();
 \end{lstlisting}
-Nu begynder diverse betingelse at blive tjekket igennem for den “closestNode”. Den “closestNode” bliver først tjekket for om den er en væg, hvis det er springer den node over. Derefter tjekket om vi sidder fast og der ikke er nogen løsning. Dette sker ved at se om alle resterende nodes vi kan få fat i, har deres oprindelig startværdi “Infinity".
+Nu begynder diverse betingelser at blive tjekket igennem for den “closestNode”. Den “closestNode” bliver først tjekket for om den er en væg, hvis det er springer den node over. Derefter tjekket om vi sidder fast og der ikke er nogen løsning. Dette sker ved at se om alle resterende nodes vi kan få fat i, har deres oprindelig startværdi “Infinity".
 \begin{lstlisting}[language=JavaScript]
 if (closestNode.isWall) continue; // If we encounter a wall , we skip it.
 
@@ -373,7 +373,7 @@ Dette while loop brydes kun, hvis alle “unvisitedNodes” har en længde (alts
 while (!!unvisitedNodes.length) // caster unvisitedNodes til boolean
 \end{lstlisting}
 \subsubsection{Dijkstra’s Algoritme visualiseret}
-Det er godt første skridt at implementere Dijkstra's algoritme til et grid med diverse nodes. Det er bare mere interessant at se det visualiseret. Jeg har opbygget et grid som minder lidt om Kevin Wangs grid (\ref{A*vsDjikstra}) , jeg har dog kun implementeret Dijkstra’s algoritme. Med min lille visualisering af dijkstra’s algoritme kan man se hvordan algoritmen opføre sig i et givende miljø som man selv kan lave eller tilfældig gøre. \\
+Det er godt første skridt at implementere Dijkstra's algoritme til et grid med diverse nodes. Det er bare mere interessant at se det visualiseret. Jeg har opbygget et grid som minder lidt om Kevin Wangs grid (\ref{A*vsDjikstra}) , jeg har dog kun implementeret Dijkstra’s algoritme. Med min lille visualisering af Dijkstra’s algoritme kan man se hvordan algoritmen opføre sig i et givende miljø som man selv kan lave eller tilfældig gøre. \\
 Bemærk jeg har valgt at referere til min egen kode på \href{https://github.com/}{Github.com} som kilde. Dette er gjort for at undgå store mængde bilag med kode, der ikke har så stor betydning for denne case.\footnote{Min visualisering af \href{https://github.com/johannes67890/Pathfinding.git}{Dijkstra’s Algoritme}}     
 \begin{figure}[ht]%
   \centering
@@ -409,6 +409,7 @@ TK. (s.d.). Everything you need to know about tree data structures. FreeCodeCamp
 \section{Bilag}
 % dijkstra algo
 \subsection{Kode}
+Kode inspirret af \href{https://github.com/clementmihailescu/Pathfinding-Visualizer-Tutorial}{clementmihailescu}'s Pathfinding-Visualizer
 \begin{lstlisting}[language=JavaScript, caption=Kode for Dijkstra's Algoritme, label={lst:Dijkstra}]
 function dijkstra(grid, startNode, finishNode) {
   const visitedNodesInOrder = [];
