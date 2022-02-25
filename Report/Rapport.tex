@@ -6,8 +6,15 @@
 \usepackage[utf8]{inputenc}
 \usepackage{fancyhdr}
 \usepackage{listings}
+\usepackage{subfig}
 \usepackage{xcolor}
 \usepackage{geometry}
+\geometry{
+a4paper,
+total={170mm,257mm},
+left=15mm,
+top=20mm,
+}
 \usepackage{graphicx}
 \usepackage{wrapfig}
 \usepackage{amsmath}
@@ -23,12 +30,6 @@
 
 \graphicspath{ {./img} }
 
- \geometry{
- a4paper,
- total={170mm,257mm},
- left=15mm,
- top=20mm,
- }
 
 
 \definecolor{comment}{rgb}{0,0.45,0}
@@ -121,12 +122,32 @@ ud fra eksemplet er talfølgen:
    4 & 16  \\ 
    \hline
   \end{tabular}
-\end{table}
+\end{table}\\
+En rekursion ligning kan også have to former, lineær homogen og ikke homogen lineær.\\  
+En homogen løsning på en rekursion ligning er hvor en konstant bliver ganget med rekursonslignens $x_{n}$:
+\[x_{n}=1,1*x_{n-1}\]
+Generel løsninger for en homogen rekursionsligning er at opstille en ligning for at gætte på en løsning.\\ 
+\[x_{n}=r*x_{n-1}\]
+\[\Longleftrightarrow \]
+\[x_{n}=r^n\]
+ligningen gælder dog kun for første orden. Orden betyder antal gange du går tilbage i talfølgen.
+\begin{center}  
+  Første orden \[x_{n}=a_{1}*x_{n-1}\]
+  Anden order \[x_{n}=a_{1}*x_{n-1} +a_{2}*x_{n-2}\]
+\end{center}
+En ikke homogen rekursions ligning er en rekursionsligning hvor en konstant er plusset med $x_{n}$:
+\[x_{n}=x_{n}+5\]
+Der kan også opskrives en general ligning for en homogen og ikke homogen rekursionsligning af k'et orden:
+\begin{center}  
+  Homogen rekursionligning af k'et orden \[x_{n}=a_{1}x_{n-1}+a_{2}x_{n-2}\dots a_{k}x_{n-k}\]
+  Ikke Homogen rekursionligning af k'et orden \[x_{n}=a_{1}x_{n-1}+a_{2}x_{n-2}\dots a_{k}x_{n-k} + \textbf{f(n)}\]
+\end{center}
+$f(n)$ er den ikke homogene del af rekursionligningen og er kun en funktion af $n$.
 %% Programmering
 \subsection{Programmering}
 % Rekursion i programmering
 \subsubsection{Rekursion i programmering}\label{Rekursion i programmering}
-Rekursion i programmering er en funktion som har et rekursivts kald, alså funktion kalder sig selv. Dette kald kan være meget direkte som i eksempel 1 (Simpel rekursions funktion), eller indirekte hvor det ikke er lige så overskuligt at se et rekursivt kald.
+Rekursion i programmering er en funktion som har et rekursivts kald, alså funktion kalder sig selv. Dette kald kan være meget direkte som i eksempel 1 (Simpel rekursions funktion), eller indirekte hvor det ikke er lige så overskuligt at se et rekursivt kald.\footnote{\href{https://www.oreilly.com/library/view/functional-programming-in/9780470971109/xhtml/sec55.html}{Indirect Recursion}}
 \begin{lstlisting}[language=JavaScript, caption=Simpel rekursions funktion]
 function fractorial(n) {        
   if (n == 1) return 1; 
@@ -140,6 +161,7 @@ Funktionen i eksempel 1 indtag en værdi \textit{n} som parameter. Hvis denne pa
 \[n(4) = 4*6 \Leftrightarrow  \textbf{24}\]
 
 % Varialber
+\newpage
 \subsubsection{Variabler}
 Et variabel er en pladsholder for et stykke data. Typisk set bruger man variabler i brug når man skal gemme et stykke data som man skal bruge forskellige steder i programmet. Disse variabler kan ændres under programmets køretid afhængig i hvordan variables data bliver manipuleret. Variablers data kan eventuelt ændres under programmets køretid, hvis man ønsker. Lidt mere teknisk indeholder et variable særlige set af bits eller af variablenes datatype. Et variable har en datatype som identificere hvilke slags data variabelt kan indeholde. Diverse programmeringssprog bruger dynamiske datatyper, hvor variabler kan indeholde forskellige datatyper. Her et en tabel med forskellige datatyper.
 \begin{table}[ht]
@@ -166,8 +188,9 @@ Et variabel er en pladsholder for et stykke data. Typisk set bruger man variable
 \end{table}
 
 %Objekter
+
 \subsubsection{Objekter}
-Et objekt er en abstrakt enhed med specifikke karakteriseringer og opførelse. Et objekt kan være et variable, datastruktur, en funktion eller en kombination alle dem alle. Et praktiskt eksempl på dette kan være en bil som objekt. En bil har specifikke karakteriseringer såsom hjul, farve, producent osv. En bil har også opførsel som at starte motoren, accelerere bilen m.m. 
+Et objekt er en abstrakt enhed med specifikke karakteriseringer og opførelse. Et objekt kan være et variable, datastruktur, en funktion eller en kombination alle dem alle. Et praktiskt eksempl på dette kan være en bil som objekt. En bil har specifikke karakteriseringer såsom hjul, farve, producent osv. En bil har også opførsel som at starte motoren, accelerere bilen m.m.\footnote{\href{https://techterms.com/definition/object}{Objekter}} 
 \\Hvis vi tager samme praktiske eksempel på en bil som objekt, kan vi overføre det til kode med en “Klasse” som er en form for plan over alle klassens objekter
 \begin{lstlisting}[language=Java, caption=Eksempel på et objekt]
   class Car { // Blueprint a car
@@ -188,9 +211,9 @@ Et objekt er en abstrakt enhed med specifikke karakteriseringer og opførelse. E
 \subsubsection{Arrays}
 Et array er en datastruktur, der indeholder en gruppe af elementer. Disse elementer er typisk alle af samme datatype, såsom et integer eller en string. Arrays bruges typisk set i computerprogrammer til at organisere data, så et relateret sæt værdier nemt kan sorteres eller søges.
 \begin{lstlisting}[language=JavaScript, caption=Eksempel på et array]
-// Array with constant values of datatype String
-const cars = ["Audi", "Volvo", "BMW"];
-cars[0] = "Audi" // Index 0 of array
+  // Array with constant values of datatype String
+  const cars = ["Audi", "Volvo", "BMW"];
+  cars[0] = "Audi" // Index 0 of array
 \end{lstlisting}
 
 % Løkker
@@ -213,8 +236,8 @@ if(val == 1){
 }else console.log("The value is not 1"); // exprected execution of statement
 \end{lstlisting}
 \subsubsection{Dijkstra's algoritme}
-Dijkstra’s algoritme består af Breadth-First Search Algorithm (BFS) med et lille twist. BFS er designet til at søge igennem et data tree eller en graf struktur. BFS algoritmen søger først alle “neighbors” til et givne “node” før den søge i naboernes “children”. Twistet i Dijkstra's algoritme er dog Dijkstra gøre brug af en prioriterings kø af “nodes”, for at prioritere hvilke naboer Dijkstra’s skal søge igennem først. 
-\\“Node” indenfor programmering er datapunkter i et data tree eller en anden form for datastruktur. “Neighbors” eller naboer er nodes som har direkte kommunikation for den første node. “Children” er så tredje leds nodes til første node. 
+Dijkstra’s algoritme består af Breadth-First Search Algorithm (BFS) med et lille twist. BFS er designet til at søge igennem et data tree eller en graf struktur. BFS algoritmen søger først alle “neighbors” til et givne “node” før den søge i naboernes “children”. Twistet i Dijkstra's algoritme er dog Dijkstra gøre brug af en prioriterings kø af “nodes”, for at prioritere hvilke naboer Dijkstra’s skal søge igennem først.\footnote{\href{https://www.baeldung.com/cs/graph-algorithms-bfs-dijkstra}{Breadth-First Search in Dijkstra}} 
+\\“Node” indenfor programmering er datapunkter i et data tree eller en anden form for datastruktur. “Neighbors” eller naboer er nodes som har direkte kommunikation for den første node. “Children” er så tredje leds nodes til første node.\footnote{\href{https://www.freecodecamp.org/news/all-you-need-to-know-about-tree-data-structures-bceacb85490c/}{Everything about datatrees}} 
 \begin{figure}[ht]\label{gennemgang af datatree}
   \centering
   \includegraphics[width=0.80\textwidth]{img/nodeSetup.png}
@@ -232,9 +255,26 @@ Dijkstra’s algoritme er designet til at finde den korteste vej mellem 2 notes.
 
 \subsubsection{Dijkstra’s Algorithm Pseudocode}
 Nu når vi ved hvordan Dijkstra’s Algorithm virker skal vi prøve så oversætte det til kode.
-Den bedste måde at generelt oversætte algoritmen kan vi lave en Pseudokode. En Pseudokode er en måde at skrive en algoritme eller en processen på en general programmerings måde uden at implementere direkte kode. Dette kan være hjælpe andre med generelt at forstå en algoritme kodemæssigt. 
+Den bedste måde at generelt oversætte algoritmen kan vi lave en Pseudokode. En Pseudokode er en måde at skrive en algoritme eller en processen på en general programmerings måde uden at implementere direkte kode. Dette kan være hjælpe andre med generelt at forstå en algoritme kodemæssigt.\footnote{\href{https://www.programiz.com/dsa/dijkstra-algorithm}{Dijkstra Algorithm Pseudokode}}
+\begin{lstlisting}[language=JavaScript, caption=Dijkstra’s Algorithm Pseudocode teoritisk (på Engelsk)]
+function dijkstra(G, S)
+for each vertex V in G
+    distance[V] // infinite
+    previous[V] // NULL
+    If V != S, add V to Priority Queue Q
+distance[S] // 0
 
-\begin{lstlisting}[language=JavaScript, caption=Dijkstra’s Algorithm Pseudocode oversat til dansk]
+while Q IS NOT EMPTY
+    U // Extract MIN from Q
+    for each unvisited neighbour V of U
+        tempDistance // distance[U] + edge_weight(U, V)
+        if tempDistance < distance[V]
+            distance[V] // tempDistance
+            previous[V] // U
+return distance[], previous[]
+\end{lstlisting}
+For nemmer forståelse har jeg selv oversat Pseudokoden til Dansk:
+\begin{lstlisting}[language=JavaScript, caption=Dijkstra’s Algorithm Pseudocode oversat til Dansk]
 function Dijkstra(G, S); // G = Graf, S = Source (evt. startpunkt)
   for hver V i G // V = vej
     afstand[V] = infinity // set alle veje til infinity
@@ -251,8 +291,10 @@ function Dijkstra(G, S); // G = Graf, S = Source (evt. startpunkt)
           afstand[V] // midlertidigAfstand
           forrige[V] // U
 
-  return afstand[], forrige[]
+return afstand[], forrige[]
 \end{lstlisting}
+  
+
 \newpage
 \section{Metode og Analyse}
 At bruge Dijkstra's algoritme til at finde den korteste var fra a til b, er på papir en effektiv måde at gøre det på. Men er det dog også sådan i praksis? Hvilke scenarier er Dijkstra's algoritme god imod andre pathfinding algoritmer såsom A* search algorithmen? 
@@ -330,15 +372,43 @@ Dette while loop brydes kun, hvis alle “unvisitedNodes” har en længde (alts
 \begin{lstlisting}[language=JavaScript]
 while (!!unvisitedNodes.length) // caster unvisitedNodes til boolean
 \end{lstlisting}
-
+\subsubsection{Dijkstra’s Algoritme visualiseret}
+Det er godt første skridt at implementere Dijkstra's algoritme til et grid med diverse nodes. Det er bare mere interessant at se det visualiseret. Jeg har opbygget et grid som minder lidt om Kevin Wangs grid (\ref{A*vsDjikstra}) , jeg har dog kun implementeret Dijkstra’s algoritme. Med min lille visualisering af dijkstra’s algoritme kan man se hvordan algoritmen opføre sig i et givende miljø som man selv kan lave eller tilfældig gøre. \\
+Bemærk jeg har valgt at referere til min egen kode på \href{https://github.com/}{Github.com} som kilde. Dette er gjort for at undgå store mængde bilag med kode, der ikke har så stor betydning for denne case.\footnote{Min visualisering af \href{https://github.com/johannes67890/Pathfinding.git}{Dijkstra’s Algoritme}}     
+\begin{figure}[ht]%
+  \centering
+  \subfloat[\centering Visualisering af Dijkstra der søger efter sit mål]{{\includegraphics[width=9cm]{viz1.png} }}%
+  \subfloat[\centering Visualisering af Dijkstra der har fundet sit mål]{{\includegraphics[width=9cm]{viz2.png} }}%
+  \caption{2 Screenshots af min Visualisering af Dijkstra’s Algoritme}%
+\end{figure}
 \section{Konklution}
-
+Der er mange forskelige måder at kommer fra $a$ til $b$. Det er ikke så simpelt som man måske skulle tro, selvom man har en algoritme til at gøre det for en. Det kommer meget an på problemet som ligger foran en. Er det et problem hvor man har mulighed for at bruge A* algorithmen og gøre brug af dens Heuristic? Eller skal man bare holde sig til Dijkstra som brute forcer problemet. Det er en større diskussion om hvilken algoritme som passer bedst til hvad. Dog er Dijkstra en okay måde at løse pathfinding også selvom den ikke er helt så optimal til de fleres scenarier i data trees og grafer. Dijkstra’s algoritme kan skrives på forskellige måde, både i form af dens brug og om algoritmen har et direkte eller indirekte rekursivt kald.   
+\newpage
 \section{Litteraturliste}
+Dijkstra's Algorithm. (s.d.). I: Programiz. \\Lokaliseret den 25. Febuar 2022 på \href{https://www.programiz.com/dsa/dijkstra-algorithm}{https://www.programiz.com/dsa/dijkstra-algorithm}\\
+
+Heuristic Programming. (s.d.). softjourn. \\Lokaliseret den 25. Febuar 2022 på \href{https://softjourn.com/insights/heuristic-programming}{https://softjourn.com/insights/heuristic-programming}\\
+
+Indirect Recursion. (s.d.). Oreilly. \\Lokaliseret den 25. Febuar 2022 på \href{https://www.oreilly.com/library/view/functional-programming-in/9780470971109/xhtml/sec55.html}{https://www.oreilly.com/library/view/functional-programming-in/9780470971109/xhtml/sec55.html}\\
+
+Jørgensen, Johannes. (s.d.). Pathfinding: Min visualisering på Djikstra's Algoritme. \\github. Lokaliseret den 25. Febuar på \href{https://github.com/johannes67890/Pathfinding}{https://github.com/johannes67890/Pathfinding}\\
+
+Kevin Wang, K, W. (2015, 28. Febuar). Plain As Life. plainaslife. \\Lokaliseret den 25. Febuar 2022 på \href{http://plainaslife.blogspot.com/2015/02/compare-with-dijkstra-algorithm.html}{http://plainaslife.blogspot.com/2015/02/compare-with-dijkstra-algorithm.html}\\
+
+Mila Lukic, M, L. (2021, 10. December). Dijkstra's Algorithm vs A* Algorithm. Stackabuse. \\Lokaliseret den 25. Febuar 2022 på \href{https://stackabuse.com/dijkstras-algorithm-vs-a-algorithm/}{https://stackabuse.com/dijkstras-algorithm-vs-a-algorithm/}\\
+
+Object. (2019, 28. Febuar). TectTerms. \\Lokaliseret den 25. Febuar 2022 på \href{https://techterms.com/definition/object}{https://techterms.com/definition/object}\\
+
+Said Sryheni, S,S. (2021, 25. August). Difference Between BFS and Dijkstra’s Algorithms.\\ Baeldung. Lokaliseret den 25. Febuar 2022 på \href{https://www.baeldung.com/cs/graph-algorithms-bfs-dijkstra}{https://www.baeldung.com/cs/graph-algorithms-bfs-dijkstra}\\
+
+TK. (s.d.). Everything you need to know about tree data structures. FreeCodeCamp. \\Lokaliseret den 25. Febuar 2022 på \href{https://www.freecodecamp.org/news/all-you-need-to-know-about-tree-data-structures-bceacb85490c/}{https://www.freecodecamp.org/news/all-you-need-to-know-about-tree-data-structures-bceacb85490c/}\\
+
+
 
 \newpage
 \section{Bilag}
 % dijkstra algo
-
+\subsection{Kode}
 \begin{lstlisting}[language=JavaScript, caption=Kode for Dijkstra's Algoritme, label={lst:Dijkstra}]
 function dijkstra(grid, startNode, finishNode) {
   const visitedNodesInOrder = [];
@@ -369,7 +439,6 @@ function dijkstra(grid, startNode, finishNode) {
 \begin{lstlisting}[language=JavaScript, caption=Kode for opdatering af unvisitedNodes]
 function updateUnvisitedNeighbors(node, grid) {
 const unvisitedNeighbors = getUnvisitedNeighbors(node, grid);
-
 for (const neighbor of unvisitedNeighbors) {
   // set node from infinity to 1 (now visited).
   neighbor.distance = node.distance + 1;
@@ -420,6 +489,16 @@ function getAllNodes(grid) {
   return Nodes;
 }
 \end{lstlisting}
+\newpage
+\subsection{Screenshots af mit program}
+
+\begin{figure}[ht]%
+  \centering
+  \subfloat[\centering Visualisering af Dijkstra der søger efter sit mål]{{\includegraphics[width=0.73\textwidth]{viz1.png} }}%
+  \qquad
+  \subfloat[\centering Visualisering af Dijkstra der har fundet sit mål]{{\includegraphics[width=0.73\textwidth]{viz2.png} }}%
+  \label{fig:Vizualication}%
+\end{figure}
 
 % https://i.gyazo.com/0b387356445aefc069204298e796aff7.mp4 
 \end{document}
