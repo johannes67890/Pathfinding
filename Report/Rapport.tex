@@ -235,12 +235,12 @@ Nu når vi ved hvordan Dijkstra’s Algorithm virker skal vi prøve så oversæt
 Den bedste måde at generelt oversætte algoritmen kan vi lave en Pseudokode. En Pseudokode er en måde at skrive en algoritme eller en processen på en general programmerings måde uden at implementere direkte kode. Dette kan være hjælpe andre med generelt at forstå en algoritme kodemæssigt. 
 
 \begin{lstlisting}[language=JavaScript, caption=Dijkstra’s Algorithm Pseudocode oversat til dansk]
-function Dijkstra(G, S); // G = Graf, S = Source
+function Dijkstra(G, S); // G = Graf, S = Source (evt. startpunkt)
   for hver V i G // V = vej
     afstand[V] = infinity // set alle veje til infinity
     forrige[V] = null
-    hvis V != Start
-      V += Q // Q = prioriterings queue
+    hvis V != S
+      V += Q // Q = prioriterings queue (gem)
   afstand[S] // afstand fra node til node
 
   imens Q er tom
@@ -258,7 +258,7 @@ function Dijkstra(G, S); // G = Graf, S = Source
 At bruge Dijkstra's algoritme til at finde den korteste var fra a til b, er på papir en effektiv måde at gøre det på. Men er det dog også sådan i praksis? Hvilke scenarier er Dijkstra's algoritme god imod andre pathfinding algoritmer såsom A* search algorithmen? 
 \subsection{Dijkstra mod andre algoritmer}
 Dijkstra er en af de mest kendte algoritmer indenfor pathfinding. 
-Der er andre pathfinding algorithms som bygger videre på Dijkstra’s algoritme 
+Der er andre pathfinding algorithms som bygger videre på Dijkstra’s algoritme, 
 som er bedre til at løse andre problemer end Dijkstra. En af efterkommerne af Dijkstra’s algorithm er A* 
 (udtalt A star). A* er en generelt mere effektiv algoritme i forhold til Dijkstra’s, 
 dette er fordi A* hænger tungt på “heuristic”. Heuristic (eller heuristik på dansk) inde for programmering, 
@@ -277,12 +277,47 @@ search og hvordan de hver især løser en labyrint.
 \\Figur \ref{A*vsDjikstra} viser et godt eksempel på hvordan A* har haft en bedre fornemmelse for hvor slut noden er på grund af dens brug af Heuristics. A* har meget færre besøgte nodes (blå celler i labyrinten) som har øget dens hastighed i at løse problemet. 
 Hvor imod Dijkstra har over dobbelt så mange besøgte nodes som den skulle gå igennem. 
 \newpage
-\subsection{Rekursion i min kode}
+\subsection{Gennemgang i min kode}
+Første step til at gennemgå funktionen Dijkstra’s algoritme (\ref{lst:Dijkstra}), er at den indtager 3 parameter. parametere er “grid”, 
+“startNode” og “Finishnode”. Disse parameter bliver brugt til diverse ting i algorithmen.
+“grid” bruges til at indsamle alle “unvisitedNodes” nodes fra griddet. 
+“StartNode” bruges til at definere hvor algoritmen skal starte, og selfølig “Finishnode” til at definere hvor vi skal slutte. Bemærk at algoritmen ved ikke på forhånd hvor “FinishNode” er, algoritmen skal blot bruge den til at se om det har fundet “FinishNode”.   
+\begin{lstlisting}[language=JavaScript]
+function dijkstra(grid , startNode , finishNode)
+\end{lstlisting}
+Algorithmen sortere så alle nodes i griddet ud fra deres afstand fra hinanden, til at finde de tætteste nodes på “startNode”. Disse nodes bliver så defineret i variablet “closestNode”.
+\begin{lstlisting}[language=JavaScript]
+sortNodesByDistance(unvisitedNodes);
+const closestNode = unvisitedNodes.shift();
+\end{lstlisting}
+Nu begynder diverse betingelse at blive tjekket igennem for den “closestNode”. Den “closestNode” bliver først tjekket for om den er en væg, hvis det er springer den node over. Derefter tjekket om vi sidder fast og der ikke er nogen løsning. Dette sker ved at se om alle resterende nodes vi kan få fat i, har deres oprindelig startværdi “Infinity".
+\begin{lstlisting}[language=JavaScript]
+if (closestNode.isWall) continue; // If we encounter a wall , we skip it.
+
+// If the closest nodes distance = infinity, then we are trapped
+// and should stop.
+if (closestNode.distance === Infinity) return visitedNodesInOrder; 
+\end{lstlisting}
+Når alle betingelserne er opfyldt sætter vi så det tætteste node “closestNode” til besøgt og tilføjer den til vores prioriterings kø. 
+\begin{lstlisting}[language=JavaScript]
+// If node passed parameters, then visited
+  closestNode.isVisited = true;
+// Push node to priority queue
+  visitedNodesInOrder.push(closestNode);
+\end{lstlisting}
+Hvis vi så er så heldige at finde vores mål “FinishNode” stopper vi så søgningen og returnere vores resultater. Ellers hvis vi ikke finder vores mål, opdatere vi bare vores nye grid med vores “closestNode” som besøgt. 
+\begin{lstlisting}[language=JavaScript]
+// If reached finishNode, return visitedNodesInOrder for furthere use.
+  if (closestNode === finishNode) return visitedNodesInOrder;
+// Update grid with new visited nodes
+  updateUnvisitedNeighbors(closestNode , grid);
+\end{lstlisting}
+\subsubsection{Rekursion i min kode}
 Som nævnt \ref{Rekursion i programmering} kan det rekursive kald i en funktion være direkte og indirekte. 
 Det rekursive kald i mit tilfælde er indirekte og kan være svær at gennemskue. \\
-Min kode for Dijkstra’s Algoritme (\ref{lst:Dijkstra}) er opbygget på at den starter med indtag alle nodes 
-fra gridet. Alle nodes bliver opsamlet i et array "unvisitedNodes" fra ekstern funktion getAllNodes (\ref{lst:getAllNodes}). Dermed er der allerede et loft på funktionen, 
-dette loft vil så stoppe det rekursive kald, hvis der ikke er flere nodes tilbage i gridet:
+Min kode for Dijkstra’s Algoritme (\ref{lst:Dijkstra}) er opbygget på, at den starter med indsamle alle nodes 
+fra griddet. Alle nodes bliver opsamlet i et array "unvisitedNodes" fra ekstern funktion getAllNodes (\ref{lst:getAllNodes}). Dermed er der allerede et loft på funktionen, 
+dette loft vil så stoppe det rekursive kald, hvis der ikke er flere nodes tilbage i griddet:
 \begin{lstlisting}[language=JavaScript]
 const unvisitedNodes = getAllNodes(grid); // get nodes from grid
 \end{lstlisting}
@@ -291,9 +326,9 @@ Dette er ligesom linje 2 i \ref{Rekursion i programmering}, her stopper det reku
 if (n == 1) return 1;
 \end{lstlisting}
 Det rekursive kald kommer via et while loop (linje 5 i \ref{lst:Dijkstra}). 
-Dette while loop brydes kun hvis alle “unvisitedNodes” har en længde (altså blevet søgt igennem). 
+Dette while loop brydes kun, hvis alle “unvisitedNodes” har en længde (altså blevet søgt igennem). 
 \begin{lstlisting}[language=JavaScript]
-while (!!unvisitedNodes.length)
+while (!!unvisitedNodes.length) // caster unvisitedNodes til boolean
 \end{lstlisting}
 
 \section{Konklution}
@@ -310,7 +345,7 @@ function dijkstra(grid, startNode, finishNode) {
   startNode.distance = 0;
   const unvisitedNodes = getAllCells(grid); // get cells from grid
   while (!!unvisitedNodes.length) {
-    sortCellsByDistance(unvisitedNodes);
+    sortNodesByDistance(unvisitedNodes);
     const closestNode = unvisitedNodes.shift();
 
     if (closestNode != undefined) {
@@ -342,6 +377,13 @@ for (const neighbor of unvisitedNeighbors) {
   }
 }
 \end{lstlisting}
+\begin{lstlisting}[language=JavaScript, caption=Kode for finde tætteste nodes]
+  function sortNodesByDistance(unvisitedNodes) {
+  unvisitedNodes.sort(
+    (nodeA, nodeB) => nodeA.distance - nodeB.distance
+  );
+}
+\end{lstlisting}
 \begin{lstlisting}[language=JavaScript, caption=Kode for at søge nye nodes]
   function getUnvisitedNeighbors(node, grid) {
     const neighbors = [];
@@ -355,16 +397,16 @@ for (const neighbor of unvisitedNeighbors) {
   
 \end{lstlisting}
 \begin{lstlisting}[language=JavaScript, caption=Kode for finde korteste vej]
-  function getCellsInShortestPathOrder(finishNode) {
-  const CellsInShortestPathOrder = [];
+  function getNodesInShortestPathOrder(finishNode) {
+  const NodesInShortestPathOrder = [];
   let currentNode = finishNode;
   while (currentNode !== null) {
-    CellsInShortestPathOrder.unshift(currentNode); //shift back though finishNode
+    NodesInShortestPathOrder.unshift(currentNode); //shift back though finishNode
     currentNode = currentNode.previousNode;
   }
-  console.log("Shorstes path length: ", CellsInShortestPathOrder.length);
+  console.log("Shorstes path length: ", NodesInShortestPathOrder.length);
 
-  return CellsInShortestPathOrder;
+  return NodesInShortestPathOrder;
 }
 \end{lstlisting}
 \begin{lstlisting}[language=JavaScript, caption=Kode for finde alle nodes i grid, label={lst:getAllNodes}]
