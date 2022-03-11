@@ -77,6 +77,11 @@ const Grid: FC<{
                   row={node.row}
                   col={node.col}
                   size={cellSize}
+                  cost={{
+                    gCost: node.cost.gCost,
+                    hCost: node.cost.hCost,
+                    fCost: node.cost.fCost,
+                  }}
                 ></Cell>
               );
             })}
@@ -89,7 +94,7 @@ const Grid: FC<{
 
 function InitlizeGridWithRandomWalls(grid: CellProps[][]): CellProps[][] {
   let newGridWithWalls: CellProps[][] = [];
-  const NewCells: CellProps[] = []; // store new cells
+  const newCells: CellProps[] = []; // store new cells
   let cells: CellProps[] = getAllCells(grid); // get all cells from grid
   cells.map((cell, index) => {
     let salt = getRandomInt(0, 10);
@@ -99,12 +104,12 @@ function InitlizeGridWithRandomWalls(grid: CellProps[][]): CellProps[][] {
         return;
       } else {
         cell.isWall = true;
-        NewCells.push(cell);
+        newCells.push(cell);
       }
     }
     return index;
   });
-  newGridWithWalls.push(NewCells); // push new cells to grid
+  newGridWithWalls.push(newCells); // push new cells to grid
 
   return newGridWithWalls; //return new grid
 }

@@ -24,6 +24,7 @@ export type CellProps = {
   isWall: boolean;
   isVisited: boolean;
   distance: number;
+  cost: { hCost: number; fCost: number; gCost: number };
 };
 
 function Cell(props: CellProps) {
@@ -70,6 +71,7 @@ export const MakeNode = (col: number, row: number, cellSize: CellSize) => {
   return {
     col,
     row,
+    cost: { gCost: 0, fCost: 0, hCost: 0 },
     isStart: row === STARTCELL[0] && col === STARTCELL[1],
     isFinish: row === FINISHCELL[0] && col === FINISHCELL[1],
     distance: Infinity,

@@ -1,4 +1,5 @@
 import { CellProps, CellSize, SizeGrid } from "../components/Cell";
+import { Astar } from "./Astar";
 
 export function dijkstra(
   grid: CellProps[][],
@@ -13,12 +14,13 @@ export function dijkstra(
     const closestCell: CellProps | undefined = unvisitedNodes.shift();
 
     if (closestCell !== undefined) {
-      // If we encounter a wall, we skip it.
       if (closestCell.isWall) continue;
+      Astar(closestCell, finishCell, unvisitedNodes, visitedCellsInOrder);
+      // If we encounter a wall, we skip it.
       // If the closest node is at a distance of infinity,
       // we must be trapped and should therefore stop.
       if (closestCell.distance === Infinity) return visitedCellsInOrder;
-      closestCell.isVisited = true; // set current node to visited
+      //closestCell.isVisited = true; // set current node to visited
       visitedCellsInOrder.push(closestCell);
       if (closestCell === finishCell) return visitedCellsInOrder; // if reached finishcell
 
