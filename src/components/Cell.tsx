@@ -1,13 +1,5 @@
 import { classNames } from "..";
 
-export enum NodeVariant {
-  startNode,
-  endNode,
-  wall,
-  visited,
-  visiting,
-}
-
 export enum CellSize {
   small,
   default,

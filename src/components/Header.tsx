@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import { classNames } from "..";
 import Button from "./Button";
-import { CellSize, NodeVariant } from "./Cell";
+import { CellSize } from "./Cell";
 
 export const Header: FC<{
   setCellSize: React.Dispatch<React.SetStateAction<CellSize>>;
@@ -70,6 +70,14 @@ export const GridSize: FC<{
   );
 };
 
+export enum NodeVariant {
+  startNode,
+  endNode,
+  wall,
+  visited,
+  visiting,
+}
+
 export const NodeColorRecord: Record<NodeVariant, string> = {
   [NodeVariant.startNode]: "bg-green-600",
   [NodeVariant.endNode]: "bg-red-600",
@@ -86,11 +94,12 @@ const NodeTextRecord: Record<NodeVariant, string> = {
   [NodeVariant.visiting]: "Currently Visiting",
 };
 
-const NodeSelectorMenu: FC<{}> = () => {
-  let nodeColorSelector: Array<string> = [];
+const NodeSelectorMenu = () => {
+  let nodeColorSelector: Array<string> = []; //
 
   for (let i = 0; i < Object.keys(NodeColorRecord).length; i++) {
-    const element = NodeColorRecord[i as NodeVariant]; //cast i as NodeColor type
+    // loop though NodeVariant
+    const element = NodeColorRecord[i as NodeVariant]; // cast i as NodeColor type
     nodeColorSelector.push(element);
   }
   return (
@@ -100,7 +109,7 @@ const NodeSelectorMenu: FC<{}> = () => {
           return (
             <li className="flex gap-2" key={index}>
               <span className="w-28 my-auto text-xs font-bold">
-                {NodeTextRecord[index as NodeVariant]}{" "}
+                {NodeTextRecord[index as NodeVariant]}
               </span>
               <rect
                 className={classNames(bgColor, "h-6 w-6 my-auto rounded-md")}
