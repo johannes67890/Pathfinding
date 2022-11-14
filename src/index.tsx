@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { useState } from "react";
 import "./index.css";
 import Grid from "./components/Grid";
 import { Header } from "./components/Header";
 import { CellSize } from "./components/Cell";
 
+const container = document.getElementById("app");
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+
 const Index = () => {
   const [cellSize, setCellSize] = useState<CellSize>(CellSize.default);
   const [cellCost, setCellCost] = useState<number>(0);
-  return (
+  root.render(
     <React.StrictMode>
       <div className="max-w-7xl mx-auto mt-3">
         <Header setCellSize={setCellSize} />
@@ -22,5 +25,3 @@ const Index = () => {
 export function classNames(...classes: (false | null | undefined | string)[]) {
   return classes.filter(Boolean).join(" "); // function to combind classNames
 }
-
-ReactDOM.render(<Index />, document.getElementById("root"));
