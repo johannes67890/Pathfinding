@@ -1,6 +1,10 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{ts,tsx}"],
-  theme: {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+ theme: {
     extend: {
       animation: {
         "visited-cell": "upscale 400ms ease-in both",
@@ -22,4 +26,4 @@ module.exports = {
     },
   },
   plugins: [],
-};
+}

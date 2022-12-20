@@ -5,7 +5,8 @@ const Button: React.FC<{
   onClick?: () => unknown;
   style?: React.CSSProperties;
   classes?: string;
-}> = ({ children, onClick, style, classes }) => {
+  children: React.ReactNode;
+}> = ({children, onClick, style, classes }) => {
   return (
     <button
       style={style}

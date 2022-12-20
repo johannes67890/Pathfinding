@@ -1,11 +1,10 @@
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 import { classNames } from "..";
 import Button from "./Button";
 import { CellSize, NodeVariant } from "./Cell";
+import { CellSizeContext } from "../index";
 
-export const Header: FC<{
-  setCellSize: React.Dispatch<React.SetStateAction<CellSize>>;
-}> = ({ setCellSize }) => {
+export const Header = () => {
   return (
     <div className="bg-gray-400 rounded-t-md flex gap-2">
       <div className="flex flex-col p-3">
@@ -29,40 +28,34 @@ export const Header: FC<{
           </a>
         </div>
       </div>
-      <GridSize setCellSize={setCellSize} />
+      <GridSize />
       <NodeSelectorMenu />
     </div>
   );
 };
 
-export const GridSize: FC<{
-  setCellSize: React.Dispatch<React.SetStateAction<CellSize>>;
-}> = ({ setCellSize }) => {
+export const GridSize = () => {
   const [currentBtn, setCurrentBtn] = useState<number>(1); // current btn selected for size (default size: 1)
-
-  function SetSize(size: CellSize) {
-    setCellSize(size);
-    setCurrentBtn(size);
-  }
+ const {cellSize, setcellSize } = useContext(CellSizeContext);
 
   return (
     <div className="flex flex-col p-2 gap-1">
       <h2 className="font-bold">Node Size</h2>
       <Button
         classes={currentBtn === 2 ? "bg-blue-800" : ""}
-        onClick={() => SetSize(CellSize.big)}
+        onClick={() => setcellSize(CellSize.big)}
       >
         Big
       </Button>
       <Button
         classes={currentBtn === 1 ? "bg-blue-800" : ""}
-        onClick={() => SetSize(CellSize.default)}
+        onClick={() => setcellSize(CellSize.default)}
       >
         Default
       </Button>
       <Button
         classes={currentBtn === 0 ? "bg-blue-800" : ""}
-        onClick={() => SetSize(CellSize.small)}
+        onClick={() => setcellSize(CellSize.small)}
       >
         Small
       </Button>
