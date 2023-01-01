@@ -1,12 +1,14 @@
+import { Flowbite } from "flowbite-react/lib/esm/components";
 import React, { FC, useContext, useState } from "react";
-import { classNames } from "..";
-import Button from "./Button";
-import { CellSize, NodeVariant } from "./Cell";
-import { CellSizeContext } from "../index";
+import * as utils from "../utils";
+import { CellSize, NodeVariant, SizeGrid } from "./Cell";
+import { CellSizeContext } from "./Contexts";
+import { SpeedContext } from "./Contexts";
+import {  Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
 
 export const Header = () => {
   return (
-    <div className="bg-gray-400 rounded-t-md flex gap-2">
+    <div className=" rounded-t-md flex gap-2">
       <div className="flex flex-col p-3">
         <h1 className="text-4xl">Pathfinder</h1>
         <span className="text-center italic border-b mb-1 pb-2">
@@ -30,35 +32,36 @@ export const Header = () => {
       </div>
       <GridSize />
       <NodeSelectorMenu />
+      <AnimationSpeed />
     </div>
   );
 };
 
 export const GridSize = () => {
-  const [currentBtn, setCurrentBtn] = useState<number>(1); // current btn selected for size (default size: 1)
- const {cellSize, setcellSize } = useContext(CellSizeContext);
-
+  const {cellSize, setcellSize } = useContext(CellSizeContext);  
+  
   return (
     <div className="flex flex-col p-2 gap-1">
       <h2 className="font-bold">Node Size</h2>
-      <Button
-        classes={currentBtn === 2 ? "bg-blue-800" : ""}
+      <FlowbiteBtn
+      className={`${cellSize === 2 ? "bg-blue-800" : ""}`}
+       
         onClick={() => setcellSize(CellSize.big)}
       >
         Big
-      </Button>
-      <Button
-        classes={currentBtn === 1 ? "bg-blue-800" : ""}
-        onClick={() => setcellSize(CellSize.default)}
+      </FlowbiteBtn>
+      <FlowbiteBtn
+      className={`${cellSize === 1 ? "bg-blue-800" : ""}`}
+      onClick={() => setcellSize(CellSize.default)}
       >
         Default
-      </Button>
-      <Button
-        classes={currentBtn === 0 ? "bg-blue-800" : ""}
-        onClick={() => setcellSize(CellSize.small)}
+      </FlowbiteBtn>
+      <FlowbiteBtn
+      className={`${cellSize === 0 ? "bg-blue-800" : ""}`}
+      onClick={() => setcellSize(CellSize.small)}
       >
         Small
-      </Button>
+      </FlowbiteBtn>
     </div>
   );
 };
@@ -79,7 +82,7 @@ const NodeTextRecord: Record<NodeVariant, string> = {
   [NodeVariant.visiting]: "Currently Visiting",
 };
 
-const NodeSelectorMenu: FC<{}> = () => {
+const NodeSelectorMenu = () => {
   let nodeColorSelector: Array<string> = [];
 
   for (let i = 0; i < Object.keys(NodeColorRecord).length; i++) {
@@ -96,7 +99,7 @@ const NodeSelectorMenu: FC<{}> = () => {
                 {NodeTextRecord[index as NodeVariant]}{" "}
               </span>
               <rect
-                className={classNames(bgColor, "h-6 w-6 my-auto rounded-md")}
+                className={utils.classNames(bgColor, "h-6 w-6 my-auto rounded-md")}
               ></rect>
             </li>
           );
@@ -105,3 +108,19 @@ const NodeSelectorMenu: FC<{}> = () => {
     </div>
   );
 };
+
+
+const AnimationSpeed = () => {
+  const {setSpeed} = useContext(SpeedContext);
+  return (
+    <div>
+      <h2 className="font-bold">Animation Speed</h2>
+      <div className="flex gap-2">
+        <FlowbiteBtn onClick={() => setSpeed(0)}>Fast</FlowbiteBtn>
+        <FlowbiteBtn onClick={() => setSpeed(1)}>Medium</FlowbiteBtn>
+        <FlowbiteBtn onClick={() => setSpeed(2)}>Slow</FlowbiteBtn>
+        </div>
+    </div>
+  )
+}
+

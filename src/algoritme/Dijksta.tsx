@@ -1,11 +1,15 @@
 import { CellProps, CellSize, SizeGrid } from "../components/Cell";
 import { Astar } from "./Astar";
+import * as utils from "../utils";
+import {  useContext } from "react";
+import { CellSizeContext, ControlContext } from "../components/Contexts";
+
 
 export function dijkstra(
   grid: CellProps[][],
   startCell: CellProps,
   finishCell: CellProps
-) {
+): CellProps[] {
   const visitedCellsInOrder = [];
   startCell.distance = 0;
   const unvisitedNodes = getAllCells(grid);
@@ -25,8 +29,9 @@ export function dijkstra(
       if (closestCell === finishCell) return visitedCellsInOrder; // if reached finishcell
 
       updateUnvisitedNeighbors(closestCell, grid);
-    } else console.log("error, closestNode returned 0");
+    } else return visitedCellsInOrder;
   }
+  return visitedCellsInOrder;
 }
 
 function updateUnvisitedNeighbors(cell: CellProps, grid: CellProps[][]) {
@@ -59,29 +64,7 @@ export function getCellsInShortestPathOrder(finishNode: CellProps) {
   return CellsInShortestPathOrder;
 }
 
-export function animateDijkstra(
-  visitedNodesInOrder: CellProps[],
-  ShortestPathOrder: CellProps[],
-  cellSize: CellSize
-) {
-  for (let i = 0; i <= visitedNodesInOrder.length; i++) {
-    if (i === visitedNodesInOrder.length) {
-      setTimeout(() => {
-        animateShortestPath(ShortestPathOrder, cellSize);
-      }, 10 * i);
-      return;
-    }
-
-    setTimeout(() => {
-      const cell = visitedNodesInOrder[i];
-      document.getElementById(
-        `row-${cell.row} col-${cell.col}` // Select cell and add class
-      )!.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
-    }, 10 * i);
-  }
-}
-
-function animateShortestPath(
+export function animateShortestPath(
   nodesInShortestPathOrder: CellProps[],
   cellSize: CellSize
 ) {
@@ -110,3 +93,5 @@ export function getAllCells(grid: CellProps[][]) {
   }
   return cells;
 }
+
+
