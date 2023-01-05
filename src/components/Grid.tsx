@@ -2,40 +2,52 @@ import Cell, { CellProps, CellSize, SizeGrid, MakeNode } from "./Cell";
 import { CellSizeContext, ControlContext, GridContext } from "./Contexts";
 import { useState, useEffect, useContext } from "react";
 import * as utils from "../utils";
-import {  Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
-import {
-  getAllCells,
-  
-} from "../algoritme/Dijksta";
+import { Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
+import { getAllCells } from "../algoritme/Dijksta";
 import Algortims from "./Algortims";
 
 const Grid = () => {
-  const {grid, setGrid} = useContext(GridContext)
-  const { cellSize } = useContext(CellSizeContext)
-  const {  algorithm,playing, setPlaying } = useContext(ControlContext)
+  const { grid, setGrid } = useContext(GridContext);
+  const { cellSize } = useContext(CellSizeContext);
+  const { algorithm, playing, setPlaying } = useContext(ControlContext);
   const [cellClicked, setCellClicked] = useState<boolean>(false);
 
-  useEffect(() => {    
+  useEffect(() => {
     setGrid(InitlizeGrid(cellSize));
   }, [cellSize]);
 
   return (
     <div className="grid">
       <FlowbiteBtn.Group outline={true} className="m-3 mx-auto">
-      <FlowbiteBtn color="gray" className="focus:ring-0" onClick={() => {
-          InitlizeGridWithRandomWalls(grid);
-          setCellClicked(!cellClicked);
-        }}>
-        Random
-      </FlowbiteBtn>
-      <FlowbiteBtn color="gray" className="focus:ring-0" onClick={() => {Algortims(grid,algorithm, playing); setPlaying(true)}} >
-        Run
-      </FlowbiteBtn>
-      <FlowbiteBtn onClick={() => setPlaying(!playing)} color="gray" className="focus:ring-0 focus:text-red-400 hover:text-red-400" >
-        Pause
-      </FlowbiteBtn>
-    </FlowbiteBtn.Group>
-     
+        <FlowbiteBtn
+          color="gray"
+          className="focus:ring-0"
+          onClick={() => {
+            InitlizeGridWithRandomWalls(grid);
+            setCellClicked(!cellClicked);
+          }}
+        >
+          Random
+        </FlowbiteBtn>
+        <FlowbiteBtn
+          color="gray"
+          className="focus:ring-0"
+          onClick={() => {
+            Algortims(grid, cellSize, playing, algorithm);
+            setPlaying(true);
+          }}
+        >
+          Run
+        </FlowbiteBtn>
+        <FlowbiteBtn
+          onClick={() => setPlaying(!playing)}
+          color="gray"
+          className="focus:ring-0 focus:text-red-400 hover:text-red-400"
+        >
+          Pause
+        </FlowbiteBtn>
+      </FlowbiteBtn.Group>
+
       {grid.map((row, index) => {
         return (
           <div
@@ -97,8 +109,6 @@ function InitlizeGridWithRandomWalls(grid: CellProps[][]): CellProps[][] {
 
   return newGridWithWalls; //return new grid
 }
-
-
 
 export function InitlizeGrid(cellSize: CellSize): CellProps[][] {
   let newGrid: CellProps[][] = [];

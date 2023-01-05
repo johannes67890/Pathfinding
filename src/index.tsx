@@ -7,25 +7,19 @@ import { CellSize, SizeGrid } from "./components/Cell";
 import { AppContexts } from "./components/Contexts";
 import Algortims from "./components/Algortims";
 
-
-
-
 const container = document.getElementById("root");
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
 
 const Index = () => {
-
   return (
-      <React.StrictMode>
-        <div className="max-w-7xl mx-auto mt-3">
-          <AppContexts>
-            <Header />
-            <Grid  />
-            <Algortims />
-          </AppContexts>
-        </div>
-      </React.StrictMode>
+    <React.StrictMode>
+      <div className="max-w-7xl mx-auto mt-3">
+        <AppContexts>
+          <Header />
+          <Grid />
+        </AppContexts>
+      </div>
+    </React.StrictMode>
   );
-}
+};
 root.render(<Index />);
-
