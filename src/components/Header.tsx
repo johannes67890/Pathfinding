@@ -38,7 +38,7 @@ export const Header = () => {
 };
 
 export const GridSize = () => {
-  const {cellSize, setcellSize } = useContext(CellSizeContext);  
+  const {cellSize, setCellSize } = useContext(CellSizeContext);  
   
   return (
     <div className="flex flex-col p-2 gap-1">
@@ -46,19 +46,19 @@ export const GridSize = () => {
       <FlowbiteBtn
       className={`${cellSize === 2 ? "bg-blue-800" : ""}`}
        
-        onClick={() => setcellSize(CellSize.big)}
+        onClick={() => setCellSize(CellSize.big)}
       >
         Big
       </FlowbiteBtn>
       <FlowbiteBtn
       className={`${cellSize === 1 ? "bg-blue-800" : ""}`}
-      onClick={() => setcellSize(CellSize.default)}
+      onClick={() => setCellSize(CellSize.default)}
       >
         Default
       </FlowbiteBtn>
       <FlowbiteBtn
       className={`${cellSize === 0 ? "bg-blue-800" : ""}`}
-      onClick={() => setcellSize(CellSize.small)}
+      onClick={() => setCellSize(CellSize.small)}
       >
         Small
       </FlowbiteBtn>

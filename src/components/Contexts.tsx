@@ -4,10 +4,10 @@ import { InitlizeGrid } from "./Grid";
 // creat context for cell size
 export const CellSizeContext = createContext<{
   cellSize: CellSize;
-  setcellSize: React.Dispatch<React.SetStateAction<CellSize>>;
+  setCellSize: React.Dispatch<React.SetStateAction<CellSize>>;
 }>({
   cellSize: CellSize.default,
-  setcellSize: () => {},
+  setCellSize: () => {},
 });
 
 export const GridContext = createContext<{
@@ -42,27 +42,34 @@ export const ControlContext = createContext<{
 export const AppContexts: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [cellSize, setcellSize] = useState<CellSize>(CellSize.default);
+  const [cellSize, setCellSize] = useState<CellSize>(CellSize.default);
   const [grid, setGrid] = useState<CellProps[][]>(InitlizeGrid(cellSize));
-  const [playing, setPlaying] = useState<boolean>(false);
-  const [algorithm, setAlgorithm] = useState<string>("Dijksta");
-  const value = useMemo(
+  const GridValue = useMemo(
     () => ({
       grid,
       setGrid,
       cellSize,
-      setcellSize,
-      algorithm,
-      playing,
-      setPlaying,
+      setCellSize,
     }),
-    [cellSize, setcellSize, algorithm, setAlgorithm, playing, setPlaying]
+    [cellSize, setCellSize]);
+    
+    const [playing, setPlaying] = useState<boolean>(false);
+    const [algorithm, setAlgorithm] = useState<string>("Dijksta");
+    const ControlValue = useMemo(
+      () => ({
+        algorithm,
+        playing,
+        setPlaying,
+      }),
+      [algorithm, setAlgorithm, playing, setPlaying]
+
+
   );
 
   return (
-    <CellSizeContext.Provider value={value}>
-      <ControlContext.Provider value={value}>
-        <GridContext.Provider value={value}>{children}</GridContext.Provider>
+    <CellSizeContext.Provider value={GridValue}>
+      <ControlContext.Provider value={ControlValue}>
+        <GridContext.Provider value={GridValue}>{children}</GridContext.Provider>
       </ControlContext.Provider>
     </CellSizeContext.Provider>
   );
