@@ -49,10 +49,17 @@ export const AppContexts: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [cellSize, setCellSize] = useState<CellSize>(CellSize.default);
   const [grid, setGrid] = useState<CellProps[][]>(InitlizeGrid(cellSize));
+  
   const GridValue = useMemo(
     () => ({
       grid,
       setGrid,
+    }),
+    [grid, setGrid]
+  );
+
+  const cellValue = useMemo(
+    () => ({
       cellSize,
       setCellSize,
     }),
@@ -80,7 +87,7 @@ export const AppContexts: React.FC<{ children: React.ReactNode }> = ({
   );
 
   return (
-    <CellSizeContext.Provider value={GridValue}>
+    <CellSizeContext.Provider value={cellValue}>
       <ControlContext.Provider value={ControlValue}>
         <GridContext.Provider value={GridValue}>
           <SpeedContext.Provider value={SpeedValue}>

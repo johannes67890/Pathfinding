@@ -24,21 +24,9 @@ const Grid = () => {
 
   return (
     <div className="grid">
-      <FlowbiteBtn.Group outline={true} className="m-3 mx-auto">
         <FlowbiteBtn
           color="gray"
-          className="focus:ring-0"
-          onClick={() => {
-            InitlizeGridWithRandomWalls(grid);
-            setCellClicked(!cellClicked);
-          }}
-          disabled={playing ? true : false}
-        >
-          Random
-        </FlowbiteBtn>
-        <FlowbiteBtn
-          color="gray"
-          className="focus:ring-0"
+          className=" h-12 rounded-b-none border-b-0"
           onClick={() => {
             Algortims(grid, cellSize, algorithm, speed);
             setPlaying(true);
@@ -49,7 +37,7 @@ const Grid = () => {
             <div role="status">
               <svg
                 aria-hidden="true"
-                className="w-5 h-5 mx-auto mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                className="w-7 h-7 mx-auto mr-2 text-gray-400 animate-spin dark:text-gray-600 fill-blue-600"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -66,10 +54,12 @@ const Grid = () => {
               <span className="sr-only">Loading...</span>
             </div>
           ) : (
-            "Start"
+            <div className="font-medium text-base">
+              Start
+            </div>
           )}
         </FlowbiteBtn>
-      </FlowbiteBtn.Group>
+ 
 
       {grid.map((row, index) => {
         return (
@@ -111,26 +101,27 @@ const Grid = () => {
   );
 };
 
-function InitlizeGridWithRandomWalls(grid: CellProps[][]): CellProps[][] {
-  let newGridWithWalls: CellProps[][] = [];
-  const newCells: CellProps[] = []; // store new cells
-  let cells: CellProps[] = getAllCells(grid); // get all cells from grid
-  cells.map((cell, index) => {
-    let salt = utils.getRandomInt(0, 10);
-    if (salt === 1) {
-      // salt for randomness
-      if (cell.isStart || cell.isFinish) {
-        return;
-      } else {
-        cell.isWall = true;
-        newCells.push(cell);
+export function InitlizeGridWithRandomWalls(cellSize: CellSize): CellProps[][] {
+let newGridWithWalls: CellProps[][] = [];
+for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
+    const currentRow: any = [];
+    for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
+      const cell = MakeNode(col, row, cellSize); //push current row to node
+            
+      let salt = utils.getRandomInt(0, 10);
+      if (salt === 1) {
+        // salt for randomness
+        if (cell.isStart || cell.isFinish) {
+         continue;
+        } else {
+          cell.isWall = true;
+        }
       }
+      currentRow.push(cell);
     }
-    return index;
-  });
-  newGridWithWalls.push(newCells); // push new cells to grid
-
-  return newGridWithWalls; //return new grid
+    newGridWithWalls.push(currentRow);
+  }
+  return newGridWithWalls;
 }
 
 export function InitlizeGrid(cellSize: CellSize): CellProps[][] {
