@@ -1,17 +1,16 @@
-import { Flowbite } from "flowbite-react/lib/esm/components";
 import React, { FC, useContext, useState } from "react";
 import * as utils from "../utils";
 import { CellSize, NodeVariant, SizeGrid } from "./Cell";
-import { CellSizeContext } from "./Contexts";
+import { CellSizeContext, ControlContext } from "./Contexts";
 import { SpeedContext } from "./Contexts";
-import {  Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
+import { Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
 
 export const Header = () => {
   return (
-    <div className=" rounded-t-md flex gap-2">
+    <div className=" rounded-t-md grid grid-flow-col gap-2">
       <div className="flex flex-col p-3">
-        <h1 className="text-4xl">Pathfinder</h1>
-        <span className="text-center italic border-b mb-1 pb-2">
+        <h1 className="text-4xl justify-center mx-auto">Pathfinder</h1>
+        <span className="text-center italic border-b border-black mb-1 pb-2">
           visualized
         </span>
         <div className="flex mx-auto gap-1 py-1">
@@ -30,38 +29,30 @@ export const Header = () => {
           </a>
         </div>
       </div>
-      <GridSize />
       <NodeSelectorMenu />
+      <GridSize />
       <AnimationSpeed />
     </div>
   );
 };
 
 export const GridSize = () => {
-  const {cellSize, setCellSize } = useContext(CellSizeContext);  
-  
+  const { cellSize, setCellSize } = useContext(CellSizeContext);
+
   return (
-    <div className="flex flex-col p-2 gap-1">
+    <div className="flex flex-col  gap-1">
       <h2 className="font-bold">Node Size</h2>
-      <FlowbiteBtn
-      className={`${cellSize === 2 ? "bg-blue-800" : ""}`}
-       
-        onClick={() => setCellSize(CellSize.big)}
-      >
-        Big
-      </FlowbiteBtn>
-      <FlowbiteBtn
-      className={`${cellSize === 1 ? "bg-blue-800" : ""}`}
-      onClick={() => setCellSize(CellSize.default)}
-      >
-        Default
-      </FlowbiteBtn>
-      <FlowbiteBtn
-      className={`${cellSize === 0 ? "bg-blue-800" : ""}`}
-      onClick={() => setCellSize(CellSize.small)}
-      >
-        Small
-      </FlowbiteBtn>
+      <FlowbiteBtn.Group outline={true}>
+        <FlowbiteBtn color="gray" onClick={() => setCellSize(CellSize.big)}>
+          Big
+        </FlowbiteBtn>
+        <FlowbiteBtn color="gray" onClick={() => setCellSize(CellSize.default)}>
+          Default
+        </FlowbiteBtn>
+        <FlowbiteBtn color="gray" onClick={() => setCellSize(CellSize.small)}>
+          Small
+        </FlowbiteBtn>
+      </FlowbiteBtn.Group>
     </div>
   );
 };
@@ -99,7 +90,10 @@ const NodeSelectorMenu = () => {
                 {NodeTextRecord[index as NodeVariant]}{" "}
               </span>
               <rect
-                className={utils.classNames(bgColor, "h-6 w-6 my-auto rounded-md")}
+                className={utils.classNames(
+                  bgColor,
+                  "h-6 w-6 my-auto rounded-md"
+                )}
               ></rect>
             </li>
           );
@@ -109,18 +103,24 @@ const NodeSelectorMenu = () => {
   );
 };
 
-
 const AnimationSpeed = () => {
-  const {setSpeed} = useContext(SpeedContext);
-  return (
-    <div>
-      <h2 className="font-bold">Animation Speed</h2>
-      <div className="flex gap-2">
-        <FlowbiteBtn onClick={() => setSpeed(0)}>Fast</FlowbiteBtn>
-        <FlowbiteBtn onClick={() => setSpeed(1)}>Medium</FlowbiteBtn>
-        <FlowbiteBtn onClick={() => setSpeed(2)}>Slow</FlowbiteBtn>
-        </div>
-    </div>
-  )
-}
+  const { speed, setSpeed } = useContext(SpeedContext);
+  const { playing } = useContext(ControlContext);
 
+  return (
+    <div className="flex flex-col">
+      <h2 className="font-bold">Current {speed}</h2>
+      <input
+        id="minmax-range"
+        onChange={(e) => setSpeed(parseInt(e.target.value))}
+        type="range"
+        step={1}
+        max={20}
+        min={1}
+        disabled={playing}
+        value={speed}
+        className="w-60 h-2 bg-white rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+      />
+    </div>
+  );
+};

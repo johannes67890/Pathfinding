@@ -22,4 +22,4 @@ const Index = () => {
     </React.StrictMode>
   );
 };
-root.render(<Index />);
+root.render(root ? <Index /> : null);

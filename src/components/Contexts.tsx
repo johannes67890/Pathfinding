@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext, useEffect, useMemo, useState } from "react";
 import { CellProps, CellSize, SizeGrid } from "./Cell";
 import { InitlizeGrid } from "./Grid";
 // creat context for cell size
@@ -27,13 +27,18 @@ export const SpeedContext = createContext<{
   setSpeed: () => {},
 });
 
+export enum Algorithm {
+  Dijksta = "Dijksta",
+  Astar = "A*",
+}
+
 // Controlflow context
 export const ControlContext = createContext<{
   algorithm: string;
   playing: boolean;
   setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
 }>({
-  algorithm: "Dijksta",
+  algorithm: Algorithm.Dijksta,
   playing: false,
   setPlaying: () => {},
 });
@@ -51,25 +56,37 @@ export const AppContexts: React.FC<{ children: React.ReactNode }> = ({
       cellSize,
       setCellSize,
     }),
-    [cellSize, setCellSize]);
-    
-    const [playing, setPlaying] = useState<boolean>(false);
-    const [algorithm, setAlgorithm] = useState<string>("Dijksta");
-    const ControlValue = useMemo(
-      () => ({
-        algorithm,
-        playing,
-        setPlaying,
-      }),
-      [algorithm, setAlgorithm, playing, setPlaying]
+    [cellSize, setCellSize]
+  );
 
+  const [playing, setPlaying] = useState<boolean>(false);
+  const [algorithm, setAlgorithm] = useState<Algorithm>(Algorithm.Dijksta);
+  const ControlValue = useMemo(
+    () => ({
+      algorithm,
+      playing,
+      setPlaying,
+    }),
+    [algorithm, setAlgorithm, playing, setPlaying]
+  );
 
+  const [speed, setSpeed] = useState<number>(10);
+  const SpeedValue = useMemo(
+    () => ({
+      speed,
+      setSpeed,
+    }),
+    [speed, setSpeed]
   );
 
   return (
     <CellSizeContext.Provider value={GridValue}>
       <ControlContext.Provider value={ControlValue}>
-        <GridContext.Provider value={GridValue}>{children}</GridContext.Provider>
+        <GridContext.Provider value={GridValue}>
+          <SpeedContext.Provider value={SpeedValue}>
+            {children}
+          </SpeedContext.Provider>
+        </GridContext.Provider>
       </ControlContext.Provider>
     </CellSizeContext.Provider>
   );
