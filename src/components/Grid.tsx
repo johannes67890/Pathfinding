@@ -19,6 +19,8 @@ const Grid = () => {
   const [cellClicked, setCellClicked] = useState<boolean>(false);
 
   useEffect(() => {
+    console.log(cellSize);
+    
     setGrid(InitlizeGrid(cellSize));
   }, [cellSize]);
 
@@ -108,15 +110,13 @@ for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
     for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
       const cell = MakeNode(col, row, cellSize); //push current row to node
             
-      let salt = utils.getRandomInt(0, 10);
-      if (salt === 1) {
-        // salt for randomness
-        if (cell.isStart || cell.isFinish) {
-         continue;
-        } else {
-          cell.isWall = true;
-        }
+      let rand = utils.getRandomInt(0, 10);
+      if (cell.isStart || cell.isFinish) {
+        
       }
+      else if (rand === 1) { 
+        cell.isWall = true;
+      } 
       currentRow.push(cell);
     }
     newGridWithWalls.push(currentRow);

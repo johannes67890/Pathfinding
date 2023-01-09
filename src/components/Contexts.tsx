@@ -18,6 +18,8 @@ export const GridContext = createContext<{
   setGrid: () => {},
 });
 
+
+
 // setSpeed context
 export const SpeedContext = createContext<{
   speed: number;
@@ -57,7 +59,11 @@ export const AppContexts: React.FC<{ children: React.ReactNode }> = ({
     }),
     [grid, setGrid]
   );
-
+  useEffect(() => {
+    console.log(grid);
+    
+  }, [grid])
+  
   const cellValue = useMemo(
     () => ({
       cellSize,

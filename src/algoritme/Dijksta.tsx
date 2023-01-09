@@ -1,8 +1,5 @@
 import { CellProps, CellSize, SizeGrid } from "../components/Cell";
 import { Astar } from "./Astar";
-import * as utils from "../utils";
-import {  useContext } from "react";
-import { CellSizeContext, ControlContext } from "../components/Contexts";
 
 
 export function dijkstra(

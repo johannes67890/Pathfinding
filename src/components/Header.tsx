@@ -40,7 +40,7 @@ export const Header = () => {
 export const GridSize = () => {
   const {cellSize, setCellSize } = useContext(CellSizeContext);
   const {playing} = useContext(ControlContext);
-  const {  setGrid } = useContext(GridContext);
+  const { setGrid } = useContext(GridContext);
 
   return (
     <div className="flex flex-col gap-1">
@@ -58,6 +58,7 @@ export const GridSize = () => {
       </FlowbiteBtn.Group>
         <FlowbiteBtn
           color="gray"
+          outline={true}
           className="focus:ring-0"
           onClick={() => {
             setGrid(InitlizeGridWithRandomWalls(cellSize));
