@@ -7,6 +7,7 @@ module.exports = {
   ],
   theme: {
     extend: {
+      
       animation: {
         "visited-cell": "upscale 400ms ease-in both",
       },

@@ -11,3 +11,30 @@ html {
     animation-play-state: paused;
   }
 }
+.button {
+  border: 0;
+  background: transparent;
+  box-sizing: border-box;
+  width: 0;
+  height: 0.8rem;
+
+  
+  border-color: transparent transparent transparent #202020;
+  transition: 100ms all ease;
+  border-style: solid;
+  border-width: 9px 0 9px 14px;
+}
+
+.buttonpause {
+  border: 0;
+  background: transparent;
+  box-sizing: border-box;
+  width: 0;
+  height: 1rem;
+
+  border-color: transparent transparent transparent #202020;
+  transition: 100ms all ease;
+  cursor: pointer;
+  border-style: double;
+  border-width: 0 0 0 0.8rem;
+}

@@ -37,10 +37,14 @@ export const ControlContext = createContext<{
   algorithm: string;
   playing: boolean;
   setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  solved: boolean;
+  setSolved: React.Dispatch<React.SetStateAction<boolean>>;
 }>({
   algorithm: Algorithm.Dijksta,
   playing: false,
   setPlaying: () => {},
+  solved: false,
+  setSolved: () => {},
 });
 
 // Creat nested context for CelllSize and Speed
@@ -57,9 +61,6 @@ export const AppContexts: React.FC<{ children: React.ReactNode }> = ({
     }),
     [grid, setGrid]
   );
-  useEffect(() => {
-    console.log(grid);
-  }, [grid]);
 
   const cellValue = useMemo(
     () => ({
@@ -70,14 +71,17 @@ export const AppContexts: React.FC<{ children: React.ReactNode }> = ({
   );
 
   const [playing, setPlaying] = useState<boolean>(false);
+  const [solved, setSolved] = useState<boolean>(false);
   const [algorithm, setAlgorithm] = useState<Algorithm>(Algorithm.Dijksta);
   const ControlValue = useMemo(
     () => ({
       algorithm,
       playing,
       setPlaying,
+      solved,
+      setSolved
     }),
-    [algorithm, setAlgorithm, playing, setPlaying]
+    [algorithm, setAlgorithm, playing, setPlaying, solved, setSolved]
   );
 
   const [speed, setSpeed] = useState<number>(10);

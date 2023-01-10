@@ -9,7 +9,8 @@ function Algortims(
   cellSize: CellSize,
   algorithm: string,
   speed: number,
-  playing: boolean
+  playing: boolean,
+  setSolved: React.Dispatch<React.SetStateAction<boolean>>,
 ) {
   // TODO: make this dynamic
   const startNode =
@@ -23,14 +24,16 @@ function Algortims(
 
   switch (algorithm) {
     case Algorithm.Dijksta:
-      return AnimateDijkstra(
+      
+      
+      AnimateDijkstra(
         dijkstra(grid, startNode, finishNode),
         getCellsInShortestPathOrder(finishNode),
         cellSize,
         speed,
-        playing
+        playing,
+        setSolved,
       );
-
     // case "A*":
 
     //   Astar();
@@ -46,7 +49,8 @@ function AnimateDijkstra(
   ShortestPathOrder: CellProps[],
   cellSize: CellSize,
   speed: number,
-  playing: Boolean
+  playing: boolean,
+  setSolved: React.Dispatch<React.SetStateAction<boolean>>,
 ) {
   let i = 0;
 
@@ -65,6 +69,7 @@ function AnimateDijkstra(
         animateShortestPath(ShortestPathOrder, cellSize);
       }, 250);
       clearInterval(Interval);
+      setSolved(true);
       return;
     }
 

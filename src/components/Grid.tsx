@@ -15,31 +15,36 @@ const Grid = () => {
   const { grid, setGrid } = useContext(GridContext);
   const { cellSize } = useContext(CellSizeContext);
   const { speed } = useContext(SpeedContext);
-  const { algorithm, playing, setPlaying } = useContext(ControlContext);
+  const { algorithm, playing, setPlaying, solved, setSolved } = useContext(ControlContext);
+
   const [cellClicked, setCellClicked] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(cellSize);
-
     setGrid(InitlizeGrid(cellSize));
   }, [cellSize]);
+  
+
+  console.log(playing);
+
+  
 
   return (
     <div className="grid">
       <FlowbiteBtn
         color="gray"
-        className=" h-12 rounded-b-none border-b-0 group"
+        className="h-12 max-h-[3rem] py-2 rounded-b-none border-b-0 group"
         onClick={() => {
-          Algortims(grid, cellSize, algorithm, speed, playing);
-          setPlaying(true);
+          setPlaying(!playing);
+          setSolved(false);
+          Algortims(grid, cellSize, algorithm, speed, playing, setSolved);
         }}
       >
         {playing ? (
-          <>
-            <div id="status" className="group">
+            <div id="status" className="group relative">
               <svg
                 aria-hidden="true"
-                className="w-7 h-7 mx-auto mr-2 text-gray-400 animate-spin group-hover:pause group-hover:text-blue-600  dark:text-gray-600 fill-blue-600"
+                // " group-hover:pause group-hover:text-blue-600"
+                className={utils.classNames("w-8 h-8 text-gray-400  dark:text-gray-600 fill-blue-600", playing ? "animate-spin" : "pause")}
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -53,14 +58,15 @@ const Grid = () => {
                   fill="currentFill"
                 />
               </svg>
-            </div>
-            <div className="hidden group-hover:inline">
+          
+              <button className={playing ? "button absolute hidden p-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 group-hover:inline ml-auto mr-auto" : "buttonpause  absolute hidden p-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 group-hover:inline ml-auto mr-auto"} />
               {/* https://css-tricks.com/making-pure-css-playpause-button/ */}
-              <button className="bg-transparent box-border w-0 h-4 will-change-[] border border-transparent transition delay-100 ease-in border-solid border-[2rem 0 2rem 4rem]" />
             </div>
-          </>
+       
         ) : (
-          <div className="font-medium text-base">Start</div>
+          solved ? <div className="font-medium text-base m-auto text-center">Start</div> : <>{setPlaying(false)}</>
+           
+          
         )}
       </FlowbiteBtn>
 
