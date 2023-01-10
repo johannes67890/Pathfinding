@@ -20,26 +20,26 @@ const Grid = () => {
 
   useEffect(() => {
     console.log(cellSize);
-    
+
     setGrid(InitlizeGrid(cellSize));
   }, [cellSize]);
 
   return (
     <div className="grid">
-        <FlowbiteBtn
-          color="gray"
-          className=" h-12 rounded-b-none border-b-0"
-          onClick={() => {
-            Algortims(grid, cellSize, algorithm, speed);
-            setPlaying(true);
-          }}
-          disabled={playing ? true : false}
-        >
-          {playing ? (
-            <div role="status">
+      <FlowbiteBtn
+        color="gray"
+        className=" h-12 rounded-b-none border-b-0 group"
+        onClick={() => {
+          Algortims(grid, cellSize, algorithm, speed, playing);
+          setPlaying(true);
+        }}
+      >
+        {playing ? (
+          <>
+            <div id="status" className="group">
               <svg
                 aria-hidden="true"
-                className="w-7 h-7 mx-auto mr-2 text-gray-400 animate-spin dark:text-gray-600 fill-blue-600"
+                className="w-7 h-7 mx-auto mr-2 text-gray-400 animate-spin group-hover:pause group-hover:text-blue-600  dark:text-gray-600 fill-blue-600"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -53,15 +53,16 @@ const Grid = () => {
                   fill="currentFill"
                 />
               </svg>
-              <span className="sr-only">Loading...</span>
             </div>
-          ) : (
-            <div className="font-medium text-base">
-              Start
+            <div className="hidden group-hover:inline">
+              {/* https://css-tricks.com/making-pure-css-playpause-button/ */}
+              <button className="bg-transparent box-border w-0 h-4 will-change-[] border border-transparent transition delay-100 ease-in border-solid border-[2rem 0 2rem 4rem]" />
             </div>
-          )}
-        </FlowbiteBtn>
- 
+          </>
+        ) : (
+          <div className="font-medium text-base">Start</div>
+        )}
+      </FlowbiteBtn>
 
       {grid.map((row, index) => {
         return (
@@ -104,19 +105,17 @@ const Grid = () => {
 };
 
 export function InitlizeGridWithRandomWalls(cellSize: CellSize): CellProps[][] {
-let newGridWithWalls: CellProps[][] = [];
-for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
+  let newGridWithWalls: CellProps[][] = [];
+  for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
     const currentRow: any = [];
     for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
       const cell = MakeNode(col, row, cellSize); //push current row to node
-            
+
       let rand = utils.getRandomInt(0, 10);
       if (cell.isStart || cell.isFinish) {
-        
-      }
-      else if (rand === 1) { 
+      } else if (rand === 1) {
         cell.isWall = true;
-      } 
+      }
       currentRow.push(cell);
     }
     newGridWithWalls.push(currentRow);

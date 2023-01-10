@@ -1,9 +1,6 @@
 import React, { useContext, useRef, useEffect } from "react";
 import { CellProps, CellSize, SizeGrid } from "./Cell";
-import {
-  Algorithm,
-  CellSizeContext,
-} from "./Contexts";
+import { Algorithm, CellSizeContext } from "./Contexts";
 import { animateShortestPath, dijkstra } from "../algoritme/Dijksta";
 import { getCellsInShortestPathOrder } from "../algoritme/Dijksta";
 
@@ -11,9 +8,9 @@ function Algortims(
   grid: CellProps[][],
   cellSize: CellSize,
   algorithm: string,
-  speed: number
+  speed: number,
+  playing: boolean
 ) {
-  
   // TODO: make this dynamic
   const startNode =
     grid[Math.round(SizeGrid[cellSize][2] / 2 / 1.2)][
@@ -30,7 +27,8 @@ function Algortims(
         dijkstra(grid, startNode, finishNode),
         getCellsInShortestPathOrder(finishNode),
         cellSize,
-        speed
+        speed,
+        playing
       );
 
     // case "A*":
@@ -43,24 +41,23 @@ function Algortims(
   }
 }
 
-
 function AnimateDijkstra(
   visitedNodesInOrder: CellProps[],
   ShortestPathOrder: CellProps[],
   cellSize: CellSize,
-  speed: number
+  speed: number,
+  playing: Boolean
 ) {
   let i = 0;
-  let stop = false;
 
   const Interval = setInterval(() => {
     const cell = visitedNodesInOrder[i];
 
-    if(stop) {
+    if (playing) {
       return;
     }
     document.getElementById(
-        `row-${cell.row} col-${cell.col}`
+      `row-${cell.row} col-${cell.col}`
     )!.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
 
     if (i === visitedNodesInOrder.length - 1) {
@@ -73,12 +70,6 @@ function AnimateDijkstra(
 
     i++;
   }, speed);
-  setTimeout(() => {
-    stop = true;
-  }, 2000);
-  setTimeout(() => {
-    stop = false;
-  }, 4000);
 }
 
 const Astar = () => {
