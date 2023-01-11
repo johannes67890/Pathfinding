@@ -24,8 +24,6 @@ function Algortims(
 
   switch (algorithm) {
     case Algorithm.Dijksta:
-      
-      
       AnimateDijkstra(
         dijkstra(grid, startNode, finishNode),
         getCellsInShortestPathOrder(finishNode),
@@ -60,6 +58,7 @@ function AnimateDijkstra(
     if (playing) {
       return;
     }
+
     document.getElementById(
       `row-${cell.row} col-${cell.col}`
     )!.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
@@ -75,6 +74,7 @@ function AnimateDijkstra(
 
     i++;
   }, speed);
+
 }
 
 const Astar = () => {
