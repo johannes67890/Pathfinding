@@ -1,4 +1,5 @@
 import * as utils from "../utils";
+import React from "react";
 
 export enum NodeVariant {
   startNode,
@@ -22,6 +23,8 @@ export const SizeGrid: Record<CellSize, [string, string, number, number]> = {
 
 export type CellProps = {
   onClick?: () => unknown;
+  ref?: React.Ref<HTMLButtonElement>;
+  className?: string;
   col: number;
   row: number;
   size?: CellSize;
@@ -33,9 +36,9 @@ export type CellProps = {
   cost: { hCost: number; fCost: number; gCost: number };
 };
 
-function Cell(props: CellProps) {
-  const { onClick, col, row, size, isStart, isFinish, isWall } = props;
-
+const Cell = React.forwardRef((props: CellProps, ref: any) => {
+  const { onClick, className, col, row, size, isStart, isFinish, isWall } = props;
+  
   const VariantClassName = isFinish
     ? "bg-red-500"
     : isStart
@@ -44,25 +47,25 @@ function Cell(props: CellProps) {
     ? "bg-black"
     : "";
 
+      
+
   return (
     <button
+      ref={ref}
       id={`row-${row} col-${col}`}
       onClick={() => {
         if (onClick) onClick();
       }}
       className={utils.classNames(
+        className,
         VariantClassName,
         SizeGrid[size as CellSize][0], // height
         SizeGrid[size as CellSize][1], // width
         `border border-black`
       )}
     ></button>
-  );
-}
-
-Cell.defaultProps = {
-  size: CellSize.default,
-};
+  )
+});
 
 export const MakeNode = (col: number, row: number, cellSize: CellSize) => {
   const STARTCELL: Array<Number> = [

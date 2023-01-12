@@ -5,44 +5,47 @@ import {
   GridContext,
   SpeedContext,
 } from "./Contexts";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef, createContext } from "react";
 import * as utils from "../utils";
 import { Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
 import { getAllCells } from "../algoritme/Dijksta";
 import Algortims from "./Algortims";
 
 const Grid = () => {
-  const { grid, setGrid } = useContext(GridContext);
+  const { grid, setGrid, gridRef } = useContext(GridContext);
   const { cellSize } = useContext(CellSizeContext);
-  const { speed } = useContext(SpeedContext);
-  const { algorithm, playing, setPlaying, solved, setSolved } = useContext(ControlContext);
+  const { playing, setPlaying, solved, setSolved } = useContext(ControlContext);
 
   const [cellClicked, setCellClicked] = useState<boolean>(false);
-
+  const [ongoing, setOngoing] = useState<boolean>(false)
+  
   useEffect(() => {
     setGrid(InitlizeGrid(cellSize));
   }, [cellSize]);
-
   
-  const [ongoing, setOngoing] = useState<boolean>(false)
+ 
+  const addToGridRef = (e: any) => {
+    if(e && !gridRef.current.includes(e)){
+      gridRef.current.push(e)
+    }
+  }
 
-  console.log("ongoing",ongoing);
-  console.log("playing",playing);
-  console.log("solved",solved);
+  const OnStart = () => {
+    setPlaying(!playing);
+    setSolved(false);
+    playing && !solved && !ongoing ? setOngoing(true) : setOngoing(false);
+    console.log(gridRef);
+    
+  }
   
-
   return (
     <div className="grid">
       <FlowbiteBtn
         color="gray"
         className="focus:ring-transparent h-12 max-h-[3rem] py-2 rounded-b-none border-b-0 group"
-        onClick={() => {
-          setPlaying(!playing);
-          setSolved(false);
-          playing && !solved && !ongoing ? setOngoing(true) : setOngoing(false);
-          Algortims(grid, cellSize, algorithm, speed, playing, setSolved);
-        }}
+        onClick={() => OnStart()}
       >
+        {playing && !solved && !ongoing ? <Algortims ongoing={ongoing} /> : null}
         <RenderButton ongoing={ongoing} />
       </FlowbiteBtn>
 
@@ -55,30 +58,31 @@ const Grid = () => {
             {row.map((node, nodeIndex) => {
               return (
                 <Cell
-                  key={nodeIndex}
-                  isVisited={node.isVisited}
-                  isFinish={node.isFinish}
-                  isStart={node.isStart}
+                row={node.row}
+                col={node.col}
+                ref={(e) => addToGridRef(e)}
+                key={nodeIndex}
+                isVisited={node.isVisited}
+                isFinish={node.isFinish}
+                isStart={node.isStart}
                   isWall={node.isWall}
                   distance={node.distance}
                   onClick={() => {
                     if (node.isWall === false) {
                       node.isWall = true;
                     } else node.isWall = false;
-                    setCellClicked(!cellClicked);
-                    console.log(node);
+                    setCellClicked(!cellClicked);                    
                   }}
-                  row={node.row}
-                  col={node.col}
+                
                   size={cellSize}
                   cost={{
                     gCost: node.cost.gCost,
                     hCost: node.cost.hCost,
                     fCost: node.cost.fCost,
                   }}
-                ></Cell>
-              );
-            })}
+                  ></Cell>
+                  );
+                })}
           </div>
         );
       })}
@@ -134,7 +138,7 @@ const RenderButton: React.FC<{ongoing: boolean}> = ({ongoing}) => {
                     fill="currentFill"
                   />
                 </svg>
-              <button className="buttonpause absolute hidden p-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 group-hover:inline ml-auto mr-auto" />
+              <button className="buttonpause absolute  p-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 group-hover:inline ml-auto mr-auto" />
         </div>
       )
 

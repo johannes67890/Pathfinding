@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useEffect, useMemo, useRef, useState } from "react";
 import { CellProps, CellSize, SizeGrid } from "./Cell";
 import { InitlizeGrid } from "./Grid";
 // creat context for cell size
@@ -13,9 +13,11 @@ export const CellSizeContext = createContext<{
 export const GridContext = createContext<{
   grid: CellProps[][];
   setGrid: React.Dispatch<React.SetStateAction<CellProps[][]>>;
+  gridRef: React.MutableRefObject<CellProps[]>;
 }>({
   grid: [],
   setGrid: () => {},
+  gridRef: { current: [] },
 });
 
 // setSpeed context
@@ -51,24 +53,26 @@ export const ControlContext = createContext<{
 export const AppContexts: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [cellSize, setCellSize] = useState<CellSize>(CellSize.default);
-  const [grid, setGrid] = useState<CellProps[][]>(InitlizeGrid(cellSize));
+const [cellSize, setCellSize] = useState<CellSize>(CellSize.default);
+const cellValue = useMemo(
+  () => ({
+    cellSize,
+    setCellSize,
+  }),
+  [cellSize, setCellSize]
+);
 
+  const [grid, setGrid] = useState<CellProps[][]>(InitlizeGrid(cellSize));
+  const gridRef = useRef<CellProps[]>([]);
   const GridValue = useMemo(
     () => ({
       grid,
       setGrid,
+      gridRef
     }),
-    [grid, setGrid]
-  );
-
-  const cellValue = useMemo(
-    () => ({
-      cellSize,
-      setCellSize,
-    }),
-    [cellSize, setCellSize]
-  );
+    [grid, setGrid, gridRef]
+    );
+    
 
   const [playing, setPlaying] = useState<boolean>(false);
   const [solved, setSolved] = useState<boolean>(false);
