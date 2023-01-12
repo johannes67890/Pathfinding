@@ -12,7 +12,7 @@ import { getAllCells } from "../algoritme/Dijksta";
 import Algortims from "./Algortims";
 
 const Grid = () => {
-  const { grid, setGrid, gridRef } = useContext(GridContext);
+  const { grid, setGrid,setGridCell, gridRef } = useContext(GridContext);
   const { cellSize } = useContext(CellSizeContext);
   const { playing, setPlaying, solved, setSolved } = useContext(ControlContext);
 
@@ -45,7 +45,7 @@ const Grid = () => {
         className="focus:ring-transparent h-12 max-h-[3rem] py-2 rounded-b-none border-b-0 group"
         onClick={() => OnStart()}
       >
-        {playing && !solved && !ongoing ? <Algortims ongoing={ongoing} /> : null}
+        {playing && !solved && !ongoing ? <Algortims grid={grid} setGridCell={setGridCell} ongoing={ongoing} /> : null}
         <RenderButton ongoing={ongoing} />
       </FlowbiteBtn>
 
@@ -62,6 +62,7 @@ const Grid = () => {
                 col={node.col}
                 ref={(e) => addToGridRef(e)}
                 key={nodeIndex}
+                className={node.className}
                 isVisited={node.isVisited}
                 isFinish={node.isFinish}
                 isStart={node.isStart}

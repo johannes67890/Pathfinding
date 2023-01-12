@@ -56,7 +56,7 @@ export function getCellsInShortestPathOrder(finishNode: CellProps) {
     CellsInShortestPathOrder.unshift(currentNode); //shift back though finishNode
     currentNode = currentNode.previousNode;
   }
-  console.log("Shorstes path length: ", CellsInShortestPathOrder.length);
+  //console.log("Shorstes path length: ", CellsInShortestPathOrder.length);
 
   return CellsInShortestPathOrder;
 }

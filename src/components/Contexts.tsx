@@ -13,10 +13,12 @@ export const CellSizeContext = createContext<{
 export const GridContext = createContext<{
   grid: CellProps[][];
   setGrid: React.Dispatch<React.SetStateAction<CellProps[][]>>;
+  setGridCell: (i: number, j: number, cell: CellProps) => void;
   gridRef: React.MutableRefObject<CellProps[]>;
 }>({
   grid: [],
   setGrid: () => {},
+  setGridCell: () => {},
   gridRef: { current: [] },
 });
 
@@ -62,17 +64,26 @@ const cellValue = useMemo(
   [cellSize, setCellSize]
 );
 
+function setGridCell (i: number, j: number, cell: CellProps)  {
+  setGrid((prev) => {
+    cell.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;      
+    prev[i][j] = cell;
+    return [...prev];
+  });
+}
+
   const [grid, setGrid] = useState<CellProps[][]>(InitlizeGrid(cellSize));
   const gridRef = useRef<CellProps[]>([]);
   const GridValue = useMemo(
     () => ({
       grid,
       setGrid,
-      gridRef
+      setGridCell,
+      gridRef,
     }),
-    [grid, setGrid, gridRef]
+    [grid, setGrid, setCellSize, gridRef]
     );
-    
+
 
   const [playing, setPlaying] = useState<boolean>(false);
   const [solved, setSolved] = useState<boolean>(false);
