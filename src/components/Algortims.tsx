@@ -56,7 +56,7 @@ const AnimateDijkstra: React.FC<{startNode: CellProps,finishNode: CellProps}> = 
               const cell = ShortestPathOrder[i];
               document.getElementById(
                 `row-${cell.row} col-${cell.col}`
-              )!.className = `border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+              )!.className = `animate-shortest-path border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
             }, 50 * i);
   
           }          
