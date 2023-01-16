@@ -32,11 +32,17 @@ const AnimateDijkstra: React.FC<{startNode: CellProps,finishNode: CellProps}> = 
   const { cellSize } = useContext(CellSizeContext);
   const { speed } = useContext(SpeedContext);
   const { grid } = useContext(GridContext)
-  const { setSolved, playing } = useContext(ControlContext);
+  const { setSolved } = useContext(ControlContext);
 
   const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
   const ShortestPathOrder = getCellsInShortestPathOrder(finishNode); 
-    
+  
+  // remove start and finish node from visitedNodesInOrder
+  visitedNodesInOrder.shift();
+  visitedNodesInOrder.pop();
+  visitedNodesInOrder.shift();
+  visitedNodesInOrder.pop();
+
   let i = 0;
 
     const Interval = setInterval(() => {
@@ -45,11 +51,11 @@ const AnimateDijkstra: React.FC<{startNode: CellProps,finishNode: CellProps}> = 
       // if (playing) {
       //   return;
       // }
-
+      
       document.getElementById(
         `row-${cell.row} col-${cell.col}`
       )!.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
-      
+    
       if (i === visitedNodesInOrder.length - 1) {
           for (let i = 0; i < ShortestPathOrder.length; i++) {
             setTimeout(() => {              

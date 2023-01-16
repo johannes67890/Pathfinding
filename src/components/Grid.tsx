@@ -25,7 +25,18 @@ const Grid = () => {
           for (let row of newGrid) {
             for (let node of row) {              
               node.isVisited = false;
-              
+              if(node.isStart || node.isFinish){
+                continue;
+              }
+              // if(node.isStart){
+              //   document.getElementById(
+              //     `row-${node.row} col-${node.col}`
+              //   )!.className = `bg-green-400 border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+              // } else if(node.isFinish){
+              //   document.getElementById(
+              //     `row-${node.row} col-${node.col}`
+              //   )!.className = `bg-red-400 border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+              // }
               document.getElementById(
                 `row-${node.row} col-${node.col}`
               )!.className = `border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;

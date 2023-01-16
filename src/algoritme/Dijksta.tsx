@@ -28,6 +28,7 @@ export function dijkstra(
       updateUnvisitedNeighbors(closestCell, grid);
     } else return visitedCellsInOrder;
   }
+
   return visitedCellsInOrder;
 }
 
@@ -58,6 +59,9 @@ export function getCellsInShortestPathOrder(finishNode: CellProps) {
   }
   //console.log("Shorstes path length: ", CellsInShortestPathOrder.length);
 
+  // remove start and finish node from CellsInShortestPathOrder
+  CellsInShortestPathOrder.shift();
+  CellsInShortestPathOrder.pop();
   return CellsInShortestPathOrder;
 }
 
