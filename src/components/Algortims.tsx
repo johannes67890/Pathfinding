@@ -1,13 +1,14 @@
 import React, { useContext, useRef, useEffect, useState } from "react";
 import { CellProps, CellSize, SizeGrid } from "./Cell";
 import { Algorithm, CellSizeContext, ControlContext, GridContext, SpeedContext } from "./Contexts";
-import { animateShortestPath, dijkstra } from "../algoritme/Dijksta";
+import {  dijkstra } from "../algoritme/Dijksta";
 import { getCellsInShortestPathOrder } from "../algoritme/Dijksta";
 
 
 
-const Algortims: React.FC<{grid: CellProps[][], setGridCell: any,  ongoing: boolean}> = ({grid, setGridCell, ongoing}) => {
+const Algortims: React.FC<{ ongoing: boolean}> = ({ongoing}) => {
  const { cellSize } = useContext(CellSizeContext);
+ const {grid } = useContext(GridContext)
 
 
 const startNode =
@@ -22,49 +23,51 @@ const startNode =
 
 
   return (
-    <AnimateDijkstra grid={grid} setGridCell={setGridCell}  startNode={startNode} finishNode={finishNode} />
+    <AnimateDijkstra startNode={startNode} finishNode={finishNode} />
   )
 }
 
 
-const AnimateDijkstra: React.FC<{grid: CellProps[][], setGridCell: any,startNode: CellProps,finishNode: CellProps}> = ({grid, setGridCell, startNode, finishNode}) => {
+const AnimateDijkstra: React.FC<{startNode: CellProps,finishNode: CellProps}> = ({  startNode, finishNode}) => {
   const { cellSize } = useContext(CellSizeContext);
   const { speed } = useContext(SpeedContext);
-  const { setSolved } = useContext(ControlContext);
+  const { grid } = useContext(GridContext)
+  const { setSolved, playing } = useContext(ControlContext);
 
   const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
   const ShortestPathOrder = getCellsInShortestPathOrder(finishNode); 
-  
-  
+    
   let i = 0;
-  
-  useEffect(() => {
-    console.log("useEffect");
-    
+
     const Interval = setInterval(() => {
-    
-      setGridCell(visitedNodesInOrder[i].row, visitedNodesInOrder[i].col, visitedNodesInOrder[i]);
-        
-      //   if (playing) {
-      //     return;
-      //   }
-    
-        i++
-      }, speed);
+      const cell = visitedNodesInOrder[i];      
+      
+      // if (playing) {
+      //   return;
+      // }
 
-    if (i === visitedNodesInOrder.length - 1) {
-
-    return () => {
-        setTimeout(() => {
-          animateShortestPath(ShortestPathOrder, cellSize);
-        }, 250);
-        clearInterval(Interval);
-        setSolved(true);
-        return;
-      }
-    }
-  }, [])
+      document.getElementById(
+        `row-${cell.row} col-${cell.col}`
+      )!.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+      
+      if (i === visitedNodesInOrder.length - 1) {
+          for (let i = 0; i < ShortestPathOrder.length; i++) {
+            setTimeout(() => {              
+              const cell = ShortestPathOrder[i];
+              document.getElementById(
+                `row-${cell.row} col-${cell.col}`
+              )!.className = `border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+            }, 50 * i);
   
+          }          
+          setSolved(true);
+          clearInterval(Interval);
+        return null;
+      }
+      
+      i++
+    }, speed);
+    
   return null;
 }
 

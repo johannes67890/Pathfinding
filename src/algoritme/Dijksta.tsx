@@ -61,20 +61,6 @@ export function getCellsInShortestPathOrder(finishNode: CellProps) {
   return CellsInShortestPathOrder;
 }
 
-export function animateShortestPath(
-  nodesInShortestPathOrder: CellProps[],
-  cellSize: CellSize
-) {
-  for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
-    setTimeout(() => {
-      const cell = nodesInShortestPathOrder[i];
-      document.getElementById(
-        `row-${cell.row} col-${cell.col}`
-      )!.className = `bg-yellow-500 border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
-    }, 50 * i);
-  }
-}
-
 function sortCellsByDistance(unvisitedNodes: CellProps[]) {
   unvisitedNodes.sort(
     (cellA: CellProps, cellB: CellProps) => cellA.distance - cellB.distance

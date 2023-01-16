@@ -10,6 +10,8 @@ module.exports = {
       
       animation: {
         "visited-cell": "upscale 400ms ease-in both",
+        "shortest-path": "upscaleShortest 400ms ease-in both",
+        "reset": "reset 400ms ease-in both",
       },
       keyframes: {
         upscale: {
@@ -24,6 +26,25 @@ module.exports = {
             backgroundColor: "blue",
           },
         },
+        upscaleShortest: {
+          "0%": {
+            transform: "scale(0.25)",
+          },
+          "100%": {
+            transform: "scale(1)",
+            backgroundColor: "orange",
+          },
+        },
+        reset: {
+          "0%": {
+            transform: "scale(1)",
+            backgroundColor: "blue",
+          },
+          "100%": {
+            transform: "scale(0.25)",
+            backgroundColor: "white",
+          },
+        }
       },
     },
   },

@@ -3,25 +3,42 @@ import {
   CellSizeContext,
   ControlContext,
   GridContext,
-  SpeedContext,
 } from "./Contexts";
-import { useState, useEffect, useContext, useRef, createContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import * as utils from "../utils";
 import { Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
-import { getAllCells } from "../algoritme/Dijksta";
 import Algortims from "./Algortims";
 
 const Grid = () => {
-  const { grid, setGrid,setGridCell, gridRef } = useContext(GridContext);
+  const { grid, setGrid, gridRef } = useContext(GridContext);
   const { cellSize } = useContext(CellSizeContext);
-  const { playing, setPlaying, solved, setSolved } = useContext(ControlContext);
+  const {playing, setPlaying, solved, setSolved } = useContext(ControlContext);
 
   const [cellClicked, setCellClicked] = useState<boolean>(false);
   const [ongoing, setOngoing] = useState<boolean>(false)
+  const [refresh, setRefresh] = useState<boolean>(false)
   
-  useEffect(() => {
-    setGrid(InitlizeGrid(cellSize));
-  }, [cellSize]);
+  useEffect(() => {    
+    if(refresh){
+      setGrid((prevGrid) => {
+        const newGrid = prevGrid.slice();
+          for (let row of newGrid) {
+            for (let node of row) {              
+              node.isVisited = false;
+              
+              document.getElementById(
+                `row-${node.row} col-${node.col}`
+              )!.className = `border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+              
+
+            }
+          }
+          return newGrid;
+        });
+    }
+   
+    setGrid(InitlizeGrid(cellSize))
+  }, [refresh, cellSize]);
   
  
   const addToGridRef = (e: any) => {
@@ -34,8 +51,7 @@ const Grid = () => {
     setPlaying(!playing);
     setSolved(false);
     playing && !solved && !ongoing ? setOngoing(true) : setOngoing(false);
-    console.log(gridRef);
-    
+    playing && solved && !ongoing ? setRefresh(true) : setRefresh(false);
   }
   
   return (
@@ -45,7 +61,8 @@ const Grid = () => {
         className="focus:ring-transparent h-12 max-h-[3rem] py-2 rounded-b-none border-b-0 group"
         onClick={() => OnStart()}
       >
-        {playing && !solved && !ongoing ? <Algortims grid={grid} setGridCell={setGridCell} ongoing={ongoing} /> : null}
+        {playing && !solved && !ongoing ? <Algortims ongoing={ongoing} /> : null}
+        
         <RenderButton ongoing={ongoing} />
       </FlowbiteBtn>
 
@@ -72,7 +89,7 @@ const Grid = () => {
                     if (node.isWall === false) {
                       node.isWall = true;
                     } else node.isWall = false;
-                    setCellClicked(!cellClicked);                    
+                    setCellClicked(!cellClicked);
                   }}
                 
                   size={cellSize}
@@ -93,7 +110,7 @@ const Grid = () => {
 
 
 const RenderButton: React.FC<{ongoing: boolean}> = ({ongoing}) => {
-  const { playing, solved } = useContext(ControlContext);
+  const { playing, solved, setSolved } = useContext(ControlContext);
 
     if(!playing && !solved && !ongoing)
           {
