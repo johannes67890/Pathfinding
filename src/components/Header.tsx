@@ -42,9 +42,11 @@ export const GridSize = () => {
   const {playing} = useContext(ControlContext);
   const { setGrid } = useContext(GridContext);
 
+  const [strength, setStrength] = useState<number>(5);
+
   return (
-    <div className="flex flex-col gap-1">
-      <h2 className="font-bold">Node Size</h2>
+    <div className="flex flex-col gap-1 mx-auto">
+      <h2 className="font-bold mx-auto">Node Size</h2>
       <FlowbiteBtn.Group outline={true}>
         <FlowbiteBtn disabled={playing} color="gray" onClick={() => setCellSize(CellSize.big)}>
           Big
@@ -61,15 +63,37 @@ export const GridSize = () => {
           outline={true}
           className="focus:ring-0"
           onClick={() => {
-            setGrid(InitlizeGridWithRandomWalls(cellSize));
+            setGrid(InitlizeGridWithRandomWalls(cellSize, strength));
           }}
           disabled={playing ? true : false}
         >
           Random
         </FlowbiteBtn>
+        <div className="flex gap-3">
+          <div className="w-52">
+            <input
+              list="tickmarks-strength"
+              id="minmax-range"
+              onChange={(e) => setStrength(parseInt(e.target.value))}
+              type="range"
+              step={1}
+              max={10}
+              min={1}
+              disabled={playing}
+              value={strength}
+              className="w-52 h-3 border border-black bg-white rounded-lg cursor-pointer dark:bg-gray-700"
+            />
+            <datalist id="tickmarks-strength" className="flex text-black  justify-between">
+              <option value="1" label="1"></option>
+              <option value="5" label="5"></option>
+              <option value="10" label="10"></option>
+            </datalist>
+          </div>
+        </div>
     </div>
   );
 };
+
 
 export const NodeColorRecord: Record<NodeVariant, string> = {
   [NodeVariant.startNode]: "bg-green-600",

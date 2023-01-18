@@ -71,6 +71,11 @@ const Grid = () => {
         color="gray"
         className="focus:ring-transparent h-12 max-h-[3rem] py-2 rounded-b-none border-b-0 group"
         onClick={() => OnStart()}
+        onContextMenu={(e) => {
+          
+          console.log("right click");
+          
+        }}
       >
         {playing && !solved && !ongoing ? <Algortims ongoing={ongoing} /> : null}
         
@@ -195,14 +200,16 @@ const RenderButton: React.FC<{ongoing: boolean}> = ({ongoing}) => {
 }
 
 
-export function InitlizeGridWithRandomWalls(cellSize: CellSize): CellProps[][] {
+export function InitlizeGridWithRandomWalls(cellSize: CellSize, strength: number): CellProps[][] {
   let newGridWithWalls: CellProps[][] = [];
   for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
     const currentRow: any = [];
     for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
       const cell = MakeNode(col, row, cellSize); //push current row to node
-
-      let rand = utils.getRandomInt(0, 10);
+      const strengthVal = (12.5 + 1) - strength;
+      
+      let rand = Math.floor(utils.getRandomInt(1, strengthVal));
+      
       if (cell.isStart || cell.isFinish) {
       } else if (rand === 1) {
         cell.isWall = true;

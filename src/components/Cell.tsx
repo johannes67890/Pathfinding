@@ -47,15 +47,14 @@ const Cell = React.forwardRef((props: CellProps, ref: any) => {
     ? "bg-black"
     : "";
 
-      
-
   return (
     <button
       ref={ref}
       id={`row-${row} col-${col}`}
-      onClick={() => {
+      onClick={(e) => {
         if (onClick) onClick();
       }}
+     
       className={utils.classNames(
         className,
         VariantClassName,
@@ -66,6 +65,7 @@ const Cell = React.forwardRef((props: CellProps, ref: any) => {
     ></button>
   )
 });
+
 
 export const MakeNode = (col: number, row: number, cellSize: CellSize) => {
   const STARTCELL: Array<Number> = [
