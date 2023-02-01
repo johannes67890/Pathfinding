@@ -1,5 +1,4 @@
 import { CellProps, CellSize, SizeGrid } from "../components/Cell";
-import { Astar } from "./Astar";
 
 
 export function dijkstra(
@@ -16,7 +15,6 @@ export function dijkstra(
 
     if (closestCell !== undefined) {
       if (closestCell.isWall) continue;
-      Astar(closestCell, finishCell, unvisitedNodes, visitedCellsInOrder);
       // If we encounter a wall, we skip it.
       // If the closest node is at a distance of infinity,
       // we must be trapped and should therefore stop.
@@ -32,7 +30,7 @@ export function dijkstra(
   return visitedCellsInOrder;
 }
 
-function updateUnvisitedNeighbors(cell: CellProps, grid: CellProps[][]) {
+export function updateUnvisitedNeighbors(cell: CellProps, grid: CellProps[][]) {
   const unvisitedNeighbors = getUnvisitedNeighbors(cell, grid);
   for (const neighbor of unvisitedNeighbors) {
     neighbor.distance = cell.distance + 1;
@@ -40,7 +38,7 @@ function updateUnvisitedNeighbors(cell: CellProps, grid: CellProps[][]) {
   }
 }
 
-function getUnvisitedNeighbors(cell: CellProps, grid: any) {
+export function getUnvisitedNeighbors(cell: CellProps, grid: any) {
   const neighbors = [];
   const { col, row } = cell;
   if (row > 0) neighbors.push(grid[row - 1][col]);
@@ -65,7 +63,7 @@ export function getCellsInShortestPathOrder(finishNode: CellProps) {
   return CellsInShortestPathOrder;
 }
 
-function sortCellsByDistance(unvisitedNodes: CellProps[]) {
+export function sortCellsByDistance(unvisitedNodes: CellProps[]) {
   unvisitedNodes.sort(
     (cellA: CellProps, cellB: CellProps) => cellA.distance - cellB.distance
   );

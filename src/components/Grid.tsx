@@ -8,6 +8,7 @@ import { useState, useEffect, useContext } from "react";
 import * as utils from "../utils";
 import { Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
 import Algortims from "./Algortims";
+import Astar from "../algoritme/Astar";
 
 const Grid = () => {
   const { grid, setGrid, gridRef } = useContext(GridContext);
@@ -102,10 +103,11 @@ const Grid = () => {
                   isWall={node.isWall}
                   distance={node.distance}
                   onClick={() => {
-                    if (node.isWall === false) {
-                      node.isWall = true;
-                    } else node.isWall = false;
-                    setCellClicked(!cellClicked);
+                    // if (node.isWall === false) {
+                    //   node.isWall = true;
+                    // } else node.isWall = false;
+                    // setCellClicked(!cellClicked);
+                    console.log(node.cost, "row:", node.row, "col:", node.col);
                   }}
                 
                   size={cellSize}

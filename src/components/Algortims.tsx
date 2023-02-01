@@ -3,12 +3,13 @@ import { CellProps, CellSize, SizeGrid } from "./Cell";
 import { Algorithm, CellSizeContext, ControlContext, GridContext, SpeedContext } from "./Contexts";
 import {  dijkstra } from "../algoritme/Dijksta";
 import { getCellsInShortestPathOrder } from "../algoritme/Dijksta";
+import Astar from "../algoritme/Astar";
 
 
 
 const Algortims: React.FC<{ ongoing: boolean}> = ({ongoing}) => {
  const { cellSize } = useContext(CellSizeContext);
- const {grid } = useContext(GridContext)
+ const { grid } = useContext(GridContext)
 
 
 const startNode =
@@ -20,11 +21,11 @@ const startNode =
       Math.round((SizeGrid[cellSize][3] / 2) * 1.35)
     ];
     
-
-
-  return (
-    <AnimateDijkstra startNode={startNode} finishNode={finishNode} />
-  )
+     Astar(grid, startNode, finishNode)
+    return null;
+  // return (
+  //   <AnimateDijkstra startNode={startNode} finishNode={finishNode} />
+  // )
 }
 
 
@@ -77,8 +78,5 @@ const AnimateDijkstra: React.FC<{startNode: CellProps,finishNode: CellProps}> = 
   return null;
 }
 
-const Astar = () => {
-  const { cellSize } = useContext(CellSizeContext);
-};
 
 export default Algortims;
