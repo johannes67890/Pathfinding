@@ -23,8 +23,10 @@ const Algortims: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
     grid[Math.round(SizeGrid[cellSize][2] / 2 / 1.2)][
       Math.round((SizeGrid[cellSize][3] / 2) * 1.35)
     ];
-
-  return <Astar startNode={startNode} finishNode={finishNode} />;
+     
+    // astar(grid, startNode, finishNode);
+    // return null
+   return <Astar startNode={startNode} finishNode={finishNode} />;
 
   // return (
   //   <AnimateDijkstra startNode={startNode} finishNode={finishNode} />
@@ -104,7 +106,7 @@ const Astar: React.FC<{ startNode: CellProps; finishNode: CellProps }> = ({
 
   const Interval = setInterval(() => {
     const cell = visitedNodesInOrder[i];
-    console.log(cell);
+  
 
     // if (playing) {
     //   return;

@@ -26,25 +26,25 @@ function astar(
   startCell.cost.fCost = startCell.cost.gCost + startCell.cost.hCost;
   openList.push(startCell);
 
-  while (!!openList.length) {
-    sortCellsByFcost(openList);
-
-    const currentCell = getNeighborWithLowestFCost(openList[0], grid);
-
-    if (currentCell != undefined) {
-      closedList.push(currentCell);
-      const neighbors: CellProps[] = getNeighbors(currentCell, grid);
-
-      for (let n = 0; n < neighbors.length; n++) {
+  
+  
+  
+  sortCellsByFcost(unvisitedNodes);
+  console.log(unvisitedNodes);
+  
+  for(let i = 0; i < unvisitedNodes.length; i++){
+    const currentCell = unvisitedNodes.shift();
+    if (currentCell !== undefined) {
+      if (currentCell.isWall) continue;
+      console.log(currentCell);
+      const neighbors = getUnvisitedNeighbors(currentCell, grid);
+      for(let n = 0; n < neighbors.length; n++){
         const neighbor = neighbors[n];
-
         if (neighbor?.isWall) continue;
         if (neighbor?.isStart) continue;
-        if (neighbor?.isFinish) return closedList;
-
+        if (neighbor?.isFinish) continue;
         const gScore = currentCell.cost.gCost + 1;
         let gBest = false;
-
         if (!openList.includes(neighbor)) {
           gBest = true;
           neighbor.cost.hCost = manhattan(neighbor, finishCell);
@@ -52,14 +52,47 @@ function astar(
           gBest = true;
         }
         if (gBest) {
+          neighbor.cost.previousCell = currentCell;
           neighbor.cost.gCost = gScore;
-          neighbor.cost.fCost = currentCell.cost.gCost + currentCell.cost.hCost;
+          neighbor.cost.fCost = neighbor.cost.gCost + neighbor.cost.hCost;
+          if (!openList.includes(neighbor)) openList.push(neighbor);
         }
       }
+      closedList.push(currentCell);
     }
   }
-  console.log(closedList);
   return closedList;
+  
+    
+    // while (!!openList.length) {
+      
+    //   if (currentCell != undefined) {
+    //     const neighbors = getUnvisitedNeighbors(currentCell, grid);
+        
+    //     for (let n = 0; n < neighbors.length; n++) {
+    //       const neighbor = neighbors[n];
+  
+    //       if (neighbor?.isWall) continue;
+    //       if (neighbor?.isStart) continue;
+    //       if (neighbor?.isFinish) return closedList;
+  
+    //       const gScore = currentCell.cost.gCost + 1;
+    //       let gBest = false;
+  
+    //       if (!openList.includes(neighbor)) {
+    //         gBest = true;
+    //         neighbor.cost.hCost = manhattan(neighbor, finishCell);
+    //       } else if (gScore < currentCell.cost.gCost) {
+    //         gBest = true;
+    //       }
+    //       if (gBest) {
+    //         neighbor.cost.gCost = gScore;
+    //         neighbor.cost.fCost = currentCell.cost.gCost + currentCell.cost.hCost;
+    //       }
+    //     }
+    //   }
+    // }
+
 }
 
 function getNeighborWithLowestFCost(cell: CellProps, grid: any) {
