@@ -2,7 +2,6 @@ import React from "react";
 import { CellProps } from "../components/Cell";
 import {
   getAllCells,
-  getNeighbors,
   getUnvisitedNeighbors,
   sortCellsByDistance,
   updateUnvisitedNeighbors,
@@ -27,39 +26,34 @@ function astar(
   startCell.cost.fCost = startCell.cost.gCost + startCell.cost.hCost;
   openList.push(startCell);
 
-  while (!!unvisitedNodes.length) {
-    sortCellsByFcost(unvisitedNodes);
-    for (let i = 0; i < unvisitedNodes.length; i++) {
-      const currentCell: CellProps = getNeighborWithLowestFCost(
-        unvisitedNodes[i],
-        grid
-      );
+  while (!!openList.length) {
+    sortCellsByFcost(openList);
 
-      if (currentCell != undefined) {
-        openList.pop();
-        closedList.push(currentCell);
-        const neighbors: CellProps[] = getNeighbors(currentCell, grid);
-        for (let n = 0; n < neighbors.length; n++) {
-          const neighbor = neighbors[n];
+    const currentCell = getNeighborWithLowestFCost(openList[0], grid);
 
-          if (currentCell?.isWall) continue;
-          if (currentCell?.isStart) continue;
-          if (currentCell?.isFinish) return closedList;
+    if (currentCell != undefined) {
+      closedList.push(currentCell);
+      const neighbors: CellProps[] = getNeighbors(currentCell, grid);
 
-          const gScore = currentCell.cost.gCost + 1;
-          let gBest = false;
+      for (let n = 0; n < neighbors.length; n++) {
+        const neighbor = neighbors[n];
 
-          if (!openList.includes(neighbor)) {
-            gBest = true;
-            neighbor.cost.hCost = manhattan(neighbor, finishCell);
-          } else if (gScore < currentCell.cost.gCost) {
-            gBest = true;
-          }
-          if (gBest) {
-            neighbor.cost.gCost = gScore;
-            neighbor.cost.fCost =
-              currentCell.cost.gCost + currentCell.cost.hCost;
-          }
+        if (neighbor?.isWall) continue;
+        if (neighbor?.isStart) continue;
+        if (neighbor?.isFinish) return closedList;
+
+        const gScore = currentCell.cost.gCost + 1;
+        let gBest = false;
+
+        if (!openList.includes(neighbor)) {
+          gBest = true;
+          neighbor.cost.hCost = manhattan(neighbor, finishCell);
+        } else if (gScore < currentCell.cost.gCost) {
+          gBest = true;
+        }
+        if (gBest) {
+          neighbor.cost.gCost = gScore;
+          neighbor.cost.fCost = currentCell.cost.gCost + currentCell.cost.hCost;
         }
       }
     }
@@ -99,6 +93,16 @@ function applyCostToNodes(
 
 function sortCellsByFcost(unvisitedNodes: CellProps[]) {
   unvisitedNodes.sort((cellA, cellB) => cellA.cost.fCost - cellB.cost.fCost);
+}
+
+function getNeighbors(cell: CellProps, grid: any) {
+  const neighbors = [];
+  const { col, row } = cell;
+  if (row > 0) neighbors.push(grid[row - 1][col]);
+  if (row < grid.length - 1) neighbors.push(grid[row + 1][col]);
+  if (col > 0) neighbors.push(grid[row][col - 1]);
+  if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]);
+  return neighbors;
 }
 
 function manhattan(CurrCell: CellProps, finishCell: CellProps) {
