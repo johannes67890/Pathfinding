@@ -1,11 +1,17 @@
 import React from "react";
 import { CellProps } from "../components/Cell";
-import {  getAllCells, getUnvisitedNeighbors, updateUnvisitedNeighbors } from "./Dijksta";
+import {
+  getAllCells,
+  getNeighbors,
+  getUnvisitedNeighbors,
+  sortCellsByDistance,
+  updateUnvisitedNeighbors,
+} from "./Dijksta";
 
-function Astar(
+function astar(
   grid: CellProps[][],
   startCell: CellProps,
-  finishCell: CellProps,
+  finishCell: CellProps
 ) {
   // A* search algorithm
   // f(n) = g(n) + h(n)
@@ -14,31 +20,55 @@ function Astar(
   // h(n) = estimated cost from n to finish
   applyCostToNodes(grid, startCell, finishCell);
   const unvisitedNodes = getAllCells(grid);
-  const visitedCellsInOrder: CellProps[] = [];
+  const openList: CellProps[] = [];
+  const closedList: CellProps[] = [];
   startCell.cost.gCost = 0;
   startCell.cost.hCost = manhattan(startCell, finishCell);
   startCell.cost.fCost = startCell.cost.gCost + startCell.cost.hCost;
-  
+  openList.push(startCell);
+
   while (!!unvisitedNodes.length) {
-    
     sortCellsByFcost(unvisitedNodes);
-   
-    const closestCell: CellProps | undefined = unvisitedNodes.shift();
-    
-    if(closestCell != undefined) {
-    console.log(closestCell.cost);
-   
-    if(closestCell?.isFinish) return visitedCellsInOrder;
-    if(closestCell?.isWall) continue;
+    for (let i = 0; i < unvisitedNodes.length; i++) {
+      const currentCell: CellProps = getNeighborWithLowestFCost(
+        unvisitedNodes[i],
+        grid
+      );
 
+      if (currentCell != undefined) {
+        openList.pop();
+        closedList.push(currentCell);
+        const neighbors: CellProps[] = getNeighbors(currentCell, grid);
+        for (let n = 0; n < neighbors.length; n++) {
+          const neighbor = neighbors[n];
 
-    
+          if (currentCell?.isWall) continue;
+          if (currentCell?.isStart) continue;
+          if (currentCell?.isFinish) return closedList;
 
-    } else return visitedCellsInOrder;
-    
-} }
+          const gScore = currentCell.cost.gCost + 1;
+          let gBest = false;
 
-function getNeighborWithLowestFCost(cell: CellProps, grid: CellProps[][]) {
+          if (!openList.includes(neighbor)) {
+            gBest = true;
+            neighbor.cost.hCost = manhattan(neighbor, finishCell);
+          } else if (gScore < currentCell.cost.gCost) {
+            gBest = true;
+          }
+          if (gBest) {
+            neighbor.cost.gCost = gScore;
+            neighbor.cost.fCost =
+              currentCell.cost.gCost + currentCell.cost.hCost;
+          }
+        }
+      }
+    }
+  }
+  console.log(closedList);
+  return closedList;
+}
+
+function getNeighborWithLowestFCost(cell: CellProps, grid: any) {
   const unvisitedNeighbors: CellProps[] = getUnvisitedNeighbors(cell, grid);
   let lowestFCost = Infinity;
   let lowestFCostNeighbor: CellProps = cell;
@@ -51,14 +81,18 @@ function getNeighborWithLowestFCost(cell: CellProps, grid: CellProps[][]) {
   return lowestFCostNeighbor;
 }
 
-function applyCostToNodes(grid: CellProps[][], startCell: CellProps, finishCell: CellProps) {
+function applyCostToNodes(
+  grid: CellProps[][],
+  startCell: CellProps,
+  finishCell: CellProps
+) {
   const newGrid = getAllCells(grid);
   for (const cell of newGrid) {
-    if(cell.isWall) continue;
-    if(cell.isStart) continue;
-    if(cell.isFinish) continue;
+    if (cell.isWall) continue;
+    if (cell.isStart) continue;
+    if (cell.isFinish) continue;
     cell.cost.hCost = manhattan(cell, finishCell);
-    cell.cost.gCost = manhattan(cell, startCell)
+    cell.cost.gCost = manhattan(cell, startCell);
     cell.cost.fCost = cell.cost.gCost + cell.cost.hCost;
   }
 }
@@ -76,7 +110,7 @@ function manhattan(CurrCell: CellProps, finishCell: CellProps) {
 
 // const gCost = closestCell.cost.gCost + manhattan(closestCell, finishCell);
 //   const hCost = manhattan(closestCell, finishCell);
-  
+
 //   let isBestCost = false;
 
 //   if (
@@ -102,4 +136,4 @@ function manhattan(CurrCell: CellProps, finishCell: CellProps) {
 //   }
 //   //console.log(gCost);
 
-export default Astar;
+export default astar;

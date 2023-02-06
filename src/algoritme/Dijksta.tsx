@@ -1,6 +1,5 @@
 import { CellProps, CellSize, SizeGrid } from "../components/Cell";
 
-
 export function dijkstra(
   grid: CellProps[][],
   startCell: CellProps,
@@ -47,6 +46,15 @@ export function getUnvisitedNeighbors(cell: CellProps, grid: any) {
   if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]);
   return neighbors.filter((neighbor) => !neighbor.isVisited);
 }
+export function getNeighbors(cell: CellProps, grid: any) {
+  const neighbors = [];
+  const { col, row } = cell;
+  if (row > 0) neighbors.push(grid[row - 1][col]);
+  if (row < grid.length - 1) neighbors.push(grid[row + 1][col]);
+  if (col > 0) neighbors.push(grid[row][col - 1]);
+  if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]);
+  return neighbors;
+}
 
 export function getCellsInShortestPathOrder(finishNode: CellProps) {
   const CellsInShortestPathOrder: CellProps[] = [];
@@ -78,5 +86,3 @@ export function getAllCells(grid: CellProps[][]) {
   }
   return cells;
 }
-
-
