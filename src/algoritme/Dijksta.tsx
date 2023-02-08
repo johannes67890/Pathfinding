@@ -29,7 +29,7 @@ export function dijkstra(
   return visitedCellsInOrder;
 }
 
-export function updateUnvisitedNeighbors(cell: CellProps, grid: CellProps[][]) {
+function updateUnvisitedNeighbors(cell: CellProps, grid: CellProps[][]) {
   const unvisitedNeighbors = getUnvisitedNeighbors(cell, grid);
   for (const neighbor of unvisitedNeighbors) {
     neighbor.distance = cell.distance + 1;
@@ -37,7 +37,7 @@ export function updateUnvisitedNeighbors(cell: CellProps, grid: CellProps[][]) {
   }
 }
 
-export function getUnvisitedNeighbors(cell: CellProps, grid: any) {
+function getUnvisitedNeighbors(cell: CellProps, grid: any) {
   const neighbors = [];
   const { col, row } = cell;
   if (row > 0) neighbors.push(grid[row - 1][col]);
@@ -46,23 +46,19 @@ export function getUnvisitedNeighbors(cell: CellProps, grid: any) {
   if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]);
   return neighbors.filter((neighbor) => !neighbor.isVisited);
 }
-
-export function getCellsInShortestPathOrder(finishNode: CellProps) {
+// TODO: Bugged
+export function getCellsInShortestPathOrderDijkstra(finishCell: CellProps) {
   const CellsInShortestPathOrder: CellProps[] = [];
-  let currentNode: any = finishNode;
+  let currentNode: any = finishCell;
   while (currentNode !== null) {
     CellsInShortestPathOrder.unshift(currentNode); //shift back though finishNode
-    currentNode = currentNode.previousNode;
+    currentNode = currentNode;
   }
-  //console.log("Shorstes path length: ", CellsInShortestPathOrder.length);
 
-  // remove start and finish node from CellsInShortestPathOrder
-  CellsInShortestPathOrder.shift();
-  CellsInShortestPathOrder.pop();
   return CellsInShortestPathOrder;
 }
 
-export function sortCellsByDistance(unvisitedNodes: CellProps[]) {
+function sortCellsByDistance(unvisitedNodes: CellProps[]) {
   unvisitedNodes.sort(
     (cellA: CellProps, cellB: CellProps) => cellA.distance - cellB.distance
   );

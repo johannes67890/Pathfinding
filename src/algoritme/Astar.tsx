@@ -1,11 +1,5 @@
-import React from "react";
 import { CellProps } from "../components/Cell";
-import {
-  getAllCells,
-  getUnvisitedNeighbors,
-  sortCellsByDistance,
-  updateUnvisitedNeighbors,
-} from "./Dijksta";
+import { getAllCells } from "./Dijksta";
 
 function astar(
   grid: CellProps[][],
@@ -67,9 +61,9 @@ function astar(
   }
   return closedList;
 }
-export function getCellsInShortestPathOrderAstar(current: CellProps) {
+export function getCellsInShortestPathOrderAstar(finishCell: CellProps) {
   const shortestPath: CellProps[] = [];
-  var curr = current;
+  var curr = finishCell;
   while (curr.previousNode !== null) {
     shortestPath.push(curr);
     curr = curr.previousNode;

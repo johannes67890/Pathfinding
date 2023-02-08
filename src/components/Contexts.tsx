@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { createContext, useMemo, useRef, useState } from "react";
 import { CellProps, CellSize, SizeGrid } from "./Cell";
 import { InitlizeGrid } from "./Grid";
 // creat context for cell size
@@ -38,13 +38,15 @@ export enum Algorithm {
 
 // Controlflow context
 export const ControlContext = createContext<{
-  algorithm: string;
+  algorithm: Algorithm;
+  setAlgorithm: React.Dispatch<React.SetStateAction<Algorithm>>;
   playing: boolean;
   setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   solved: boolean;
   setSolved: React.Dispatch<React.SetStateAction<boolean>>;
 }>({
   algorithm: Algorithm.Dijksta,
+  setAlgorithm: () => {},
   playing: false,
   setPlaying: () => {},
   solved: false,
@@ -55,22 +57,22 @@ export const ControlContext = createContext<{
 export const AppContexts: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-const [cellSize, setCellSize] = useState<CellSize>(CellSize.default);
-const cellValue = useMemo(
-  () => ({
-    cellSize,
-    setCellSize,
-  }),
-  [cellSize, setCellSize]
-);
+  const [cellSize, setCellSize] = useState<CellSize>(CellSize.default);
+  const cellValue = useMemo(
+    () => ({
+      cellSize,
+      setCellSize,
+    }),
+    [cellSize, setCellSize]
+  );
 
-function setGridCell (i: number, j: number, cell: CellProps)  {
-  setGrid((prev) => {
-    cell.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;      
-    prev[i][j] = cell;
-    return [...prev];
-  });
-}
+  function setGridCell(i: number, j: number, cell: CellProps) {
+    setGrid((prev) => {
+      cell.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+      prev[i][j] = cell;
+      return [...prev];
+    });
+  }
 
   const [grid, setGrid] = useState<CellProps[][]>(InitlizeGrid(cellSize));
   const gridRef = useRef<CellProps[]>([]);
@@ -82,8 +84,7 @@ function setGridCell (i: number, j: number, cell: CellProps)  {
       gridRef,
     }),
     [grid, setGrid, setCellSize, gridRef]
-    );
-
+  );
 
   const [playing, setPlaying] = useState<boolean>(false);
   const [solved, setSolved] = useState<boolean>(false);
@@ -91,10 +92,11 @@ function setGridCell (i: number, j: number, cell: CellProps)  {
   const ControlValue = useMemo(
     () => ({
       algorithm,
+      setAlgorithm,
       playing,
       setPlaying,
       solved,
-      setSolved
+      setSolved,
     }),
     [algorithm, setAlgorithm, playing, setPlaying, solved, setSolved]
   );

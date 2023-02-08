@@ -1,5 +1,5 @@
-import React, { useContext, useRef, useEffect, useState } from "react";
-import { CellProps, CellSize, SizeGrid } from "./Cell";
+import React, { useContext } from "react";
+import { CellProps, SizeGrid } from "./Cell";
 import {
   Algorithm,
   CellSizeContext,
@@ -7,13 +7,16 @@ import {
   GridContext,
   SpeedContext,
 } from "./Contexts";
-import { dijkstra } from "../algoritme/Dijksta";
-import { getCellsInShortestPathOrder } from "../algoritme/Dijksta";
+import {
+  dijkstra,
+  getCellsInShortestPathOrderDijkstra,
+} from "../algoritme/Dijksta";
 import astar, { getCellsInShortestPathOrderAstar } from "../algoritme/Astar";
 
 const Algortims: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
   const { cellSize } = useContext(CellSizeContext);
   const { grid } = useContext(GridContext);
+  //const { algorithm } = useContext(ControlContext);
 
   const startNode =
     grid[Math.round(SizeGrid[cellSize][2] / 2 / 1.2)][
@@ -23,14 +26,11 @@ const Algortims: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
     grid[Math.round(SizeGrid[cellSize][2] / 2 / 1.2)][
       Math.round((SizeGrid[cellSize][3] / 2) * 1.35)
     ];
-
-  // astar(grid, startNode, finishNode);
-  // return null
-  return <Astar startNode={startNode} finishNode={finishNode} />;
-
-  // return (
-  //   <AnimateDijkstra startNode={startNode} finishNode={finishNode} />
-  // )
+  return (
+    <>
+      <AnimateDijkstra startNode={startNode} finishNode={finishNode} />
+    </>
+  );
 };
 
 const AnimateDijkstra: React.FC<{
@@ -43,11 +43,9 @@ const AnimateDijkstra: React.FC<{
   const { setSolved } = useContext(ControlContext);
 
   const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
-  const ShortestPathOrder = getCellsInShortestPathOrder(finishNode);
+  const ShortestPathOrder = getCellsInShortestPathOrderDijkstra(finishNode);
 
   // remove start and finish node from visitedNodesInOrder
-  visitedNodesInOrder.shift();
-  visitedNodesInOrder.pop();
   visitedNodesInOrder.shift();
   visitedNodesInOrder.pop();
 
@@ -55,10 +53,6 @@ const AnimateDijkstra: React.FC<{
 
   const Interval = setInterval(() => {
     const cell = visitedNodesInOrder[i];
-
-    // if (playing) {
-    //   return;
-    // }
 
     document.getElementById(
       `row-${cell.row} col-${cell.col}`
@@ -84,10 +78,10 @@ const AnimateDijkstra: React.FC<{
   return null;
 };
 
-const Astar: React.FC<{ startNode: CellProps; finishNode: CellProps }> = ({
-  startNode,
-  finishNode,
-}) => {
+const AnimateAstar: React.FC<{
+  startNode: CellProps;
+  finishNode: CellProps;
+}> = ({ startNode, finishNode }) => {
   const { cellSize } = useContext(CellSizeContext);
   const { speed } = useContext(SpeedContext);
   const { grid } = useContext(GridContext);
@@ -99,10 +93,6 @@ const Astar: React.FC<{ startNode: CellProps; finishNode: CellProps }> = ({
 
   const Interval = setInterval(() => {
     const cell = visitedNodesInOrder[i];
-
-    // if (playing) {
-    //   return;
-    // }
 
     document.getElementById(
       `row-${cell.row} col-${cell.col}`
