@@ -23,10 +23,10 @@ const Algortims: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
     grid[Math.round(SizeGrid[cellSize][2] / 2 / 1.2)][
       Math.round((SizeGrid[cellSize][3] / 2) * 1.35)
     ];
-     
-    // astar(grid, startNode, finishNode);
-    // return null
-   return <Astar startNode={startNode} finishNode={finishNode} />;
+
+  // astar(grid, startNode, finishNode);
+  // return null
+  return <Astar startNode={startNode} finishNode={finishNode} />;
 
   // return (
   //   <AnimateDijkstra startNode={startNode} finishNode={finishNode} />
@@ -96,17 +96,10 @@ const Astar: React.FC<{ startNode: CellProps; finishNode: CellProps }> = ({
   const visitedNodesInOrder = astar(grid, startNode, finishNode);
   const ShortestPathOrder = getCellsInShortestPathOrder(finishNode);
 
-  // remove start and finish node from visitedNodesInOrder
-  visitedNodesInOrder.shift();
-  visitedNodesInOrder.pop();
-  visitedNodesInOrder.shift();
-  visitedNodesInOrder.pop();
-
   let i = 0;
 
   const Interval = setInterval(() => {
     const cell = visitedNodesInOrder[i];
-  
 
     // if (playing) {
     //   return;
@@ -117,6 +110,8 @@ const Astar: React.FC<{ startNode: CellProps; finishNode: CellProps }> = ({
     )!.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
 
     if (i === visitedNodesInOrder.length - 1) {
+      console.log("shortest path", ShortestPathOrder);
+
       for (let i = 0; i < ShortestPathOrder.length; i++) {
         setTimeout(() => {
           const cell = ShortestPathOrder[i];

@@ -37,8 +37,9 @@ export type CellProps = {
 };
 
 const Cell = React.forwardRef((props: CellProps, ref: any) => {
-  const { onClick, className, col, row, size, isStart, isFinish, isWall } = props;
-  
+  const { onClick, className, col, row, size, isStart, isFinish, isWall } =
+    props;
+
   const VariantClassName = isFinish
     ? "bg-red-500"
     : isStart
@@ -54,7 +55,6 @@ const Cell = React.forwardRef((props: CellProps, ref: any) => {
       onClick={(e) => {
         if (onClick) onClick();
       }}
-     
       className={utils.classNames(
         className,
         VariantClassName,
@@ -63,9 +63,8 @@ const Cell = React.forwardRef((props: CellProps, ref: any) => {
         `border border-black`
       )}
     ></button>
-  )
+  );
 });
-
 
 export const MakeNode = (col: number, row: number, cellSize: CellSize) => {
   const STARTCELL: Array<Number> = [

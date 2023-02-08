@@ -2,6 +2,7 @@ import React from "react";
 import { CellProps } from "../components/Cell";
 import {
   getAllCells,
+  getCellsInShortestPathOrder,
   getUnvisitedNeighbors,
   sortCellsByDistance,
   updateUnvisitedNeighbors,
@@ -18,7 +19,6 @@ function astar(
   // g(n) = cost from start to n
   // h(n) = estimated cost from n to finish
   applyCostToNodes(grid, startCell, finishCell);
-  const unvisitedNodes = getAllCells(grid);
   const openList: CellProps[] = [];
   const closedList: CellProps[] = [];
   startCell.cost.gCost = 0;
@@ -26,86 +26,46 @@ function astar(
   startCell.cost.fCost = startCell.cost.gCost + startCell.cost.hCost;
   openList.push(startCell);
 
-  
-  
-  
-  sortCellsByFcost(unvisitedNodes);
-  console.log(unvisitedNodes);
-  
-  for(let i = 0; i < unvisitedNodes.length; i++){
-    const currentCell = unvisitedNodes.shift();
-    if (currentCell !== undefined) {
-      if (currentCell.isWall) continue;
-      console.log(currentCell);
-      const neighbors = getUnvisitedNeighbors(currentCell, grid);
-      for(let n = 0; n < neighbors.length; n++){
-        const neighbor = neighbors[n];
-        if (neighbor?.isWall) continue;
-        if (neighbor?.isStart) continue;
-        if (neighbor?.isFinish) continue;
-        const gScore = currentCell.cost.gCost + 1;
-        let gBest = false;
-        if (!openList.includes(neighbor)) {
-          gBest = true;
-          neighbor.cost.hCost = manhattan(neighbor, finishCell);
-        } else if (gScore < currentCell.cost.gCost) {
-          gBest = true;
-        }
-        if (gBest) {
-          neighbor.cost.previousCell = currentCell;
-          neighbor.cost.gCost = gScore;
-          neighbor.cost.fCost = neighbor.cost.gCost + neighbor.cost.hCost;
-          if (!openList.includes(neighbor)) openList.push(neighbor);
-        }
+  while (!!openList.length) {
+    sortCellsByFcost(openList);
+
+    let lowestIndex = 0;
+    for (let i = 0; i < openList.length; i++) {
+      if (openList[i].cost.fCost < openList[lowestIndex].cost.fCost) {
+        lowestIndex = i;
       }
-      closedList.push(currentCell);
+    }
+    let current = openList[lowestIndex];
+
+    if (current.isFinish) {
+      return closedList;
+    }
+
+    openList.splice(lowestIndex, 1);
+    closedList.push(current);
+
+    let neighbors = getNeighbors(current, grid);
+
+    for (let i = 0; i < neighbors.length; i++) {
+      let neighbor = neighbors[i];
+      neighbor.previousCell = current;
+      if (!closedList.includes(neighbor) && !neighbor.isWall) {
+        let tempG = current.cost.gCost + 1;
+        if (openList.includes(neighbor)) {
+          if (tempG < neighbor.cost.gCost) {
+            neighbor.cost.gCost = tempG;
+          }
+        } else {
+          neighbor.cost.gCost = tempG;
+          openList.push(neighbor);
+        }
+        neighbor.cost.hCost = manhattan(neighbor, finishCell);
+        neighbor.cost.fCost = neighbor.cost.gCost + neighbor.cost.hCost;
+        neighbor.previousCell = current;
+      }
     }
   }
   return closedList;
-  
-    
-    // while (!!openList.length) {
-      
-    //   if (currentCell != undefined) {
-    //     const neighbors = getUnvisitedNeighbors(currentCell, grid);
-        
-    //     for (let n = 0; n < neighbors.length; n++) {
-    //       const neighbor = neighbors[n];
-  
-    //       if (neighbor?.isWall) continue;
-    //       if (neighbor?.isStart) continue;
-    //       if (neighbor?.isFinish) return closedList;
-  
-    //       const gScore = currentCell.cost.gCost + 1;
-    //       let gBest = false;
-  
-    //       if (!openList.includes(neighbor)) {
-    //         gBest = true;
-    //         neighbor.cost.hCost = manhattan(neighbor, finishCell);
-    //       } else if (gScore < currentCell.cost.gCost) {
-    //         gBest = true;
-    //       }
-    //       if (gBest) {
-    //         neighbor.cost.gCost = gScore;
-    //         neighbor.cost.fCost = currentCell.cost.gCost + currentCell.cost.hCost;
-    //       }
-    //     }
-    //   }
-    // }
-
-}
-
-function getNeighborWithLowestFCost(cell: CellProps, grid: any) {
-  const unvisitedNeighbors: CellProps[] = getUnvisitedNeighbors(cell, grid);
-  let lowestFCost = Infinity;
-  let lowestFCostNeighbor: CellProps = cell;
-  for (const neighbor of unvisitedNeighbors) {
-    if (neighbor.cost.fCost < lowestFCost) {
-      lowestFCost = neighbor.cost.fCost;
-      lowestFCostNeighbor = neighbor;
-    }
-  }
-  return lowestFCostNeighbor;
 }
 
 function applyCostToNodes(
@@ -144,33 +104,5 @@ function manhattan(CurrCell: CellProps, finishCell: CellProps) {
     Math.abs(CurrCell.col - finishCell.col);
   return h;
 }
-
-// const gCost = closestCell.cost.gCost + manhattan(closestCell, finishCell);
-//   const hCost = manhattan(closestCell, finishCell);
-
-//   let isBestCost = false;
-
-//   if (
-//     !unvisitedNodes.find(
-//       (unvisitedcell) =>
-//         unvisitedcell.col === closestCell.col &&
-//         unvisitedcell.row === closestCell.row
-//     )
-//   ) {
-//     isBestCost = true;
-//     closestCell.cost.hCost = manhattan(closestCell, finishCell);
-//     closestCell.isVisited = true;
-//     return visitedCellsInOrder.push(closestCell);
-//   } else if (gCost < closestCell.cost.gCost) {
-//     isBestCost = true;
-//   }
-
-//   if (isBestCost) {
-//     closestCell.cost.gCost = gCost;
-//     closestCell.cost.hCost = hCost;
-//     closestCell.cost.fCost = gCost + hCost;
-//     closestCell.isVisited = true;
-//   }
-//   //console.log(gCost);
 
 export default astar;
