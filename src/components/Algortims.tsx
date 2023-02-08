@@ -9,7 +9,7 @@ import {
 } from "./Contexts";
 import { dijkstra } from "../algoritme/Dijksta";
 import { getCellsInShortestPathOrder } from "../algoritme/Dijksta";
-import astar from "../algoritme/Astar";
+import astar, { getCellsInShortestPathOrderAstar } from "../algoritme/Astar";
 
 const Algortims: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
   const { cellSize } = useContext(CellSizeContext);
@@ -94,8 +94,7 @@ const Astar: React.FC<{ startNode: CellProps; finishNode: CellProps }> = ({
   const { setSolved } = useContext(ControlContext);
 
   const visitedNodesInOrder = astar(grid, startNode, finishNode);
-  const ShortestPathOrder = getCellsInShortestPathOrder(finishNode);
-
+  const ShortestPathOrder = getCellsInShortestPathOrderAstar(finishNode);
   let i = 0;
 
   const Interval = setInterval(() => {
@@ -110,8 +109,6 @@ const Astar: React.FC<{ startNode: CellProps; finishNode: CellProps }> = ({
     )!.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
 
     if (i === visitedNodesInOrder.length - 1) {
-      console.log("shortest path", ShortestPathOrder);
-
       for (let i = 0; i < ShortestPathOrder.length; i++) {
         setTimeout(() => {
           const cell = ShortestPathOrder[i];

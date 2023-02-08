@@ -33,6 +33,7 @@ export type CellProps = {
   isWall: boolean;
   isVisited: boolean;
   distance: number;
+  previousNode: CellProps;
   cost: { hCost: number; fCost: number; gCost: number };
 };
 

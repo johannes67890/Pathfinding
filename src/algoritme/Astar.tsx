@@ -2,7 +2,6 @@ import React from "react";
 import { CellProps } from "../components/Cell";
 import {
   getAllCells,
-  getCellsInShortestPathOrder,
   getUnvisitedNeighbors,
   sortCellsByDistance,
   updateUnvisitedNeighbors,
@@ -38,17 +37,18 @@ function astar(
     let current = openList[lowestIndex];
 
     if (current.isFinish) {
+      closedList.shift();
       return closedList;
     }
 
     openList.splice(lowestIndex, 1);
     closedList.push(current);
 
-    let neighbors = getNeighbors(current, grid);
+    let neighbors: CellProps[] = getNeighbors(current, grid);
 
     for (let i = 0; i < neighbors.length; i++) {
       let neighbor = neighbors[i];
-      neighbor.previousCell = current;
+
       if (!closedList.includes(neighbor) && !neighbor.isWall) {
         let tempG = current.cost.gCost + 1;
         if (openList.includes(neighbor)) {
@@ -61,11 +61,21 @@ function astar(
         }
         neighbor.cost.hCost = manhattan(neighbor, finishCell);
         neighbor.cost.fCost = neighbor.cost.gCost + neighbor.cost.hCost;
-        neighbor.previousCell = current;
+        neighbor.previousNode = current;
       }
     }
   }
   return closedList;
+}
+export function getCellsInShortestPathOrderAstar(current: CellProps) {
+  const shortestPath: CellProps[] = [];
+  var curr = current;
+  while (curr.previousNode !== null) {
+    shortestPath.push(curr);
+    curr = curr.previousNode;
+  }
+  shortestPath.shift();
+  return shortestPath.reverse();
 }
 
 function applyCostToNodes(
