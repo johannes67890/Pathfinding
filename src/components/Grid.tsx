@@ -15,7 +15,9 @@ const Grid = () => {
   const [refresh, setRefresh] = useState<boolean>(false);
 
   useEffect(() => {
+    
     if (refresh) {
+      setGrid(InitlizeGrid(cellSize));
       setGrid((prevGrid) => {
         const newGrid = prevGrid.slice();
         for (let row of newGrid) {
@@ -32,9 +34,13 @@ const Grid = () => {
         return newGrid;
       });
     }
+  }, [refresh]);
 
+  useEffect(() => {
     setGrid(InitlizeGrid(cellSize));
-  }, [refresh, cellSize]);
+  }, [cellSize])
+  
+
 
   const addToGridRef = (e: any) => {
     if (e && !gridRef.current.includes(e)) {
@@ -88,6 +94,7 @@ const Grid = () => {
                     if (node.isWall === false) {
                       node.isWall = true;
                     } else node.isWall = false;
+                
                     setCellClicked(!cellClicked);
                   }}
                   size={cellSize}
@@ -131,10 +138,10 @@ const RenderButton: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
             fill="currentFill"
           />
         </svg>
-        <button
+        {/* <button
           disabled={true}
           className="button absolute hidden p-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 group-hover:inline ml-auto mr-auto"
-        />
+        /> */}
       </div>
     );
   }

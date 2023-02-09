@@ -16,7 +16,7 @@ import astar, { getCellsInShortestPathOrderAstar } from "../algoritme/Astar";
 const Algortims: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
   const { cellSize } = useContext(CellSizeContext);
   const { grid } = useContext(GridContext);
-  //const { algorithm } = useContext(ControlContext);
+  const { algorithm } = useContext(ControlContext);
 
   const startNode =
     grid[Math.round(SizeGrid[cellSize][2] / 2 / 1.2)][
@@ -26,11 +26,12 @@ const Algortims: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
     grid[Math.round(SizeGrid[cellSize][2] / 2 / 1.2)][
       Math.round((SizeGrid[cellSize][3] / 2) * 1.35)
     ];
-  return (
-    <>
-      <AnimateDijkstra startNode={startNode} finishNode={finishNode} />
-    </>
-  );
+    switch (algorithm) {
+    case Algorithm.Dijksta: return <AnimateDijkstra startNode={startNode} finishNode={finishNode} />
+    case Algorithm.Astar: return <AnimateAstar startNode={startNode} finishNode={finishNode} />
+    default: return <AnimateDijkstra startNode={startNode} finishNode={finishNode} />
+  }
+      
 };
 
 const AnimateDijkstra: React.FC<{
@@ -43,7 +44,8 @@ const AnimateDijkstra: React.FC<{
   const { setSolved } = useContext(ControlContext);
 
   const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
-  const ShortestPathOrder = getCellsInShortestPathOrderDijkstra(finishNode);
+  const ShortestPathOrder = getCellsInShortestPathOrderDijkstra(startNode, finishNode);
+  console.log(ShortestPathOrder);
 
   // remove start and finish node from visitedNodesInOrder
   visitedNodesInOrder.shift();
@@ -57,7 +59,7 @@ const AnimateDijkstra: React.FC<{
     document.getElementById(
       `row-${cell.row} col-${cell.col}`
     )!.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
-
+      
     if (i === visitedNodesInOrder.length - 1) {
       for (let i = 0; i < ShortestPathOrder.length; i++) {
         setTimeout(() => {

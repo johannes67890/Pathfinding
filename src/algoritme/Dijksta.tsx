@@ -37,6 +37,7 @@ function updateUnvisitedNeighbors(cell: CellProps, grid: CellProps[][]) {
   }
 }
 
+
 function getUnvisitedNeighbors(cell: CellProps, grid: any) {
   const neighbors = [];
   const { col, row } = cell;
@@ -46,17 +47,24 @@ function getUnvisitedNeighbors(cell: CellProps, grid: any) {
   if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]);
   return neighbors.filter((neighbor) => !neighbor.isVisited);
 }
-// TODO: Bugged
-export function getCellsInShortestPathOrderDijkstra(finishCell: CellProps) {
-  const CellsInShortestPathOrder: CellProps[] = [];
-  let currentNode: any = finishCell;
-  while (currentNode !== null) {
-    CellsInShortestPathOrder.unshift(currentNode); //shift back though finishNode
-    currentNode = currentNode;
-  }
 
-  return CellsInShortestPathOrder;
+
+// TODO: Bugged
+export function getCellsInShortestPathOrderDijkstra(starCell: CellProps, finishCell: CellProps) {
+  const shortestPath: CellProps[] = [];
+  let curr = finishCell;
+  
+  // while (curr !== starCell) {
+  //   console.log(curr.previousNode);
+  //   shortestPath.push(curr);
+  //   curr = curr.previousNode;
+    
+  // }
+  shortestPath.shift();
+  return shortestPath.reverse();
 }
+
+
 
 function sortCellsByDistance(unvisitedNodes: CellProps[]) {
   unvisitedNodes.sort(

@@ -13,8 +13,8 @@ import { InitlizeGridWithRandomWalls } from "./Grid";
 
 export const Header = () => {
   return (
-    <div className="rounded-t-md grid grid-cols-4 grid-flow-col gap-2">
-      <div className="flex flex-col p-3">
+    <div className="rounded-t-md grid grid-cols-4 grid-flow-col my-4">
+      <div className="flex flex-col my-auto">
         <h1 className="text-4xl justify-center mx-auto">Pathfinder</h1>
         <span className="text-center italic border-b border-black mb-1 pb-2">
           visualized
@@ -35,13 +35,13 @@ export const Header = () => {
         </div>
       </div>
       <NodeSelectorMenu />
-      <GridSize />
+      <GridSettings />
       <AnimationSpeed />
     </div>
   );
 };
 
-export const GridSize = () => {
+export const GridSettings = () => {
   const { cellSize, setCellSize } = useContext(CellSizeContext);
   const { playing } = useContext(ControlContext);
   const { setGrid } = useContext(GridContext);
@@ -83,7 +83,7 @@ export const GridSize = () => {
         }}
         disabled={playing ? true : false}
       >
-        Random
+        Random Walls
       </FlowbiteBtn>
       <div className="flex gap-3">
         <div className="w-52">
@@ -164,7 +164,7 @@ const AnimationSpeed = () => {
   const { playing } = useContext(ControlContext);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-2">
       <h2 className="font-bold">Animation Speed</h2>
       <div className="flex gap-3">
         <div>
@@ -205,13 +205,16 @@ const AnimationSpeed = () => {
 };
 
 const Algortims = () => {
-  const { setAlgorithm } = useContext(ControlContext);
+  
+  const { playing, algorithm, setAlgorithm } = useContext(ControlContext);
   return (
-    <div className="flex flex-col gap-2">
-      <h2 className="font-bold">Algorithms</h2>
+    <div className="flex flex-col gap-2 mx-auto">
+      <h2 className="font-bold mx-auto">Algorithms</h2>
       <FlowbiteBtn.Group outline={true}>
         <FlowbiteBtn
+          className={algorithm == Algorithm.Dijksta ? "border-blue-700 border-1 bg-blue-200" : ""}
           color="gray"
+          disabled={playing ? true : false}
           onClick={() => {
             setAlgorithm(Algorithm.Dijksta);
           }}
@@ -219,12 +222,15 @@ const Algortims = () => {
           Dijkstra
         </FlowbiteBtn>
         <FlowbiteBtn
+          className={algorithm == Algorithm.Astar ? "border-blue-700 border-1 bg-blue-200" : ""}
+
           color="gray"
+          disabled={playing ? true : false}
           onClick={() => {
             setAlgorithm(Algorithm.Astar);
           }}
         >
-          A*
+          Astar (A*)
         </FlowbiteBtn>
       </FlowbiteBtn.Group>
     </div>

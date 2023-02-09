@@ -63,7 +63,7 @@ function astar(
 }
 export function getCellsInShortestPathOrderAstar(finishCell: CellProps) {
   const shortestPath: CellProps[] = [];
-  var curr = finishCell;
+  let curr = finishCell;
   while (curr.previousNode !== null) {
     shortestPath.push(curr);
     curr = curr.previousNode;
