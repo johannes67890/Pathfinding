@@ -15,7 +15,7 @@ export const Header = () => {
   return (
     <div className="rounded-t-md grid grid-cols-4 grid-flow-col my-4">
       <div className="flex flex-col my-auto">
-        <h1 className="text-4xl justify-center mx-auto">Pathfinder</h1>
+        <h1 className="text-4xl justify-center mx-auto">Pathfinding</h1>
         <span className="text-center italic border-b border-black mb-1 pb-2">
           visualized
         </span>
@@ -118,7 +118,7 @@ export const NodeColorRecord: Record<NodeVariant, string> = {
   [NodeVariant.endNode]: "bg-red-600",
   [NodeVariant.wall]: "bg-gray-900",
   [NodeVariant.visited]: "bg-blue-700",
-  [NodeVariant.visiting]: "bg-orange-600",
+  [NodeVariant.visiting]: "bg-yellow-300",
 };
 
 const NodeTextRecord: Record<NodeVariant, string> = {
