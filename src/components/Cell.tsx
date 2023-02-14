@@ -1,14 +1,6 @@
 import * as utils from "../utils";
 import React from "react";
 
-export enum NodeVariant {
-  startNode,
-  endNode,
-  wall,
-  visited,
-  visiting,
-}
-
 export enum CellSize {
   small,
   default,

@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import * as utils from "../utils";
-import { CellSize, NodeVariant, SizeGrid } from "./Cell";
+import { CellSize, SizeGrid } from "./Cell";
 import {
   Algorithm,
   CellSizeContext,
@@ -113,6 +113,14 @@ export const GridSettings = () => {
   );
 };
 
+export enum NodeVariant {
+  startNode,
+  endNode,
+  wall,
+  visited,
+  visiting,
+}
+
 export const NodeColorRecord: Record<NodeVariant, string> = {
   [NodeVariant.startNode]: "bg-green-600",
   [NodeVariant.endNode]: "bg-red-600",
@@ -133,7 +141,8 @@ const NodeSelectorMenu = () => {
   let nodeColorSelector: Array<string> = [];
 
   for (let i = 0; i < Object.keys(NodeColorRecord).length; i++) {
-    const element = NodeColorRecord[i as NodeVariant]; //cast i as NodeColor type
+    // loop though NodeVariant
+    const element = NodeColorRecord[i as NodeVariant]; // cast i as NodeColor type
     nodeColorSelector.push(element);
   }
   return (
@@ -143,7 +152,7 @@ const NodeSelectorMenu = () => {
           return (
             <li className="flex gap-2" key={index}>
               <span className="w-28 my-auto text-xs font-bold">
-                {NodeTextRecord[index as NodeVariant]}{" "}
+                {NodeTextRecord[index as NodeVariant]}
               </span>
               <rect
                 className={utils.classNames(
