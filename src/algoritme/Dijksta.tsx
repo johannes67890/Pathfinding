@@ -1,5 +1,15 @@
-import { CellProps, CellSize, SizeGrid } from "../components/Cell";
+import { CellProps } from "../components/Cell";
 
+
+/**
+ * Dijkstra search algorithm\
+ * *Breadth-first search algorithm*
+ * 
+ * @param grid Grid of cells
+ * @param startCell Start cell
+ * @param finishCell Finish cell
+ * @returns Array of cells of evaluated nodes
+ */
 export function dijkstra(
   grid: CellProps[][],
   startCell: CellProps,
@@ -41,10 +51,10 @@ function updateUnvisitedNeighbors(cell: CellProps, grid: CellProps[][]) {
 function getUnvisitedNeighbors(cell: CellProps, grid: any) {
   const neighbors = [];
   const { col, row } = cell;
-  if (row > 0) neighbors.push(grid[row - 1][col]);
-  if (row < grid.length - 1) neighbors.push(grid[row + 1][col]);
-  if (col > 0) neighbors.push(grid[row][col - 1]);
-  if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]);
+  if (row > 0) neighbors.push(grid[row - 1][col]); // top
+  if (row < grid.length - 1) neighbors.push(grid[row + 1][col]); // bottom
+  if (col > 0) neighbors.push(grid[row][col - 1]); // left
+  if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]); // right
   return neighbors.filter((neighbor) => !neighbor.isVisited);
 }
 
@@ -63,8 +73,6 @@ export function getCellsInShortestPathOrderDijkstra(starCell: CellProps, finishC
   shortestPath.shift();
   return shortestPath.reverse();
 }
-
-
 
 function sortCellsByDistance(unvisitedNodes: CellProps[]) {
   unvisitedNodes.sort(

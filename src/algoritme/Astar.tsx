@@ -1,40 +1,51 @@
 import { CellProps } from "../components/Cell";
 import { getAllCells } from "./Dijksta";
 
+/**
+ * A* search algorithm\
+ * `f(n) = g(n) + h(n)`\
+ * `f(n)` = Total cost of node\
+ * `g(n)` = Cost from start to `n`\
+ * `h(n)` = Estimated cost from `n` to finish\
+ * 
+ * @param grid Grid of cells
+ * @param startCell Start cell
+ * @param finishCell Finish cell
+ * @returns Array of cells of evaluated nodes
+ */
 function astar(
   grid: CellProps[][],
   startCell: CellProps,
   finishCell: CellProps
 ) {
-  // A* search algorithm
-  // f(n) = g(n) + h(n)
-  // f(n) = total cost of node
-  // g(n) = cost from start to n
-  // h(n) = estimated cost from n to finish
-  applyCostToNodes(grid, startCell, finishCell);
-  const openList: CellProps[] = [];
-  const closedList: CellProps[] = [];
+  
+  applyCostToNodes(grid, startCell, finishCell); // Apply cost to all nodes
+  const openList: CellProps[] = []; // List of nodes to be evaluated
+  const closedList: CellProps[] = []; // List of nodes already evaluated
   startCell.cost.gCost = 0;
   startCell.cost.hCost = manhattan(startCell, finishCell);
   startCell.cost.fCost = startCell.cost.gCost + startCell.cost.hCost;
-  openList.push(startCell);
+  openList.push(startCell); // Add startCell to openList
 
   while (!!openList.length) {
-    sortCellsByFcost(openList);
+    sortCellsByFcost(openList); // Sort openList by fCost (lowest to highest)
 
+    // Find lowest fCost 
     let lowestIndex = 0;
     for (let i = 0; i < openList.length; i++) {
       if (openList[i].cost.fCost < openList[lowestIndex].cost.fCost) {
         lowestIndex = i;
       }
     }
-    let current = openList[lowestIndex];
-
+    let current = openList[lowestIndex]; // Set current to lowest fCost
+ 
     if (current.isFinish) {
+      // If current is finishCell, return closedList
       closedList.shift();
       return closedList;
     }
 
+    
     openList.splice(lowestIndex, 1);
     closedList.push(current);
 
@@ -43,9 +54,9 @@ function astar(
     for (let i = 0; i < neighbors.length; i++) {
       let neighbor = neighbors[i];
 
-      if (!closedList.includes(neighbor) && !neighbor.isWall) {
-        let tempG = current.cost.gCost + 1;
-        if (openList.includes(neighbor)) {
+      if (!closedList.includes(neighbor) && !neighbor.isWall) { // If neighbor is not in closedList and is not a wall
+        let tempG = current.cost.gCost + 1; // 1 is the distance between current and neighbor
+        if (openList.includes(neighbor)) { // If neighbor is in openList
           if (tempG < neighbor.cost.gCost) {
             neighbor.cost.gCost = tempG;
           }
@@ -53,6 +64,7 @@ function astar(
           neighbor.cost.gCost = tempG;
           openList.push(neighbor);
         }
+        // Current is the best path to neighbor 
         neighbor.cost.hCost = manhattan(neighbor, finishCell);
         neighbor.cost.fCost = neighbor.cost.gCost + neighbor.cost.hCost;
         neighbor.previousNode = current;
@@ -61,9 +73,11 @@ function astar(
   }
   return closedList;
 }
+
 export function getCellsInShortestPathOrderAstar(finishCell: CellProps) {
   const shortestPath: CellProps[] = [];
   let curr = finishCell;
+  // Loop through all previous nodes and add them to shortestPath
   while (curr.previousNode !== null) {
     shortestPath.push(curr);
     curr = curr.previousNode;
@@ -103,6 +117,7 @@ function getNeighbors(cell: CellProps, grid: any) {
 }
 
 function manhattan(CurrCell: CellProps, finishCell: CellProps) {
+  // Manhattan distance (Huristic)
   const h =
     Math.abs(CurrCell.row - finishCell.row) +
     Math.abs(CurrCell.col - finishCell.col);

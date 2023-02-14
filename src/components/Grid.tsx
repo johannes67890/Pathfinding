@@ -15,7 +15,7 @@ const Grid = () => {
   const [refresh, setRefresh] = useState<boolean>(false);
 
   useEffect(() => {
-    
+    // When animation is done and user wants to refresh the grid.
     if (refresh) {
       setGrid(InitlizeGrid(cellSize));
       setGrid((prevGrid) => {
@@ -37,16 +37,9 @@ const Grid = () => {
   }, [refresh]);
 
   useEffect(() => {
+    // on cell size change
     setGrid(InitlizeGrid(cellSize));
   }, [cellSize])
-  
-
-
-  const addToGridRef = (e: any) => {
-    if (e && !gridRef.current.includes(e)) {
-      gridRef.current.push(e);
-    }
-  };
 
   const OnStart = () => {
     setPlaying(!playing);
@@ -81,7 +74,6 @@ const Grid = () => {
                 <Cell
                   row={node.row}
                   col={node.col}
-                  ref={(e) => addToGridRef(e)}
                   key={nodeIndex}
                   className={node.className}
                   isVisited={node.isVisited}

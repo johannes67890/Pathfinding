@@ -23,7 +23,6 @@ export const SizeGrid: Record<CellSize, [string, string, number, number]> = {
 
 export type CellProps = {
   onClick?: () => unknown;
-  ref?: React.Ref<HTMLButtonElement>;
   className?: string;
   col: number;
   row: number;
@@ -37,7 +36,7 @@ export type CellProps = {
   cost: { hCost: number; fCost: number; gCost: number };
 };
 
-const Cell = React.forwardRef((props: CellProps, ref: any) => {
+const Cell = React.forwardRef((props: CellProps) => {
   const { onClick, className, col, row, size, isStart, isFinish, isWall } =
     props;
 
@@ -51,7 +50,6 @@ const Cell = React.forwardRef((props: CellProps, ref: any) => {
 
   return (
     <button
-      ref={ref}
       id={`row-${row} col-${col}`}
       onClick={(e) => {
         if (onClick) onClick();
@@ -76,7 +74,7 @@ export const MakeNode = (col: number, row: number, cellSize: CellSize) => {
     Math.round(SizeGrid[cellSize][2] / 2 / 1.2),
     Math.round((SizeGrid[cellSize][3] / 2) * 1.35),
   ];
-
+  
   return {
     col,
     row,
