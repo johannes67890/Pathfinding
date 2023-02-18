@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import * as utils from "../utils";
-import { CellSize, SizeGrid } from "./Cell";
+import { CellSize } from "./Cell";
 import {
   Algorithm,
   CellSizeContext,
@@ -34,7 +34,7 @@ export const Header = () => {
           </a>
         </div>
       </div>
-      <NodeSelectorMenu />
+      <CellSelectorMenu />
       <GridSettings />
       <AnimationSpeed />
     </div>
@@ -50,7 +50,7 @@ export const GridSettings = () => {
 
   return (
     <div className="flex flex-col gap-1 mx-auto">
-      <h2 className="font-bold mx-auto">Node Size</h2>
+      <h2 className="font-bold mx-auto">Cell Size</h2>
       <FlowbiteBtn.Group outline={true}>
         <FlowbiteBtn
           disabled={playing}
@@ -113,46 +113,46 @@ export const GridSettings = () => {
   );
 };
 
-export enum NodeVariant {
-  startNode,
-  endNode,
+export enum CellVariant {
+  startCell,
+  endCell,
   wall,
   visited,
   visiting,
 }
 
-export const NodeColorRecord: Record<NodeVariant, string> = {
-  [NodeVariant.startNode]: "bg-green-600",
-  [NodeVariant.endNode]: "bg-red-600",
-  [NodeVariant.wall]: "bg-gray-900",
-  [NodeVariant.visited]: "bg-blue-700",
-  [NodeVariant.visiting]: "bg-yellow-300",
+export const CellColorRecord: Record<CellVariant, string> = {
+  [CellVariant.startCell]: "bg-green-600",
+  [CellVariant.endCell]: "bg-red-600",
+  [CellVariant.wall]: "bg-gray-900",
+  [CellVariant.visited]: "bg-blue-700",
+  [CellVariant.visiting]: "bg-yellow-300",
 };
 
-const NodeTextRecord: Record<NodeVariant, string> = {
-  [NodeVariant.startNode]: "Start Node",
-  [NodeVariant.endNode]: "End Node",
-  [NodeVariant.wall]: "Wall",
-  [NodeVariant.visited]: "Visited",
-  [NodeVariant.visiting]: "Currently Visiting",
+const CellTextRecord: Record<CellVariant, string> = {
+  [CellVariant.startCell]: "Start Cell",
+  [CellVariant.endCell]: "End Cell",
+  [CellVariant.wall]: "Wall",
+  [CellVariant.visited]: "Visited",
+  [CellVariant.visiting]: "Currently Visiting",
 };
 
-const NodeSelectorMenu = () => {
-  let nodeColorSelector: Array<string> = [];
+const CellSelectorMenu = () => {
+  let CellColorSelector: Array<string> = [];
 
-  for (let i = 0; i < Object.keys(NodeColorRecord).length; i++) {
-    // loop though NodeVariant
-    const element = NodeColorRecord[i as NodeVariant]; // cast i as NodeColor type
-    nodeColorSelector.push(element);
+  for (let i = 0; i < Object.keys(CellColorRecord).length; i++) {
+    // loop though CellVariant
+    const element = CellColorRecord[i as CellVariant]; // cast i as CellColor type
+    CellColorSelector.push(element);
   }
   return (
     <div className="mx-auto">
       <ul className="flex gap-1 p-1 flex-col">
-        {nodeColorSelector.map((bgColor, index) => {
+        {CellColorSelector.map((bgColor, index) => {
           return (
             <li className="flex gap-2" key={index}>
               <span className="w-28 my-auto text-xs font-bold">
-                {NodeTextRecord[index as NodeVariant]}
+                {CellTextRecord[index as CellVariant]}
               </span>
               <rect
                 className={utils.classNames(

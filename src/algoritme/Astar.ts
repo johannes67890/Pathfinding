@@ -4,14 +4,14 @@ import { getAllCells } from "./Dijksta";
 /**
  * A* search algorithm\
  * `f(n) = g(n) + h(n)`\
- * `f(n)` = Total cost of node\
+ * `f(n)` = Total cost of cell\
  * `g(n)` = Cost from start to `n`\
  * `h(n)` = Estimated cost from `n` to finish\
  * 
  * @param grid Grid of cells
  * @param startCell Start cell
  * @param finishCell Finish cell
- * @returns Array of cells of evaluated nodes
+ * @returns Array of cells of evaluated cells
  */
 function astar(
   grid: CellProps[][],
@@ -19,9 +19,9 @@ function astar(
   finishCell: CellProps
 ) {
   
-  applyCostToNodes(grid, startCell, finishCell); // Apply cost to all nodes
-  const openList: CellProps[] = []; // List of nodes to be evaluated
-  const closedList: CellProps[] = []; // List of nodes already evaluated
+  applyCostToCells(grid, startCell, finishCell); // Apply cost to all cells
+  const openList: CellProps[] = []; // List of cells to be evaluated
+  const closedList: CellProps[] = []; // List of cells already evaluated
   startCell.cost.gCost = 0;
   startCell.cost.hCost = manhattan(startCell, finishCell);
   startCell.cost.fCost = startCell.cost.gCost + startCell.cost.hCost;
@@ -67,7 +67,7 @@ function astar(
         // Current is the best path to neighbor 
         neighbor.cost.hCost = manhattan(neighbor, finishCell);
         neighbor.cost.fCost = neighbor.cost.gCost + neighbor.cost.hCost;
-        neighbor.previousNode = current;
+        neighbor.previousCell = current;
       }
     }
   }
@@ -77,16 +77,16 @@ function astar(
 export function getCellsInShortestPathOrderAstar(finishCell: CellProps) {
   const shortestPath: CellProps[] = [];
   let curr = finishCell;
-  // Loop through all previous nodes and add them to shortestPath
-  while (curr.previousNode !== null) {
+  // Loop through all previous cells and add them to shortestPath
+  while (curr.previousCell !== null) {
     shortestPath.push(curr);
-    curr = curr.previousNode;
+    curr = curr.previousCell;
   }
   shortestPath.shift();
   return shortestPath.reverse();
 }
 
-function applyCostToNodes(
+function applyCostToCells(
   grid: CellProps[][],
   startCell: CellProps,
   finishCell: CellProps
@@ -102,8 +102,8 @@ function applyCostToNodes(
   }
 }
 
-function sortCellsByFcost(unvisitedNodes: CellProps[]) {
-  unvisitedNodes.sort((cellA, cellB) => cellA.cost.fCost - cellB.cost.fCost);
+function sortCellsByFcost(unvisitedcells: CellProps[]) {
+  unvisitedcells.sort((cellA, cellB) => cellA.cost.fCost - cellB.cost.fCost);
 }
 
 function getNeighbors(cell: CellProps, grid: any) {
