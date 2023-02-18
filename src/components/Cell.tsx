@@ -24,7 +24,7 @@ export type CellProps = {
   isWall: boolean;
   isVisited: boolean;
   distance: number;
-  previousNode: CellProps;
+  previousCell: CellProps;
   cost: { hCost: number; fCost: number; gCost: number };
 };
 
@@ -57,7 +57,7 @@ const Cell = React.forwardRef((props: CellProps) => {
   );
 });
 
-export const MakeNode = (col: number, row: number, cellSize: CellSize) => {
+export const MakeCell = (col: number, row: number, cellSize: CellSize) => {
   const STARTCELL: Array<Number> = [
     Math.round(SizeGrid[cellSize][2] / 2 / 1.2),
     Math.round(SizeGrid[cellSize][3] / 3 / 1.35),
@@ -76,7 +76,7 @@ export const MakeNode = (col: number, row: number, cellSize: CellSize) => {
     distance: Infinity,
     isVisited: false,
     isWall: false,
-    previousNode: null,
+    previousCell: null,
   };
 };
 

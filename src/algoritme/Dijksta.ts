@@ -8,7 +8,7 @@ import { CellProps } from "../components/Cell";
  * @param grid Grid of cells
  * @param startCell Start cell
  * @param finishCell Finish cell
- * @returns Array of cells of evaluated nodes
+ * @returns Array of cells of evaluated cells
  */
 export function dijkstra(
   grid: CellProps[][],
@@ -17,18 +17,18 @@ export function dijkstra(
 ): CellProps[] {
   const visitedCellsInOrder = [];
   startCell.distance = 0;
-  const unvisitedNodes = getAllCells(grid);
-  while (!!unvisitedNodes.length) {
-    sortCellsByDistance(unvisitedNodes);
-    const closestCell: CellProps | undefined = unvisitedNodes.shift();
+  const unvisitedCells = getAllCells(grid);
+  while (!!unvisitedCells.length) {
+    sortCellsByDistance(unvisitedCells);
+    const closestCell: CellProps | undefined = unvisitedCells.shift();
 
     if (closestCell !== undefined) {
       if (closestCell.isWall) continue;
       // If we encounter a wall, we skip it.
-      // If the closest node is at a distance of infinity,
+      // If the closest cell is at a distance of infinity,
       // we must be trapped and should therefore stop.
       if (closestCell.distance === Infinity) return visitedCellsInOrder;
-      //closestCell.isVisited = true; // set current node to visited
+      //closestCell.isVisited = true; // set current cell to visited
       visitedCellsInOrder.push(closestCell);
       if (closestCell === finishCell) return visitedCellsInOrder; // if reached finishcell
 
@@ -43,7 +43,7 @@ function updateUnvisitedNeighbors(cell: CellProps, grid: CellProps[][]) {
   const unvisitedNeighbors = getUnvisitedNeighbors(cell, grid);
   for (const neighbor of unvisitedNeighbors) {
     neighbor.distance = cell.distance + 1;
-    neighbor.previousNode = cell;
+    neighbor.previouscell = cell;
   }
 }
 
@@ -65,17 +65,17 @@ export function getCellsInShortestPathOrderDijkstra(starCell: CellProps, finishC
   let curr = finishCell;
   
   // while (curr !== starCell) {
-  //   console.log(curr.previousNode);
+  //   console.log(curr.previouscell);
   //   shortestPath.push(curr);
-  //   curr = curr.previousNode;
+  //   curr = curr.previouscell;
     
   // }
   shortestPath.shift();
   return shortestPath.reverse();
 }
 
-function sortCellsByDistance(unvisitedNodes: CellProps[]) {
-  unvisitedNodes.sort(
+function sortCellsByDistance(unvisitedcells: CellProps[]) {
+  unvisitedcells.sort(
     (cellA: CellProps, cellB: CellProps) => cellA.distance - cellB.distance
   );
 }
@@ -83,8 +83,8 @@ function sortCellsByDistance(unvisitedNodes: CellProps[]) {
 export function getAllCells(grid: CellProps[][]) {
   const cells = [];
   for (const row of grid) {
-    for (const node of row) {
-      cells.push(node);
+    for (const cell of row) {
+      cells.push(cell);
     }
   }
   return cells;

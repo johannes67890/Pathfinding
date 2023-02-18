@@ -1,4 +1,4 @@
-import Cell, { CellProps, CellSize, SizeGrid, MakeNode } from "./Cell";
+import Cell, { CellProps, CellSize, SizeGrid, MakeCell } from "./Cell";
 import { CellSizeContext, ControlContext, GridContext } from "./Contexts";
 import { useState, useEffect, useContext } from "react";
 import * as utils from "../utils";
@@ -21,13 +21,13 @@ const Grid = () => {
       setGrid((prevGrid) => {
         const newGrid = prevGrid.slice();
         for (let row of newGrid) {
-          for (let node of row) {
-            node.isVisited = false;
-            if (node.isStart || node.isFinish) {
+          for (let cell of row) {
+            cell.isVisited = false;
+            if (cell.isStart || cell.isFinish) {
               continue;
             }
             document.getElementById(
-              `row-${node.row} col-${node.col}`
+              `row-${cell.row} col-${cell.col}`
             )!.className = `border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
           }
         }
@@ -69,31 +69,31 @@ const Grid = () => {
             className={utils.classNames(SizeGrid[cellSize][0], "w-max")}
             key={index}
           >
-            {row.map((node, nodeIndex) => {
+            {row.map((cell, cellIndex) => {
               return (
                 <Cell
-                  row={node.row}
-                  col={node.col}
-                  key={nodeIndex}
-                  className={node.className}
-                  isVisited={node.isVisited}
-                  isFinish={node.isFinish}
-                  isStart={node.isStart}
-                  isWall={node.isWall}
-                  distance={node.distance}
-                  previousNode={node.previousNode}
+                  row={cell.row}
+                  col={cell.col}
+                  key={cellIndex}
+                  className={cell.className}
+                  isVisited={cell.isVisited}
+                  isFinish={cell.isFinish}
+                  isStart={cell.isStart}
+                  isWall={cell.isWall}
+                  distance={cell.distance}
+                  previousCell={cell.previousCell}
                   onClick={() => {
-                    if (node.isWall === false) {
-                      node.isWall = true;
-                    } else node.isWall = false;
+                    if (cell.isWall === false) {
+                      cell.isWall = true;
+                    } else cell.isWall = false;
                 
                     setCellClicked(!cellClicked);
                   }}
                   size={cellSize}
                   cost={{
-                    gCost: node.cost.gCost,
-                    hCost: node.cost.hCost,
-                    fCost: node.cost.fCost,
+                    gCost: cell.cost.gCost,
+                    hCost: cell.cost.hCost,
+                    fCost: cell.cost.fCost,
                   }}
                 ></Cell>
               );
@@ -219,7 +219,7 @@ export function InitlizeGridWithRandomWalls(
   for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
     const currentRow: any = [];
     for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
-      const cell = MakeNode(col, row, cellSize); //push current row to node
+      const cell = MakeCell(col, row, cellSize); //push current row to Cell
       const strengthVal = 12.5 + 1 - strength;
 
       let rand = Math.floor(utils.getRandomInt(1, strengthVal));
@@ -240,7 +240,7 @@ export function InitlizeGrid(cellSize: CellSize): CellProps[][] {
   for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
     const currentRow: any = [];
     for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
-      currentRow.push(MakeNode(col, row, cellSize)); //push current row to node
+      currentRow.push(MakeCell(col, row, cellSize)); //push current row to Cell
     }
     newGrid.push(currentRow);
   }

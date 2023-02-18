@@ -43,24 +43,24 @@ const AnimateDijkstra: React.FC<{
   const { grid } = useContext(GridContext);
   const { setSolved } = useContext(ControlContext);
 
-  const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
+  const visitedcellsInOrder = dijkstra(grid, startNode, finishNode);
   const ShortestPathOrder = getCellsInShortestPathOrderDijkstra(startNode, finishNode);
   console.log(ShortestPathOrder);
 
-  // remove start and finish node from visitedNodesInOrder
-  visitedNodesInOrder.shift();
-  visitedNodesInOrder.pop();
+  // remove start and finish node from visitedcellsInOrder
+  visitedcellsInOrder.shift();
+  visitedcellsInOrder.pop();
 
   let i = 0;
 
   const Interval = setInterval(() => {
-    const cell = visitedNodesInOrder[i];
+    const cell = visitedcellsInOrder[i];
 
     document.getElementById(
       `row-${cell.row} col-${cell.col}`
     )!.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
       
-    if (i === visitedNodesInOrder.length - 1) {
+    if (i === visitedcellsInOrder.length - 1) {
       for (let i = 0; i < ShortestPathOrder.length; i++) {
         setTimeout(() => {
           const cell = ShortestPathOrder[i];
@@ -89,18 +89,18 @@ const AnimateAstar: React.FC<{
   const { grid } = useContext(GridContext);
   const { setSolved } = useContext(ControlContext);
 
-  const visitedNodesInOrder = astar(grid, startNode, finishNode);
+  const visitedCellsInOrder = astar(grid, startNode, finishNode);
   const ShortestPathOrder = getCellsInShortestPathOrderAstar(finishNode);
   let i = 0;
 
   const Interval = setInterval(() => {
-    const cell = visitedNodesInOrder[i];
+    const cell = visitedCellsInOrder[i];
 
     document.getElementById(
       `row-${cell.row} col-${cell.col}`
     )!.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
 
-    if (i === visitedNodesInOrder.length - 1) {
+    if (i === visitedCellsInOrder.length - 1) {
       for (let i = 0; i < ShortestPathOrder.length; i++) {
         setTimeout(() => {
           const cell = ShortestPathOrder[i];
