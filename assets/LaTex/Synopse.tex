@@ -99,7 +99,8 @@ Gitteren er hovedkomponentet i programmet, der er gitteret som er miljøet som p
 A* (udtalt ”A-star”) eller Dijkstra er begge en algoritme i ”Pathfinding”, som er en computer applikation af den korteste vej mellem to punkter. Når der er tale om Pathfinding algoritmer og grafteori, skal vi først gennemgå forskellige relevante emner for at kunne bedre forstå problemet som pathfinding algoritmer løser. Her er det relevant at snakke om data-trees, Breadth-First Search (BFS) og Depth-first search (DFS). 
 \subsection{Data-trees}
 Data-trees inde for grafteori er en populær måde at bruge som en abstrakt form for data type, som repræsenterer et hierarkisk data-tree med forbundet ”celler” (”nodes” bliver brugt i samme sammenhæng). Hver cell er forbundet til en ”parent” cell, bortset fra start cellen eller roden af data-treet, som ingen parent cell har. Disse begrænsninger betyder, at der ikke er nogen cyklusser og at hvert ”child” cell kan behandles som roden af sit eget ”subtree” (et indsnævret  mængde af celler i et større data-tree). Disse elementer gør at rekursion kan bruges som en brugbar teknik inden for data-trees.\\
-Der er flere forskellige metoder som bruges for at finde den korteste vej i et stort netværk af punkter og parameter.\footnote{\href{https://www.geeksforgeeks.org/introduction-to-tree-data-structure-and-algorithm-tutorials/}{Introduction to Tree - Data Structure and Algorithm Tutorials}} De to mest velkendte algoritmer er Breadth-First Search (BFS) og Depth-first search (DFS). 
+Der er flere forskellige metoder som bruges for at finde den korteste vej i et stort netværk af punkter og parameter.\footnote{\href{https://www.geeksforgeeks.org/introduction-to-tree-data-structure-and-algorithm-tutorials/}{Introduction to Tree – Data Structure and Algorithm Tutorials}}  
+De to mest velkendte algoritmer er Breadth-First Search (BFS) og Depth-first search (DFS). 
 Breadth-First Search algoritme søger de tætteste naboer før algoritmen går videre til det næste led af data celles i data-tree. Dette gør algoritmen uden forhold til nogle parametre eller ekstra viden om netværket den søger igennem. Depth-first search gør det omvendte af BFS, her søger DFS algoritmen først gennem en enkel gren før den gør tilbage til start cellen og gør det samme med en anden gren i data-tree. 
 \begin{figure}[ht]%
   \centering
@@ -109,7 +110,10 @@ Breadth-First Search algoritme søger de tætteste naboer før algoritmen går v
 \subsection{Dijkstra’s algoritme}
 Dijkstra’s algoritme er en variation af Breadth-First Search, men hvor Dijkstra’s algoritme gør brug af en prioriterings kø, som afgør hvilken nabo Dijkstra skal søge igennem først. 
 Dijkstra starter med at angive en arbitrær afstandsværdi til alle celler i netværket: start cellen får afstandsværdien 0, hvor alle andre får afstandsværdien Infinity. 
-Vores prioteringskø holder vi øje med alle undersøgte celler. For den nuværende celle, bliver alle naboer som ikke er undersøgt med (afstanden til nuværende celle) + (afstanden fra nuværende celle til naboen). Hvis denne afstandsværdi er mindre end den forrige arbitrær afstandsværdi, bliver den nye afstand værdi kun relevant. Når vi er færdige med at undersøge afstandsværdien for alle naboer, markere vi den nuværende celle som undersøgt.\footnote{\href{https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm}{Dijkstra's algorithm}}  
+Vores prioteringskø holder vi øje med alle undersøgte celler. For den nuværende celle, bliver alle naboer som ikke er undersøgt med (afstanden til nuværende celle) + 
+(afstanden fra nuværende celle til naboen). Hvis denne afstandsværdi er mindre end den forrige arbitrær afstandsværdi, bliver den nye afstand værdi kun relevant. 
+Når vi er færdige med at undersøge afstandsværdien for alle naboer, markere vi den nuværende celle som undersøgt.
+\footnote{\href{https://www.freecodecamp.org/news/dijkstras-shortest-path-algorithm-visual-introduction/}{Dijkstra’s algorithm (FreeCodeCamp)}}  
 
 \subsection{A* algoritme}
 A-star algoritmen er en videreudvikling af Dijkstra’s algoritme. Denne forlængelse er ved brug af målrettet heuristik, 
@@ -122,7 +126,7 @@ $g(n)$  er omkostningerne af ruten fra start til $n$.
 \[h(n)\] 
 $h(n)$ er den heuristiske værdi som estimerer omkostningerne af den billigste rute fra celle n til slut. 
 Der er flere forskellige måder at beregne h værdien, enten beregne det præcise værdi for $h$ (dette kan kræve meget tid) eller en estimeret værdi for $h$ som tag mindre tid. En af disse måder kunne være med \textit{Manhattan Distance.} 
-Manhattan Distance er summen af absolutte værdier af forskellen af henholdsvis X- og Y-koordinater mellem start og slut cellen. 
+Manhattan Distance er summen af absolutte værdier af forskellen af henholdsvis X- og Y-koordinater mellem start og slut cellen.\footnote{\href{https://www.geeksforgeeks.org/a-search-algorithm/}{Manhattan Distance}\label{footnote:Manhattan}}
 \begin{lstlisting}[language=JavaScript, caption=Manhattan Distance\label{code:Manhattan}]
   h = abs(current_cell.x - goal.x) + 
   abs(current_cell.y - goal.y)
@@ -130,7 +134,7 @@ Manhattan Distance er summen af absolutte værdier af forskellen af henholdsvis 
 \begin{figure}[ht]\label{fig:Manhattan}
   \centering
   \includegraphics[width=0.50\textwidth]{../manhattan.png}
-  \caption{Manhattan Distance Heuristics, med forskellen mellem x og y-koordinaterne (Evt. antag at rød plet er start cellen og grøn er slut cellen)}
+  \caption{Manhattan Distance Heuristics, med forskellen mellem x og y-koordinaterne (Evt. antag at rød plet er start cellen og grøn er slut cellen) [\ref{footnote:Manhattan}]}
 \end{figure}
 Efter beregningerne af $g(n)$ og $h(n)$, beregner vi den tredje værdi $f(n)$, 
 som repræsenterer vores nuværende bedste gæt til den billigste vej fra start til slut:
@@ -282,14 +286,14 @@ function applyCostToCells(
 \end{lstlisting}
 \section{Resultater og Test}
 For at opfylde de opstillet krav om at brugeren kan interagere med gitteret, algoritmens fungere og at den kan finde den korteste vej fra a til b. Kan vi lave forskellige test, såsom at samlingen min implantation af A-star med andre eller se om A-star gøre det bedre end Dijksta, som A-star skulle i teorien. Denne metode har jeg brugt til at teste hvorledes om min algoritme virker. \\
+Der vises på figur \ref{fig:testAlgortime}, at der er stor forskel mellem mængden af undersøgte celler hos Dijksta, i forhold til A-star. Dette skulle det i teorien også være, da A-star ved hvor slut punktet nogenlunde er. Dermed er min test af min A-star algoritme godkendt. 
+Vi kan teste om interaktionen med gitteret og indstillingerne fungere, med simpelt at prøve at se om det virker, samt se om der er nogle bugs.
 \begin{figure}[ht]
   \centering
   \subfloat[\centering Test af Dijksta]{{\includegraphics[width=9cm]{../Showcase_Dijkstra.PNG} }}%
   \subfloat[\centering Test af A* algoritmen]{{\includegraphics[width=9cm]{../Showcase_Astar.PNG} }}%
   \caption{Test af A* algoritmen VS. Dijksta algoritmen}\label{fig:testAlgortime}
 \end{figure}
-Der vises på figur \ref{fig:testAlgortime}, at der er stor forskel mellem mængden af undersøgte celler hos Dijksta, i forhold til A-star. Dette skulle det i teorien også være, da A-star ved hvor slut punktet nogenlunde er. Dermed er min test af min A-star algoritme godkendt. 
-Vi kan teste om interaktionen med gitteret, animationshastighed osv. Fungere, med simpelt at prøve at se om det virker, samt om der er nogle bugs.
 \begin{figure}[ht]
   \centering
   {\includegraphics[width=9cm]{../AppPreview2.PNG} }%
