@@ -15,7 +15,7 @@ export function dijkstra(
   startCell: CellProps,
   finishCell: CellProps
 ): CellProps[] {
-  const visitedCellsInOrder = [];
+  const visitedCellsInOrder: CellProps[] = [];
   startCell.distance = 0;
   const unvisitedCells = getAllCells(grid);
   while (!!unvisitedCells.length) {

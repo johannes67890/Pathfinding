@@ -170,15 +170,230 @@ En brugergrænseflade er en form for bindeled mellem en bruger og et it-produkt 
    \hline
   \end{tabular}}
 \end{table}
-\section{Diagrammer}
+\section{Modeller og Diagrammer}
+For at få en bedre forståelse for et givende it-system, kan diverse modeller og diagrammer være med til at give overblik. 
+Dette kan ske for både hvordan enkle algoritmer fungere, hvordan klasser spiller sammen i programmet eller lignede. Når det kommer til Pathfinding algoritmer og et virsuelt program, 
+er det brugbart at vide 
+hvordan koden kobles sammen med diverse pathfinding algoritmer, samt hvordan DOM-elementerne (Et enkelt HTML element såsom <Div> eller <p>) på hjemmesiden bliver manipuleret. 
 \subsection{UML-diagram}
-\subsection{A* algoritme}
+For at få en generelt overblik over et it-system, kan man bruge Unified Modeling Language (UML-diagrammer). Et UML-diagram kan beskrive strukturen og forløbet i et Objekt-orienteret it-system. Der er flere variationer til UML-diagrammer (Klasse diagram, Interaktionsdiagram osv.). 
+Da mit program er opbygget i React (Et Javascript baseret frontend biblotek), er mit program opbygget af såkaldte ”Components” og ikke klasser. Derfor vil det ikke være muligt at lave et traditionelt klasse-diagram for et React system. Dette skyldes både at det er frontend baseret og DOM-elementer bliver manipuleret af ”states” (et objekt som indeholder data om React components og DOM-elementer). Jeg har derfor improviseret et UML-diagram som over styr på diverse state manipulationer på tværs af React components. 
+Hele appen indeholder fire React componentes (”Cell”, ”Grid”, ”Header” og ”Algoritms”), som alle fælles kan implementere, manipulere eller brugere data fra de forskellige React ”Context's” (Et React som lader dig udsende data på tværs af flere React components ad gangen). Samtidig bruger hele appen to forskellige ”interfaces” (en selvbeskrev datatype) og konstanter som beskriver gitterstørrelsen og informationen for en enkel celle. Enkle React components har ”Child components”, private states og lignede, som hver er med til at manipulere med DOM-elementer. 
+\begin{figure}[ht]\label{fig:UML}
+  \centering
+  \includegraphics[width=1.1\textwidth]{../UML.jpg}
+  \caption{UML-diagram for React components og states.}
+\end{figure}
 
+\newpage
 
-\section{Pseudokode}
+\subsection{A* algoritme Pseudocode}
+For at kunne skitsere hvordan en algoritme virker i praksis, kan vi gøre brug af pseudokode. Når vi bruger pseudokode som skitse, har det til formål at beskrive en enkel algoritme step-by-step som samtidig er let læselig for mennesker. Pseudokode bruger ikke direkte kodesprog, samt har heller ikke nogen fast syntaks for at undgå forvirring mellem forskellige kodesprog.\footnote{\href{https://en.wikipedia.org/wiki/A*_search_algorithm}{A-star Algorithm Pseudokode}}
+\begin{lstlisting}[language=JavaScript, caption=Dijkstra’s Algorithm Pseudocode oversat til Dansk]
+// A* finds a path from start to goal.
+// h is the heuristic function. h(n) estimates the cost to reach goal from node n.
+function A_Star(start, goal, h)
+  // The set of discovered nodes that may need to be (re-)expanded.
+  // Initially, only the start node is known.
+  // This is usually implemented as a min-heap or priority queue rather than a hash-set.
+  openSet := {start}
+
+  // For node n, cameFrom[n] is the node immediately preceding it on the cheapest path from start
+  // to n currently known.
+  cameFrom := an empty map
+
+  // For node n, gScore[n] is the cost of the cheapest path from start to n currently known.
+  gScore := map with default value of Infinity
+  gScore[start] := 0
+
+  // For node n, fScore[n] := gScore[n] + h(n). fScore[n] represents our current best guess as to
+  // how cheap a path could be from start to finish if it goes through n.
+  fScore := map with default value of Infinity
+  fScore[start] := h(start)
+
+  while openSet is not empty
+      // This operation can occur in O(Log(N)) time if openSet is a min-heap or a priority queue
+      current := the node in openSet having the lowest fScore[] value
+      if current = goal
+          return reconstruct_path(cameFrom, current)
+
+      openSet.Remove(current)
+      for each neighbor of current
+    // d(current,neighbor) is the weight of the edge from current to neighbor
+    // tentative_gScore is the distance from start to the neighbor through current
+          tentative_gScore := gScore[current] + d(current, neighbor)
+          if tentative_gScore < gScore[neighbor]
+    // This path to neighbor is better than any previous one. Record it!
+              cameFrom[neighbor] := current
+              gScore[neighbor] := tentative_gScore
+              fScore[neighbor] := tentative_gScore + h(neighbor)
+              if neighbor not in openSet
+                  openSet.add(neighbor)
+
+  // Open set is empty but goal was never reached
+  return failure
+\end{lstlisting}
 \section{Udvalgt Kode}
-\section{Konklusion}
-\section{Bilag}
+Jeg har valgt at vise koden for A* algoritmen, da det er den algoritme jeg har brugt i mit program.
+(Se kodeblock \ref{lst:A*}). Jeg vil fremvise hvordan jeg har implementeret en heuristisk funktion i mit program, samt hvordan jeg brugte samme funktion flere gange til nemmer implementering af algoritmen. \\
+For at kunne finde vejen tilbage fra slut til start, gemmer jeg den forrige celle som jeg kan bruge til at ”back track” tilbage og dermed den korteste vej.
 
-% https://i.gyazo.com/0b387356445aefc069204298e796aff7.mp4 
+\begin{lstlisting}[language=JavaScript, caption=Find den korteste vej fra start til slut (A* algoritme)]
+function getCellsInShortestPathOrderAstar(finishCell: CellProps) {
+  const shortestPath: CellProps[] = [];
+  let curr = finishCell;
+  // Loop through all previous cells and add them to shortestPath
+  while (curr.previousCell !== null) {
+    shortestPath.push(curr);
+    curr = curr.previousCell;
+  }
+  shortestPath.shift();
+  return shortestPath.reverse();
+}
+\end{lstlisting}
+Jeg har brugt Manhattan distance som heuristik funktion. 
+Dette har jeg gjort da det var en nem måde at implementere i mit program. 
+Mit gitter allerede var opsat i rækker og kolonner som kan repræsenteres som x- og y- retningen.
+\begin{lstlisting}[language=JavaScript, caption=Heuristic function for A* algoritmen]
+function manhattan(CurrCell: CellProps, finishCell: CellProps) {
+  // Manhattan distance (Huristic)
+  const h =
+    Math.abs(CurrCell.row - finishCell.row) +
+    Math.abs(CurrCell.col - finishCell.col);
+  return h;
+}
+\end{lstlisting}
+Samtidig har jeg brugt Manhattan distance som funktion til at uddeligere $f(n)$,$g(n)$ 
+og $h(n)$ værdierne for individuelle celler i gitteret. f.eks. har blot brugt funktionen fra nuværende celle til startcellen til at give den nuværnde celle deres $g(n)$ værdi.  
+\begin{lstlisting}[language=JavaScript, caption=Brug af Manhattan distance når cellerne skulle have deres $f(n)$ $g(n)$ og $h(n)$ værdier]
+function applyCostToCells(
+  grid: CellProps[][],
+  startCell: CellProps,
+  finishCell: CellProps
+) {
+  const newGrid = getAllCells(grid);
+  for (const cell of newGrid) {
+    if (cell.isWall) continue;
+    if (cell.isStart) continue;
+    if (cell.isFinish) continue;
+    cell.cost.hCost = manhattan(cell, finishCell);
+    cell.cost.gCost = manhattan(cell, startCell);
+    cell.cost.fCost = cell.cost.gCost + cell.cost.hCost;
+  }
+}
+\end{lstlisting}
+\section{Resultater og Test}
+
+\begin{figure}[ht]%
+  \centering
+  \subfloat[\centering Test af A* algoritmen]{{\includegraphics[width=9cm]{../AppPreview.PNG} }}%
+  \subfloat[\centering Test af interaktion med gitter]{{\includegraphics[width=9cm]{../AppPreview2.PNG} }}%
+  \caption{Test af A* algoritmen}
+\end{figure}
+\section{Konklusion}
+\newpage
+\section*{Bilag}
+\begin{lstlisting}[language=JavaScript, caption=Udvalgt kode af A* algoritmen, label={lst:A*}]
+  function astar( grid: CellProps[][], startCell: CellProps, finishCell: CellProps) {
+    applyCostToCells(grid, startCell, finishCell); // Apply cost to all cells
+    const openList: CellProps[] = []; // List of cells to be evaluated
+    const closedList: CellProps[] = []; // List of cells already evaluated
+    startCell.cost.gCost = 0;
+    startCell.cost.hCost = manhattan(startCell, finishCell);
+    startCell.cost.fCost = startCell.cost.gCost + startCell.cost.hCost;
+    openList.push(startCell); // Add startCell to openList
+  
+    while (!!openList.length) {
+      sortCellsByFcost(openList); // Sort openList by fCost (lowest to highest)
+  
+      // Find lowest fCost 
+      let lowestIndex = 0;
+      for (let i = 0; i < openList.length; i++) {
+        if (openList[i].cost.fCost < openList[lowestIndex].cost.fCost) {
+          lowestIndex = i;
+        }
+      }
+      let current = openList[lowestIndex]; // Set current to lowest fCost
+    
+      if (current.isFinish) {
+        // If current is finishCell, return closedList
+        closedList.shift();
+        return closedList;
+      }
+  
+      openList.splice(lowestIndex, 1);
+      closedList.push(current);
+  
+      let neighbors: CellProps[] = getNeighbors(current, grid);
+      for (let i = 0; i < neighbors.length; i++) {
+        let neighbor = neighbors[i];
+        if (!closedList.includes(neighbor) && !neighbor.isWall) { // If neighbor is not in closedList and is not a wall
+          let tempG = current.cost.gCost + 1; // 1 is the distance between current and neighbor
+          if (openList.includes(neighbor)) { // If neighbor is in openList
+            if (tempG < neighbor.cost.gCost) {
+              neighbor.cost.gCost = tempG;
+            }
+          } else {
+            neighbor.cost.gCost = tempG;
+            openList.push(neighbor);
+          }
+          // Current is the best path to neighbor 
+          neighbor.cost.hCost = manhattan(neighbor, finishCell);
+          neighbor.cost.fCost = neighbor.cost.gCost + neighbor.cost.hCost;
+          neighbor.previousCell = current;
+        }
+      }
+    }
+    return closedList;
+  }
+\end{lstlisting}
+\newpage
+\begin{lstlisting}[language=JavaScript, caption=Udvalgt kode af Dijkstra's algoritmen, label={lst:Dijkstra}]
+function dijkstra(
+  grid: CellProps[][],
+  startCell: CellProps,
+  finishCell: CellProps
+): CellProps[] {
+  const visitedCellsInOrder: CellProps[] = [];
+  startCell.distance = 0;
+  const unvisitedCells = getAllCells(grid);
+  while (!!unvisitedCells.length) {
+    sortCellsByDistance(unvisitedCells);
+    const closestCell: CellProps | undefined = unvisitedCells.shift();
+
+    if (closestCell !== undefined) {
+      if (closestCell.isWall) continue;
+      // If we encounter a wall, we skip it.
+      // If the closest cell is at a distance of infinity,
+      // we must be trapped and should therefore stop.
+      if (closestCell.distance === Infinity) return visitedCellsInOrder;
+      //closestCell.isVisited = true; // set current cell to visited
+      visitedCellsInOrder.push(closestCell);
+      if (closestCell === finishCell) return visitedCellsInOrder; // if reached finishcell
+
+      updateUnvisitedNeighbors(closestCell, grid);
+    } else return visitedCellsInOrder;
+  }
+
+  return visitedCellsInOrder;
+}
+\end{lstlisting}
+
+\section*{Logbog}
+28/11/2022: I gang med projekt \\
+30/11/2022: Gennemgang af gammel kode \\
+05/12/2022: Gennemgang af gammel kode + A-star research \\
+06/12/2022: Småændringer i gammel kode + A-star research \\
+12/12/2022: Småændringer på UI design \\
+09/01/2023: Begynd rework på nyt UI \\
+11/01/2023: Arbejde på UI (Gitter størrelse) \\
+16/01/2023: Arbejde på UI (Hastighed på animation)\\
+17/01/2023: Arbejde på UI (Ændring på Gitteret)\\
+06/02/2023: Implamentering af A-star algorithme (Ændringer i cellers opbygning) \\
+08/02/2023: Implamentering af A-star algorithme \\
+28/11/2023: Implamentering af A-star algorithme (Animations ændinger osv.)\\
+30/11/2023: Bug fixes på gammel algorithme \\
+05/12/2023: Clean-up her og der\\
+06/12/2023: Clean-up her og der\\
+Vinter ferie: Clean-up og dokumentation \\
 \end{document}
