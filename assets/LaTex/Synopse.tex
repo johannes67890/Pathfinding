@@ -70,25 +70,22 @@ top=20mm,
 
 %%%%%%% Document begin %%%%%%%%%%%
 \begin{document}
-
 \title{A* Algoritme}
 \author{Johannes Jørgensen\\ S3o}
 \date{2023 Febuar}
 \maketitle
-
-Projektets godkendelse og gennemgang af forløb.\\
+\textit{Projektets godkendelse og gennemgang af forløb.}\\
 Mit projekt (som er Pathfinding algoritmer) har jeg lavet lidt ændringer i mit gamle projekt, så den gamle kode er klar til at blive bygget videre på. Jeg vil gerne nå at implementere et vægtsystem i mit projekt, så min algoritmer kan blive lidt mere realistisk. Dette er til så min pathfinder skal kunne vurdere hvilken vej er nemmest og hurtigst vej fra A til B. Jeg er ikke begyndt endnu at implementere en ny algoritme (Jeg tænker A-star), da jeg først vil være klar med min gamle kode, samt have SOP overstået.  
 Næste gang skal jeg også have lavet noget research inden for vægtet pathfinding, som jeg tænker er mit næste skridt i projektet. 
 Efter det skal jeg implementere det og derefter gå videre med at implementere A-star algoritmen (måske nogle andre hvis jeg har tid)
-Hvis jeg har meget tid til overs kan jeg gøre det visuelle mere lækkert at se på. 
-
-\pagebreak
+Hvis jeg har meget tid til overs kan jeg gøre det visuelle mere lækkert at se på. \\
+\textit{Se evt. hele programmet på:} \href{https://github.com/johannes67890/Pathfinding.git}{Github.com/johannes67890/Pathfinding} 
 \tableofcontents
 \pagebreak
 
 %% Introduktion
-\section{Resume}
-Når du indtaster en destination ind på Google Maps på din telefon, hvordan finder Google Maps så den hurtigste vej? Kompleksiteten som Google Maps for at finde den hurtigste vej er umådelig stor, men en af elementerne som Google Maps bruger er Pathfinding Algoritmer. Formålet ved pathfinding algoritmer er at finde den korteste vej fra $a$ til $b$.
+\section{Introduktion}
+Når du indtaster en destination ind på Google Maps på din telefon, hvordan finder Google Maps så den hurtigste vej? Kompleksiteten som Google Maps har for at finde den hurtigste vej er umådelig stor, men en af elementerne som Google Maps bruger er Pathfinding Algoritmer. Formålet ved pathfinding algoritmer er at finde den korteste vej fra $a$ til $b$.
 Jeg har i mit projekt opbygget et program som fremviser hvordan forskellige pathfinding algoritmer virker. Denne fremvisning er en visuel fremstilling af hvordan algoritmen påvirker et gitter miljø med forhindringer (vægge). Dette projekt bygger videre på mit tidligere projekt som jeg har lavet i 2.g hvor jeg havde en visuel fremstilling af Dijkstra’s algoritme. Men jeg har nu med et nyt design implementeret Astar (A*) algoritmen, som jeg vil have fokus på.
 
 %% Teori
@@ -99,27 +96,26 @@ Mit program er en visuel fremvisning over hvordan pathfinding algoritmer fungere
 Gitteren er hovedkomponentet i programmet, der er gitteret som er miljøet som pathfinding algoritmerne bevæger sig i. Miljøet kan brugeren selv ændre, med at placere og fjerne vægge som pathfinding algoritmerne ikke kan gå igennem. Dette gør det muligt for at brugeren kan eksperimentere med de forskellige algoritmer, samt udforske hvad algoritmerne vil gøre i forskellige situationer. Brugeren kan ændre forskellige indstiller som vil have effekt på hvordan algoritmen opføre sig. Disse forskellige indstillinger inkluderer størrelsen af gitteret (samt antallet af celler i gitteret), hastigheden på algoritmens køretid, Hvilken algoritme som skal køres og muligheden for at sætte tilfældige væge. 
 
 \section{Teori}
-A* (udtalt ”A-star”) eller Dijkstra er begge en algoritme i ”Pathfinding”, som er en computer applikation af den korteste vej mellem to punkter. Når der er tale om Pathfinding algoritmer og grafteori, skal vi først gennemgå forskellige relevante emner for at kunne bedre forstå problemet som pathfinding algoritmer løser. Her er det relevant at snakke om data-Trees, tidskompleksitet, Breadth-First Search (BFS) og Depth-first search (DFS). 
+A* (udtalt ”A-star”) eller Dijkstra er begge en algoritme i ”Pathfinding”, som er en computer applikation af den korteste vej mellem to punkter. Når der er tale om Pathfinding algoritmer og grafteori, skal vi først gennemgå forskellige relevante emner for at kunne bedre forstå problemet som pathfinding algoritmer løser. Her er det relevant at snakke om data-trees, Breadth-First Search (BFS) og Depth-first search (DFS). 
 \subsection{Data-trees}
 Data-trees inde for grafteori er en populær måde at bruge som en abstrakt form for data type, som repræsenterer et hierarkisk data-tree med forbundet ”celler” (”nodes” bliver brugt i samme sammenhæng). Hver cell er forbundet til en ”parent” cell, bortset fra start cellen eller roden af data-treet, som ingen parent cell har. Disse begrænsninger betyder, at der ikke er nogen cyklusser og at hvert ”child” cell kan behandles som roden af sit eget ”subtree” (et indsnævret  mængde af celler i et større data-tree). Disse elementer gør at rekursion kan bruges som en brugbar teknik inden for data-trees.\\
+Der er flere forskellige metoder som bruges for at finde den korteste vej i et stort netværk af punkter og parameter.\footnote{\href{https://www.geeksforgeeks.org/introduction-to-tree-data-structure-and-algorithm-tutorials/}{Introduction to Tree - Data Structure and Algorithm Tutorials}} De to mest velkendte algoritmer er Breadth-First Search (BFS) og Depth-first search (DFS). 
+Breadth-First Search algoritme søger de tætteste naboer før algoritmen går videre til det næste led af data celles i data-tree. Dette gør algoritmen uden forhold til nogle parametre eller ekstra viden om netværket den søger igennem. Depth-first search gør det omvendte af BFS, her søger DFS algoritmen først gennem en enkel gren før den gør tilbage til start cellen og gør det samme med en anden gren i data-tree. 
 \begin{figure}[ht]%
   \centering
-  \subfloat[\centering Struktur for et data-tree]{{\includegraphics[width=0.7\textwidth]{../datatree.png} }}%
+  \subfloat[\centering Struktur for et data-tree]{{\includegraphics[width=0.85\textwidth]{../datatree.png} }}%
   \label{fig:datatree}%
 \end{figure}
-Der er flere forskellige metoder som bruges for at finde den korteste vej i et stort netværk af punkter og parameter. De to mest velkendte algoritmer er Breadth-First Search (BFS) og Depth-first search (DFS). 
-Breadth-First Search algoritme søger de tætteste naboer før algoritmen går videre til det næste led af data celles i data-tree. Dette gør algoritmen uden forhold til nogle parametre eller ekstra viden om netværket den søger igennem. Depth-first search gør det omvendte af BFS, her søger DFS algoritmen først gennem en enkel gren før den gør tilbage til start cellen og gør det samme med en anden gren i data-tree. 
-
 \subsection{Dijkstra’s algoritme}
 Dijkstra’s algoritme er en variation af Breadth-First Search, men hvor Dijkstra’s algoritme gør brug af en prioriterings kø, som afgør hvilken nabo Dijkstra skal søge igennem først. 
 Dijkstra starter med at angive en arbitrær afstandsværdi til alle celler i netværket: start cellen får afstandsværdien 0, hvor alle andre får afstandsværdien Infinity. 
-Vores prioteringskø holder vi øje med alle undersøgte celler. For den nuværende celle, bliver alle naboer som ikke er undersøgt med (afstanden til nuværende celle) + (afstanden fra nuværende celle til naboen). Hvis denne afstandsværdi er mindre end den forrige arbitrær afstandsværdi, bliver den nye afstand værdi kun relevant. Når vi er færdige med at undersøge afstandsværdien for alle naboer, markere vi den nuværende celle som undersøgt.  
+Vores prioteringskø holder vi øje med alle undersøgte celler. For den nuværende celle, bliver alle naboer som ikke er undersøgt med (afstanden til nuværende celle) + (afstanden fra nuværende celle til naboen). Hvis denne afstandsværdi er mindre end den forrige arbitrær afstandsværdi, bliver den nye afstand værdi kun relevant. Når vi er færdige med at undersøge afstandsværdien for alle naboer, markere vi den nuværende celle som undersøgt.\footnote{\href{https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm}{Dijkstra's algorithm}}  
 
 \subsection{A* algoritme}
 A-star algoritmen er en videreudvikling af Dijkstra’s algoritme. Denne forlængelse er ved brug af målrettet heuristik, 
 som gør det muligt for A-star at vide hvilke ruter som skal søges igennem først. 
 Heuristik gør derfor A-star til en informeret søgealgoritme, eller en best-first search algoritme. 
-Ved hver iteration af A-stars loop, skal algoritmen tag stilling til hvilken rute som skal søges. Dette gøres den baseret på omkostningerne af den rute, samt rutes estimeret omkostning som skal til for at bruge den rute hele vejen til slut. A-star brugere tre forskellige værdier til at beslutte dette: 
+Ved hver iteration af A-stars loop, skal algoritmen tag stilling til hvilken rute som skal søges. Dette gøres den baseret på omkostningerne af den rute, samt rutes estimeret omkostning som skal til for at bruge den rute hele vejen til slut.\footnote{\href{http://theory.stanford.edu/~amitp/GameProgramming/AStarComparison.html}{Introduction to A* (Standford)}} A-star brugere tre forskellige værdier til at beslutte dette: 
 (hvor $n$ er den næste celle på den på givende rute)\\
 \[g(n)\]
 $g(n)$  er omkostningerne af ruten fra start til $n$.
@@ -139,7 +135,6 @@ Manhattan Distance er summen af absolutte værdier af forskellen af henholdsvis 
 Efter beregningerne af $g(n)$ og $h(n)$, beregner vi den tredje værdi $f(n)$, 
 som repræsenterer vores nuværende bedste gæt til den billigste vej fra start til slut:
 \[f(n)= g(n) + h(n)\]
-
 \section{Funktionalitet}
 Det er vigtigt at når brugeren åbnet programmet, at de ikke er i tvivl om hvad der foregår. For at kunne opnå en høj funktionalitet opstiller jeg nogle krav. Dette inkluderer hvordan man køre algoritmen, vælger hastighed, gitter størrelse og sætte vægge. Samtidig skal det være intuitivt at se hvad der forgår, selvom man ikke forstår pathfinding. 
 \begin{itemize}
@@ -147,11 +142,13 @@ Det er vigtigt at når brugeren åbnet programmet, at de ikke er i tvivl om hvad
   \item Det skal samtidig være simpelt at kunne ændre på nogle indstillinger for f.eks. hvor hurtig algoritmen køre eller hvor stort et gitter man vil bruge. 
   \item Når brugeren kører programmet, skal det være intuitivt at kunne forstå hvordan algoritmen fungere og hvilken vej som er den korteste fra $a$ til $b$.
 \end{itemize}
+\newpage
 \section{Brugergrænseflade}
 Når et it-produkt bliver produceret og designet, er det vigtigt at brugeren af programmet kan anvende det uden irritation eller følelsen af utilstrækkelighed. Man designer derfor en brugergrænseflade som fokuserer på at gøre it-produktet tilfredsstillende for brugeren.
 En brugergrænseflade er en form for bindeled mellem en bruger og et it-produkt eller system. Brugergrænsefladen modtager forskellige typer af inputs fra bruger, såsom klik med musen eller via tastaturet osv. Det input giver derefter et output og måske en form for feedback til brugeren, efter brugeren har interageret med it-produktet. 
 \begin{table}[ht]
-  {\renewcommand{\arraystretch}{1.2} %<- modify value to suit your needs
+  \centering
+  {\renewcommand{\arraystretch}{2.5} %<- modify value to suit your needs
   \begin{tabular}{ |c|c| }
    \hline
    \textbf{Input fra brugeren} & \textbf{Output} \\ 
@@ -164,7 +161,7 @@ En brugergrænseflade er en form for bindeled mellem en bruger og et it-produkt 
    \hline
    \shortstack{Klik på en af ”Cell Size” knapperne \\(Big, Default, Small)} & Ændre Størrelsen på cellerne i gitteret. \\
    \hline
-   Klik på en af algoritmeknapperne (Dijkstra eller Astar) & \shortstack{Ændre valget algoritme som bliver \\kørt når ”Start” knappen bliver trykket.} \\
+   \shortstack{Klik på en af algoritmeknapperne \\ (Dijkstra eller Astar)} & \shortstack{Ændre valget algoritme som bliver \\kørt når ”Start” knappen bliver trykket.} \\
    \hline
    Klik på ”random walls” knappen & \shortstack{Placere tilfældige væge i gitteret \\ som algoritmerne ikke må gå igennem.} \\
    \hline
@@ -175,6 +172,7 @@ For at få en bedre forståelse for et givende it-system, kan diverse modeller o
 Dette kan ske for både hvordan enkle algoritmer fungere, hvordan klasser spiller sammen i programmet eller lignede. Når det kommer til Pathfinding algoritmer og et virsuelt program, 
 er det brugbart at vide 
 hvordan koden kobles sammen med diverse pathfinding algoritmer, samt hvordan DOM-elementerne (Et enkelt HTML element såsom <Div> eller <p>) på hjemmesiden bliver manipuleret. 
+\newpage
 \subsection{UML-diagram}
 For at få en generelt overblik over et it-system, kan man bruge Unified Modeling Language (UML-diagrammer). Et UML-diagram kan beskrive strukturen og forløbet i et Objekt-orienteret it-system. Der er flere variationer til UML-diagrammer (Klasse diagram, Interaktionsdiagram osv.). 
 Da mit program er opbygget i React (Et Javascript baseret frontend biblotek), er mit program opbygget af såkaldte ”Components” og ikke klasser. Derfor vil det ikke være muligt at lave et traditionelt klasse-diagram for et React system. Dette skyldes både at det er frontend baseret og DOM-elementer bliver manipuleret af ”states” (et objekt som indeholder data om React components og DOM-elementer). Jeg har derfor improviseret et UML-diagram som over styr på diverse state manipulationer på tværs af React components. 
@@ -283,14 +281,22 @@ function applyCostToCells(
 }
 \end{lstlisting}
 \section{Resultater og Test}
-
-\begin{figure}[ht]%
+For at opfylde de opstillet krav om at brugeren kan interagere med gitteret, algoritmens fungere og at den kan finde den korteste vej fra a til b. Kan vi lave forskellige test, såsom at samlingen min implantation af A-star med andre eller se om A-star gøre det bedre end Dijksta, som A-star skulle i teorien. Denne metode har jeg brugt til at teste hvorledes om min algoritme virker. \\
+\begin{figure}[ht]
   \centering
-  \subfloat[\centering Test af A* algoritmen]{{\includegraphics[width=9cm]{../AppPreview.PNG} }}%
-  \subfloat[\centering Test af interaktion med gitter]{{\includegraphics[width=9cm]{../AppPreview2.PNG} }}%
-  \caption{Test af A* algoritmen}
+  \subfloat[\centering Test af Dijksta]{{\includegraphics[width=9cm]{../Showcase_Dijkstra.PNG} }}%
+  \subfloat[\centering Test af A* algoritmen]{{\includegraphics[width=9cm]{../Showcase_Astar.PNG} }}%
+  \caption{Test af A* algoritmen VS. Dijksta algoritmen}\label{fig:testAlgortime}
+\end{figure}
+Der vises på figur \ref{fig:testAlgortime}, at der er stor forskel mellem mængden af undersøgte celler hos Dijksta, i forhold til A-star. Dette skulle det i teorien også være, da A-star ved hvor slut punktet nogenlunde er. Dermed er min test af min A-star algoritme godkendt. 
+Vi kan teste om interaktionen med gitteret, animationshastighed osv. Fungere, med simpelt at prøve at se om det virker, samt om der er nogle bugs.
+\begin{figure}[ht]
+  \centering
+  {\includegraphics[width=9cm]{../AppPreview2.PNG} }%
+  \caption{Test af interaktion med gitter}\label{fig:testInteraktion}
 \end{figure}
 \section{Konklusion}
+Vi har undersøgt hvordan heuristik bliver brugt i pathfinding algorithmer som A-star, til at finde den hurtigste vej fra $a$ til $b$. Dette har vi gjort med både at se hvordan grafteorien fungere inden for pathfinding, men samtidig implementeret A-star og Dijkstra i et praksiseksempel på hvordan algoritmerne hver og sær bevæger sig. Vi kunne også konkludere at brug af heuristik kunne øge algoritmens ydeevne drastisk, med blot lidt information. Så næste gang Næste gang vi åbner Google Maps for at finde den hurtigste vej til den nærmeste Macdonalds, så har vi nu fået et lille indblik i hvordan Google Maps fungere for at finde den hurtigste vejen for os. 
 \newpage
 \section*{Bilag}
 \begin{lstlisting}[language=JavaScript, caption=Udvalgt kode af A* algoritmen, label={lst:A*}]
