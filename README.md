@@ -1,9 +1,8 @@
 # Pathfinding
-Visual showcase of pathfinding algorithms in action!
 ![Diagram](./assets/AppPreview.PNG)
 
 ## Introduction
-
+Visual showcase of pathfinding algorithms in action!
 
 ## Getting Started
 
