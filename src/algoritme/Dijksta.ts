@@ -1,6 +1,5 @@
 import { CellProps } from "../components/Cell";
 
-
 /**
  * Dijkstra search algorithm\
  * *Breadth-first search algorithm*
@@ -64,12 +63,11 @@ export function getCellsInShortestPathOrderDijkstra(starCell: CellProps, finishC
   const shortestPath: CellProps[] = [];
   let curr = finishCell;
   
-  // while (curr !== starCell) {
-  //   console.log(curr.previouscell);
-  //   shortestPath.push(curr);
-  //   curr = curr.previouscell;
-    
-  // }
+  while (curr !== starCell) {
+    console.log(curr.previousCell);
+    shortestPath.push(curr);
+    curr = curr.previousCell; 
+  }
   shortestPath.shift();
   return shortestPath.reverse();
 }
