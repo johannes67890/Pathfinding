@@ -1,20 +1,20 @@
 class DirectedEdge {
-    private _v: number;
-    private _w: number;
+    private v: number;
+    private w: number;
     private _weight: number;
     constructor(v: number, w: number, weight: number) {
-        this._v = v;
-        this._w = w;
+        this.v = v;
+        this.w = w;
         this._weight = weight;
     }
 
 
     from(): number {
-        return this._v;
+        return this.v;
     }
 
     to(): number {
-        return this._w;
+        return this.w;
     }
 
     weight(): number {
@@ -22,6 +22,7 @@ class DirectedEdge {
     }
 
     toString(): string {
-        return `${this._v} -> ${this._w} ${this._weight}`;
+        return `${this.v} -> ${this.w} ${this._weight}`;
     }
 }
+export default DirectedEdge;

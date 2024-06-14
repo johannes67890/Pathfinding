@@ -1,5 +1,6 @@
 import * as utils from "../utils";
-import React from "react";
+import React, { useContext } from "react";
+import { CellSizeContext } from "./Contexts";
 
 export enum CellSize {
   small,
@@ -14,22 +15,45 @@ export const SizeGrid: Record<CellSize, [string, string, number, number]> = {
 };
 
 export type CellProps = {
-  onClick?: () => unknown;
-  className?: string;
+  id: number;
   col: number;
   row: number;
+  weight: number;
+  className?: string;
+  isFinish?: boolean;
+  isStart?: boolean;
+  isWall?: boolean;
   size?: CellSize;
-  isStart: { col: number; row: number };
-  isFinish: { col: number; row: number };
-  isWall: boolean;
-  isVisited: boolean;
-  distance: number;
-  previousCell: CellProps;
-  cost: { hCost: number; fCost: number; gCost: number };
+  onClick?: () => unknown;
 };
 
+export const MakeCell = (col: number, row: number) => {
+  const { cellSize } = useContext(CellSizeContext);
+
+  const STARTCELL: Array<Number> = [
+    Math.round(SizeGrid[cellSize][2] / 2 / 1.2),
+    Math.round(SizeGrid[cellSize][3] / 3 / 1.35),
+  ];
+  const FINISHCELL: Array<Number> = [
+    Math.round(SizeGrid[cellSize][2] / 2 / 1.2),
+    Math.round((SizeGrid[cellSize][3] / 2) * 1.35),
+  ];
+  
+  return {
+    col,
+    row,
+    //weight: weight,
+    isStart: row === STARTCELL[0] && col === STARTCELL[1],
+    isFinish: row === FINISHCELL[0] && col === FINISHCELL[1],
+    isVisited: false,
+    isWall: false,
+    previousCell: null,
+  };
+};
+
+
 const Cell = React.forwardRef((props: CellProps) => {
-  const { onClick, className, col, row, size, isStart, isFinish, isWall } =
+  const {onClick, className, col, row, size, isStart, isFinish, isWall } =
     props;
 
   const VariantClassName = isFinish
@@ -56,28 +80,5 @@ const Cell = React.forwardRef((props: CellProps) => {
     ></button>
   );
 });
-
-export const MakeCell = (col: number, row: number, cellSize: CellSize) => {
-  const STARTCELL: Array<Number> = [
-    Math.round(SizeGrid[cellSize][2] / 2 / 1.2),
-    Math.round(SizeGrid[cellSize][3] / 3 / 1.35),
-  ];
-  const FINISHCELL: Array<Number> = [
-    Math.round(SizeGrid[cellSize][2] / 2 / 1.2),
-    Math.round((SizeGrid[cellSize][3] / 2) * 1.35),
-  ];
-  
-  return {
-    col,
-    row,
-    cost: { gCost: 0, fCost: 0, hCost: 0 },
-    isStart: row === STARTCELL[0] && col === STARTCELL[1],
-    isFinish: row === FINISHCELL[0] && col === FINISHCELL[1],
-    distance: Infinity,
-    isVisited: false,
-    isWall: false,
-    previousCell: null,
-  };
-};
 
 export default Cell;

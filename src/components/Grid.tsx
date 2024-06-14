@@ -72,16 +72,13 @@ const Grid = () => {
             {row.map((cell, cellIndex) => {
               return (
                 <Cell
+                  id={cellIndex}
                   row={cell.row}
                   col={cell.col}
-                  key={cellIndex}
                   className={cell.className}
-                  isVisited={cell.isVisited}
                   isFinish={cell.isFinish}
                   isStart={cell.isStart}
                   isWall={cell.isWall}
-                  distance={cell.distance}
-                  previousCell={cell.previousCell}
                   onClick={() => {
                     if (cell.isWall === false) {
                       cell.isWall = true;
@@ -90,11 +87,7 @@ const Grid = () => {
                     setCellClicked(!cellClicked);
                   }}
                   size={cellSize}
-                  cost={{
-                    gCost: cell.cost.gCost,
-                    hCost: cell.cost.hCost,
-                    fCost: cell.cost.fCost,
-                  }}
+                  weight={cell.weight}
                 ></Cell>
               );
             })}
@@ -219,7 +212,7 @@ export function InitlizeGridWithRandomWalls(
   for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
     const currentRow: any = [];
     for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
-      const cell = MakeCell(col, row, cellSize); //push current row to Cell
+      const cell = MakeCell(col, row); //push current row to Cell
       const strengthVal = 12.5 + 1 - strength;
 
       let rand = Math.floor(utils.getRandomInt(1, strengthVal));
@@ -240,7 +233,7 @@ export function InitlizeGrid(cellSize: CellSize): CellProps[][] {
   for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
     const currentRow: any = [];
     for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
-      currentRow.push(MakeCell(col, row, cellSize)); //push current row to Cell
+      currentRow.push(MakeCell(col, row)); //push current row to Cell
     }
     newGrid.push(currentRow);
   }

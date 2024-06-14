@@ -7,10 +7,7 @@ import {
   GridContext,
   SpeedContext,
 } from "./Contexts";
-import {
-  dijkstra,
-  getCellsInShortestPathOrderDijkstra,
-} from "../algoritme/Dijksta";
+
 import astar, { getCellsInShortestPathOrderAstar } from "../algoritme/Astar";
 
 const Algortims: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {

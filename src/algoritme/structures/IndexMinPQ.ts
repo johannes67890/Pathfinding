@@ -4,9 +4,15 @@ class IndexMinPQ<Key> {
     private pq: number[];
     private qp: number[];
     private keys: Key[];
-    constructor() {
+    constructor(maxN: number) {
+        if (maxN < 0) throw new Error('maxN must be nonnegative');
         this.n = 0;
-
+        this.maxN = maxN;
+        this.keys = new Array(maxN + 1);
+        this.pq = new Array(maxN + 1);
+        this.qp = new Array(maxN);
+        for (let i = 0; i <= maxN; i++)
+            this.qp[i] = -1;
     }
 
     isEmpty(): boolean {
@@ -14,6 +20,7 @@ class IndexMinPQ<Key> {
     }
 
     contains(i: number): boolean {
+        this.validateIndex(i);
         return this.qp[i] !== -1;
     }
 
@@ -26,7 +33,6 @@ class IndexMinPQ<Key> {
     }
 
     minKey(): Key {
-        
         return this.keys[this.pq[1]];
     }
 
@@ -43,6 +49,7 @@ class IndexMinPQ<Key> {
     }
     
     insert(i: number, key: Key): void {
+        this.validateIndex(i);
         this.n++;
         this.qp[i] = this.n;
         this.pq[this.n] = i;
@@ -56,12 +63,12 @@ class IndexMinPQ<Key> {
         return this.keys[i];
     }
 
-    changeKey(i: number, key: Key): void {
+    decreaseKey(i: number, key: Key): void {
         if (i < 0 || i >= this.maxN) throw new Error('index out of bounds');
         if (!this.contains(i)) throw new Error('index is not in the priority queue');
+        if (this.keys[i] <= key) throw new Error('Calling decreaseKey() with given argument would not strictly decrease the key');
         this.keys[i] = key;
         this.swim(this.qp[i]);
-        this.sink(this.qp[i]);
     }
 
 
@@ -96,5 +103,9 @@ class IndexMinPQ<Key> {
             k = j;
         }
     }
-
+    private validateIndex(i: number): void {
+        if (i < 0) throw new Error('index is negative: ' + i);
+        if (i >= this.maxN) throw new Error('index is greater than capacity: ' + i);
+    }
 }
+export default IndexMinPQ;
