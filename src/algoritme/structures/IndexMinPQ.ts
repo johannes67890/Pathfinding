@@ -41,7 +41,7 @@ class IndexMinPQ<Key> {
         const min = this.pq[1];
         this.exch(1, this.n--);
         this.sink(1);
-        if(!(this.qp[min] === -1)) throw new Error('Index is not in the priority queue');
+        if(min != this.pq[this.n+1]) throw new Error('Index is not in the priority queue');
         this.qp[min] = -1; // delete
         this.keys[min] = undefined as any; // to help with garbage collection
         this.pq[this.n + 1] = -1; // not needed
