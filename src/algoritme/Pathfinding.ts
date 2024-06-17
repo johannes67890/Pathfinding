@@ -16,13 +16,12 @@ class Pathfinding {
   private edgeTo: DirectedEdge[] = [];
   private pq: IndexMinPQ<number>;
 
+  private stack: DirectedEdge[] = [];
+
   constructor(
     G: Digraph,
     startCell: CellProps,
-    finishCell: CellProps
   ) {
-    if(startCell === finishCell) return;
-
     for(let i = 0; i < G.V(); i++){
       this.distTo[i] = Infinity;
     }
@@ -34,6 +33,7 @@ class Pathfinding {
       let v = this.pq.delMin();
       for(let e of G.adj(v)){
         this.relax(e);
+        this.stack.push(e);
       }
     }
   };
@@ -64,10 +64,20 @@ class Pathfinding {
   pathToByIndex(v: number): number[] {
     if(!this.hasPathTo(v)) throw new Error("No path to vertex");
     let path: number[] = [];
+    
     for(let e of this.pathTo(v)){
       path.push(e.from());
     }
-    return path.reverse();
+  
+    return path; // remove start node, to not overlap start cell in grid
+  }
+
+  visitedPath(): number[] {
+    let path: number[] = [];
+    for(let e of this.stack){
+      path.push(e.from());
+    }
+    return path;
   }
 
   getDistTo(v: number): number {

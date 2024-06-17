@@ -22,7 +22,7 @@ class DirectedEdge {
     }
 
     toString(): string {
-        return `${this.v} -> ${this.w} ${this._weight}`;
+        return `${this.v} -> ${this.w}, ${this._weight}`;
     }
 }
 export default DirectedEdge;

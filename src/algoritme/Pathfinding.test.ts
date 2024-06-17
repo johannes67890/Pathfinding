@@ -34,7 +34,7 @@ beforeEach(() => {
     G.addEdge(new DirectedEdge(cells[7].id, cells[4].id, 4)); 
 
 
-    Dijkstra = new Pathfinding(G, startCell, finishCell);
+    Dijkstra = new Pathfinding(G, startCell);
 });
 
 describe('Dijkstra', () => {

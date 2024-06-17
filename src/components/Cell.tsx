@@ -27,9 +27,10 @@ export type CellProps = {
   onClick?: () => unknown;
 };
 
-export const MakeCell = (col: number, row: number) => {
+export const MakeCell = (id: number, col: number, row: number) => {
 
   return {
+    id,
     col,
     row,
     //weight: weight,
@@ -43,7 +44,7 @@ export const MakeCell = (col: number, row: number) => {
 
 
 const Cell = React.forwardRef((props: CellProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
-  const {onClick, className, col, row, size, isStart, isFinish, isWall } =
+  const {id, onClick, className, size, isStart, isFinish, isWall } =
     props;
 
   const VariantClassName = isFinish
@@ -57,7 +58,7 @@ const Cell = React.forwardRef((props: CellProps, ref: React.ForwardedRef<HTMLBut
   return (
     <button
       ref={ref}
-      id={`row-${row} col-${col}`}
+      id={`${id}`}
       onClick={(e) => {
         if (onClick) onClick();
       }}

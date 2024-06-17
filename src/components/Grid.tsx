@@ -80,7 +80,6 @@ const Grid = () => {
                     if (cell.isWall === false) {
                       cell.isWall = true;
                     } else cell.isWall = false;
-                    console.log(gridCells.current[cell.row][cell.col]);
 
                     setCellClicked(!cellClicked);
                   }}
@@ -207,10 +206,11 @@ export function InitlizeGridWithRandomWalls(
   strength: number
 ): CellProps[][] {
   let newGridWithWalls: CellProps[][] = [];
+  let i = 0;
   for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
     const currentRow: any = [];
     for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
-      const cell = MakeCell(col, row); //push current row to Cell
+      const cell = MakeCell(i, col, row); //push current row to Cell
       const strengthVal = 12.5 + 1 - strength;
 
       let rand = Math.floor(utils.getRandomInt(1, strengthVal));
@@ -220,6 +220,7 @@ export function InitlizeGridWithRandomWalls(
         cell.isWall = true;
       }
       currentRow.push(cell);
+      i++;
     }
     newGridWithWalls.push(currentRow);
   }
@@ -228,10 +229,12 @@ export function InitlizeGridWithRandomWalls(
 
 export function InitlizeGrid(cellSize: CellSize): CellProps[][] {
   let newGrid: CellProps[][] = [];
+  let i = 0;
   for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
     const currentRow: any = [];
     for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
-      currentRow.push(MakeCell(col, row)); //push current row to Cell
+      currentRow.push(MakeCell(i, col, row)); //push current row to Cell
+      i++;
     }
     newGrid.push(currentRow);
   }
