@@ -28,23 +28,13 @@ export type CellProps = {
 };
 
 export const MakeCell = (col: number, row: number) => {
-  const { cellSize } = useContext(CellSizeContext);
 
-  const STARTCELL: Array<Number> = [
-    Math.round(SizeGrid[cellSize][2] / 2 / 1.2),
-    Math.round(SizeGrid[cellSize][3] / 3 / 1.35),
-  ];
-  const FINISHCELL: Array<Number> = [
-    Math.round(SizeGrid[cellSize][2] / 2 / 1.2),
-    Math.round((SizeGrid[cellSize][3] / 2) * 1.35),
-  ];
-  
   return {
     col,
     row,
     //weight: weight,
-    isStart: row === STARTCELL[0] && col === STARTCELL[1],
-    isFinish: row === FINISHCELL[0] && col === FINISHCELL[1],
+    isStart: row === 8 && col === 8,
+    isFinish: row === 8 && col === 27,
     isVisited: false,
     isWall: false,
     previousCell: null,
@@ -52,7 +42,7 @@ export const MakeCell = (col: number, row: number) => {
 };
 
 
-const Cell = React.forwardRef((props: CellProps) => {
+const Cell = React.forwardRef((props: CellProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
   const {onClick, className, col, row, size, isStart, isFinish, isWall } =
     props;
 
@@ -66,6 +56,7 @@ const Cell = React.forwardRef((props: CellProps) => {
 
   return (
     <button
+      ref={ref}
       id={`row-${row} col-${col}`}
       onClick={(e) => {
         if (onClick) onClick();

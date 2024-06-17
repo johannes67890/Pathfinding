@@ -7,8 +7,8 @@ import {
   GridContext,
   SpeedContext,
 } from "./Contexts";
-
-import astar, { getCellsInShortestPathOrderAstar } from "../algoritme/Astar";
+import Pathfinding from "../algoritme/Pathfinding";
+import Digraph from "../algoritme/structures/Digraph";
 
 const Algortims: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
   const { cellSize } = useContext(CellSizeContext);
@@ -23,53 +23,43 @@ const Algortims: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
     grid[Math.round(SizeGrid[cellSize][2] / 2 / 1.2)][
       Math.round((SizeGrid[cellSize][3] / 2) * 1.35)
     ];
-    switch (algorithm) {
-    case Algorithm.Dijksta: return <AnimateDijkstra startNode={startNode} finishNode={finishNode} />
-    case Algorithm.Astar: return <AnimateAstar startNode={startNode} finishNode={finishNode} />
-    default: return <AnimateDijkstra startNode={startNode} finishNode={finishNode} />
-  }
-      
+    return <AnimateDijkstra startNode={startNode} finishNode={finishNode} />
 };
 
 const AnimateDijkstra: React.FC<{
   startNode: CellProps;
   finishNode: CellProps;
 }> = ({ startNode, finishNode }) => {
-  const { cellSize } = useContext(CellSizeContext);
   const { speed } = useContext(SpeedContext);
   const { grid } = useContext(GridContext);
   const { setSolved } = useContext(ControlContext);
 
-  const visitedcellsInOrder = dijkstra(grid, startNode, finishNode);
-  const ShortestPathOrder = getCellsInShortestPathOrderDijkstra(startNode, finishNode);
-  console.log(ShortestPathOrder);
-
-  // remove start and finish node from visitedcellsInOrder
-  visitedcellsInOrder.shift();
-  visitedcellsInOrder.pop();
-
+  let G = new Digraph(getAllCells(grid));
+  const sp = new Pathfinding(G, startNode, finishNode).pathToByIndex(finishNode.id);
+  console.log("sp: ", sp);
   let i = 0;
+  setInterval(() => {
+    const cell = sp[i];
 
-  const Interval = setInterval(() => {
-    const cell = visitedcellsInOrder[i];
+    console.log("sp cell: ", cell);
 
-    document.getElementById(
-      `row-${cell.row} col-${cell.col}`
-    )!.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+    // document.getElementById(
+    //   `${cell}`
+    // )!.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
       
-    if (i === visitedcellsInOrder.length - 1) {
-      for (let i = 0; i < ShortestPathOrder.length; i++) {
-        setTimeout(() => {
-          const cell = ShortestPathOrder[i];
-          document.getElementById(
-            `row-${cell.row} col-${cell.col}`
-          )!.className = `animate-shortest-path border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
-        }, 50 * i);
-      }
-      setSolved(true);
-      clearInterval(Interval);
-      return null;
-    }
+    // if (i === visitedcellsInOrder.length - 1) {
+    //   for (let i = 0; i < ShortestPathOrder.length; i++) {
+    //     setTimeout(() => {
+    //       const cell = ShortestPathOrder[i];
+    //       document.getElementById(
+    //         `row-${cell.row} col-${cell.col}`
+    //       )!.className = `animate-shortest-path border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+    //     }, 50 * i);
+    //   }
+    //   setSolved(true);
+    //   clearInterval(Interval);
+    //   return null;
+    // }
 
     i++;
   }, speed);
@@ -77,44 +67,13 @@ const AnimateDijkstra: React.FC<{
   return null;
 };
 
-const AnimateAstar: React.FC<{
-  startNode: CellProps;
-  finishNode: CellProps;
-}> = ({ startNode, finishNode }) => {
-  const { cellSize } = useContext(CellSizeContext);
-  const { speed } = useContext(SpeedContext);
-  const { grid } = useContext(GridContext);
-  const { setSolved } = useContext(ControlContext);
-
-  const visitedCellsInOrder = astar(grid, startNode, finishNode);
-  const ShortestPathOrder = getCellsInShortestPathOrderAstar(finishNode);
-  let i = 0;
-
-  const Interval = setInterval(() => {
-    const cell = visitedCellsInOrder[i];
-
-    document.getElementById(
-      `row-${cell.row} col-${cell.col}`
-    )!.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
-
-    if (i === visitedCellsInOrder.length - 1) {
-      for (let i = 0; i < ShortestPathOrder.length; i++) {
-        setTimeout(() => {
-          const cell = ShortestPathOrder[i];
-          document.getElementById(
-            `row-${cell.row} col-${cell.col}`
-          )!.className = `animate-shortest-path border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
-        }, 50 * i);
-      }
-      setSolved(true);
-      clearInterval(Interval);
-      return null;
+function getAllCells(grid: CellProps[][]) {
+  const cells = [];
+  for (const row of grid) {
+    for (const cell of row) {
+      cells.push(cell);
     }
-
-    i++;
-  }, speed);
-
-  return null;
-};
-
+  }
+  return cells;
+}
 export default Algortims;

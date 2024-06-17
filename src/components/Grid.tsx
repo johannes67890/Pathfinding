@@ -1,12 +1,12 @@
 import Cell, { CellProps, CellSize, SizeGrid, MakeCell } from "./Cell";
 import { CellSizeContext, ControlContext, GridContext } from "./Contexts";
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import * as utils from "../utils";
 import { Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
 import Algortims from "./Algortims";
 
 const Grid = () => {
-  const { grid, setGrid, gridRef } = useContext(GridContext);
+  const { grid, setGrid, gridCells } = useContext(GridContext);
   const { cellSize } = useContext(CellSizeContext);
   const { playing, setPlaying, solved, setSolved } = useContext(ControlContext);
 
@@ -14,21 +14,18 @@ const Grid = () => {
   const [ongoing, setOngoing] = useState<boolean>(false);
   const [refresh, setRefresh] = useState<boolean>(false);
 
+
   useEffect(() => {
     // When animation is done and user wants to refresh the grid.
     if (refresh) {
-      setGrid(InitlizeGrid(cellSize));
       setGrid((prevGrid) => {
         const newGrid = prevGrid.slice();
         for (let row of newGrid) {
           for (let cell of row) {
-            cell.isVisited = false;
             if (cell.isStart || cell.isFinish) {
               continue;
             }
-            document.getElementById(
-              `row-${cell.row} col-${cell.col}`
-            )!.className = `border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+            gridCells.current[cell.row][cell.col].current!.className = `border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
           }
         }
         return newGrid;
@@ -37,9 +34,8 @@ const Grid = () => {
   }, [refresh]);
 
   useEffect(() => {
-    // on cell size change
     setGrid(InitlizeGrid(cellSize));
-  }, [cellSize])
+  }, [cellSize]);
 
   const OnStart = () => {
     setPlaying(!playing);
@@ -75,6 +71,7 @@ const Grid = () => {
                   id={cellIndex}
                   row={cell.row}
                   col={cell.col}
+                  ref={gridCells.current[cell.row][cell.col]}
                   className={cell.className}
                   isFinish={cell.isFinish}
                   isStart={cell.isStart}
@@ -83,7 +80,8 @@ const Grid = () => {
                     if (cell.isWall === false) {
                       cell.isWall = true;
                     } else cell.isWall = false;
-                
+                    console.log(gridCells.current[cell.row][cell.col]);
+
                     setCellClicked(!cellClicked);
                   }}
                   size={cellSize}

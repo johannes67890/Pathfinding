@@ -13,13 +13,11 @@ export const CellSizeContext = createContext<{
 export const GridContext = createContext<{
   grid: CellProps[][];
   setGrid: React.Dispatch<React.SetStateAction<CellProps[][]>>;
-  setGridCell: (i: number, j: number, cell: CellProps) => void;
-  gridRef: React.MutableRefObject<CellProps[]>;
+  gridCells: React.MutableRefObject<React.RefObject<HTMLButtonElement>[][]>;
 }>({
   grid: [],
   setGrid: () => {},
-  setGridCell: () => {},
-  gridRef: { current: [] },
+  gridCells: { current: [] },
 });
 
 // setSpeed context
@@ -75,15 +73,14 @@ export const AppContexts: React.FC<{ children: React.ReactNode }> = ({
   }
 
   const [grid, setGrid] = useState<CellProps[][]>(InitlizeGrid(cellSize));
-  const gridRef = useRef<CellProps[]>([]);
+  const gridCells = useRef<React.RefObject<HTMLButtonElement>[][]>(grid.map((row) => row.map(() => React.createRef())));
   const GridValue = useMemo(
     () => ({
       grid,
       setGrid,
-      setGridCell,
-      gridRef,
+      gridCells,
     }),
-    [grid, setGrid, setCellSize, gridRef]
+    [grid, setGrid, gridCells]
   );
 
   const [playing, setPlaying] = useState<boolean>(false);

@@ -20,7 +20,7 @@ class Pathfinding {
     G: Digraph,
     startCell: CellProps,
     finishCell: CellProps
-  ){
+  ) {
     if(startCell === finishCell) return;
 
     for(let i = 0; i < G.V(); i++){
@@ -61,18 +61,19 @@ class Pathfinding {
     return path.reverse();
   }
 
+  pathToByIndex(v: number): number[] {
+    if(!this.hasPathTo(v)) throw new Error("No path to vertex");
+    let path: number[] = [];
+    for(let e of this.pathTo(v)){
+      path.push(e.from());
+    }
+    return path.reverse();
+  }
+
   getDistTo(v: number): number {
     return this.distTo[v];
   }
 }
-// function getAllCells(grid: CellProps[][]) {
-//   const cells = [];
-//   for (const row of grid) {
-//     for (const cell of row) {
-//       cells.push(cell);
-//     }
-//   }
-//   return cells;
-// }// 
+
 
 export default Pathfinding;
