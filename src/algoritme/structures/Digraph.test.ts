@@ -18,7 +18,7 @@ let cells: CellProps[] = [
 
 
 beforeEach(() => {
-    G = new Digraph(cells);   
+    G = new Digraph(undefined, cells);   
     G.addEdge(new DirectedEdge(cells[0].id, cells[1].id, 1));
     G.addEdge(new DirectedEdge(cells[1].id, cells[2].id, 1));
     G.addEdge(new DirectedEdge(cells[2].id, cells[3].id, 1));

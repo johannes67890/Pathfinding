@@ -11,8 +11,7 @@ import Digraph from "../algoritme/structures/Digraph";
 import DirectedEdge from "../algoritme/structures/DirectedEdge";
 
 const Algortims: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
-  const { cellSize } = useContext(CellSizeContext);
-  const { grid, gridCells } = useContext(GridContext);
+  const { grid } = useContext(GridContext);
 
   const startNode =
     grid[8][8];
@@ -69,7 +68,7 @@ const AnimateDijkstra: React.FC<{
   return null;
 };
 
-function getNeighbors(cell: CellProps, grid: any): CellProps[] {
+function getNeighbors(cell: CellProps, grid: CellProps[][]): CellProps[] {
   const neighbors: CellProps[] = [];
   const { col, row } = cell;
   if (row > 0) neighbors.push(grid[row - 1][col]); // top

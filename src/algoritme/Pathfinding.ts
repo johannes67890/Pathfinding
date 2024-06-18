@@ -23,7 +23,7 @@ class Pathfinding {
     G: Digraph,
     startCell: CellProps,
     finishCell: CellProps,
-    algorithm: Algorithm
+    algorithm?: Algorithm
   ) {
     this.G = G;
     for(let i = 0; i < G.V(); i++){
@@ -39,6 +39,7 @@ class Pathfinding {
 
         if(algorithm === Algorithm.Astar) this.relax(e, this.getDistToDest(e.to(), finishCell));
         else this.relax(e, 0);
+        this.relax(e, 0);
         this.visited.push(e);
       }
     }

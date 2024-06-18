@@ -3,11 +3,9 @@ import Digraph  from './structures/Digraph';
 import DirectedEdge from './structures/DirectedEdge';
 import { CellProps } from '../components/Cell';
 import Pathfinding from './Pathfinding';
-import { Algorithm } from "../components/Contexts";
 
 let G: Digraph;
 let Dijkstra: Pathfinding;
-let algo = Algorithm.Dijksta;
 let cells: CellProps[] = [
     {id: 0 ,row: 0, col: 0, weight: 1},
     {id: 1 ,row: 0, col: 1, weight: 1},
@@ -24,7 +22,7 @@ let finishCell: CellProps = cells[2];
 
 
 beforeEach(() => {
-    G = new Digraph(cells);   
+    G = new Digraph(undefined, cells);   
     G.addEdge(new DirectedEdge(cells[0].id, cells[1].id, 1)); 
     G.addEdge(new DirectedEdge(cells[1].id, cells[2].id, 2));
     G.addEdge(new DirectedEdge(cells[1].id, cells[7].id, 3));
@@ -36,7 +34,7 @@ beforeEach(() => {
     G.addEdge(new DirectedEdge(cells[7].id, cells[4].id, 4)); 
 
 
-    Dijkstra = new Pathfinding(G, startCell, finishCell, algo);
+    Dijkstra = new Pathfinding(G, startCell, finishCell);
 });
 
 describe('Dijkstra', () => {
