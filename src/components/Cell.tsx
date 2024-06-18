@@ -9,9 +9,9 @@ export enum CellSize {
 }
 
 export const SizeGrid: Record<CellSize, [string, string, number, number]> = {
-  [CellSize.small]: ["h-5", "w-5", 33, 63], // norm: ["h-5", "w-5", row: 37, col: 63]
-  [CellSize.default]: ["h-8", "w-8", 20, 39], // norm: ["h-8", "w-8", row: 23, col: 39]
-  [CellSize.big]: ["h-10", "w-10", 16, 31], // norm: ["h-10", "w-10", row: 18, col: 31]
+  [CellSize.small]: ["h-5", "w-5", 31, 63], // norm: ["h-5", "w-5", row: 37, col: 63]
+  [CellSize.default]: ["h-8", "w-8", 19, 39], // norm: ["h-8", "w-8", row: 23, col: 39]
+  [CellSize.big]: ["h-10", "w-10", 15, 31], // norm: ["h-10", "w-10", row: 18, col: 31]
 };
 
 export type CellProps = {
@@ -33,7 +33,7 @@ export const MakeCell = (id: number, col: number, row: number) => {
     id,
     col,
     row,
-    //weight: weight,
+    weight: 1,
     isStart: row === 8 && col === 8,
     isFinish: row === 8 && col === 27,
     isVisited: false,

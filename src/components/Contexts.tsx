@@ -14,10 +14,12 @@ export const GridContext = createContext<{
   grid: CellProps[][];
   setGrid: React.Dispatch<React.SetStateAction<CellProps[][]>>;
   gridCells: React.MutableRefObject<React.RefObject<HTMLButtonElement>[][]>;
+  setGridCells: (newGrid: CellProps[][]) => void;
 }>({
   grid: [],
   setGrid: () => {},
   gridCells: { current: [] },
+  setGridCells: () => {},
 });
 
 // setSpeed context
@@ -64,14 +66,6 @@ export const AppContexts: React.FC<{ children: React.ReactNode }> = ({
     [cellSize, setCellSize]
   );
 
-  function setGridCell(i: number, j: number, cell: CellProps) {
-    setGrid((prev) => {
-      cell.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
-      prev[i][j] = cell;
-      return [...prev];
-    });
-  }
-
   const [grid, setGrid] = useState<CellProps[][]>(InitlizeGrid(cellSize));
   const gridCells = useRef<React.RefObject<HTMLButtonElement>[][]>(grid.map((row) => row.map(() => React.createRef())));
   const GridValue = useMemo(
@@ -79,6 +73,9 @@ export const AppContexts: React.FC<{ children: React.ReactNode }> = ({
       grid,
       setGrid,
       gridCells,
+      setGridCells: (newGrid: CellProps[][]) => {
+        gridCells.current = newGrid.map((row) => row.map(() => React.createRef()));
+      }
     }),
     [grid, setGrid, gridCells]
   );

@@ -39,7 +39,7 @@ const AnimateDijkstra: React.FC<{
       const neighbors = getNeighbors(cell, grid);
       for (let neighbor of neighbors) {
         if(neighbor.isWall) continue;
-        const edge = new DirectedEdge(cell.id, neighbor.id, 1);
+        const edge = new DirectedEdge(cell.id, neighbor.id, neighbor.weight);
         G.addEdge(edge);
       }
     }
