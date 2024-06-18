@@ -1,3 +1,7 @@
+import { useContext } from "react";
+import { CellProps } from "./components/Cell";
+import { GridContext } from "./components/Contexts";
+
 export function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -7,6 +11,7 @@ export function getRandomInt(min: number, max: number) {
 export function classNames(...classes: (false | null | undefined | string)[]) {
   return classes.filter(Boolean).join(" "); // function to combind classNames
 }
+
 
 export class Timer {
   public timerId: any;

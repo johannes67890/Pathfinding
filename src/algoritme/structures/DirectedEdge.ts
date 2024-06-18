@@ -8,7 +8,6 @@ class DirectedEdge {
         this._weight = weight;
     }
 
-
     from(): number {
         return this.v;
     }

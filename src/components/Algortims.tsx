@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { CellProps, SizeGrid } from "./Cell";
 import {
-  Algorithm,
   CellSizeContext,
   ControlContext,
   GridContext,
@@ -14,7 +13,6 @@ import DirectedEdge from "../algoritme/structures/DirectedEdge";
 const Algortims: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
   const { cellSize } = useContext(CellSizeContext);
   const { grid, gridCells } = useContext(GridContext);
-  const { algorithm } = useContext(ControlContext);
 
   const startNode =
     grid[8][8];
@@ -30,9 +28,9 @@ const AnimateDijkstra: React.FC<{
   const { speed } = useContext(SpeedContext);
   const { grid, gridCells } = useContext(GridContext);
   const { cellSize } = useContext(CellSizeContext);
-  const { setSolved } = useContext(ControlContext);
+  const { setSolved, algorithm } = useContext(ControlContext);
 
-  let G = new Digraph(getAllCells(grid));
+  let G = new Digraph(grid);
 
   for (let row of grid) {
     for (let cell of row) {
@@ -45,7 +43,7 @@ const AnimateDijkstra: React.FC<{
     }
   }
 
-  const pathfinding = new Pathfinding(G, startNode);
+  const pathfinding = new Pathfinding(G, startNode, finishNode, algorithm);
   let i = 0;
   const Interval = setInterval(() => {
       const visitedcellsInOrder = pathfinding.visitedPath();

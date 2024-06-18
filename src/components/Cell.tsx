@@ -38,7 +38,6 @@ export const MakeCell = (id: number, col: number, row: number) => {
     isFinish: row === 8 && col === 27,
     isVisited: false,
     isWall: false,
-    previousCell: null,
   };
 };
 

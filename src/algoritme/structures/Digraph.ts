@@ -7,9 +7,19 @@ class Digraph {
     private _V: number = 0;
     private _E: number = 0;
     private _adj: Bag<DirectedEdge>[] = [];
+    private _grid: CellProps[][] = [];
     
-    constructor(cells: CellProps[]) {
+    constructor(grid: CellProps[][]) {
+        this._grid = grid;
+
+        const cells: CellProps[] = [];
+        for (const row of grid) {
+          for (const cell of row) {
+            cells.push(cell);
+          }
+        }
         this._V = cells.length;
+
         for (let i = 0; i < this._V; i++) {
             this._adj[cells[i].id] = new Bag<DirectedEdge>();
         }
@@ -21,6 +31,16 @@ class Digraph {
     E(): number {
         return this._E;
     }
+    grid(): CellProps[][] {
+        return this._grid;
+    }
+    gridWidth(): number {
+        return this._grid[0].length;
+    }
+    gridHeight(): number {
+        return this._grid[1].length;
+    }
+
     isEmtpy(): boolean {
         return this._V === 0;
     }

@@ -2,6 +2,7 @@ import { CellProps } from "../components/Cell";
 import Digraph from "./structures/Digraph";
 import DirectedEdge from "./structures/DirectedEdge";
 import IndexMinPQ from "./structures/IndexMinPQ";
+import { Algorithm } from "../components/Contexts";
 /**
  * Dijkstra search algorithm\
  * *Breadth-first search algorithm*
@@ -15,13 +16,16 @@ class Pathfinding {
   private distTo: number[] = [];
   private edgeTo: DirectedEdge[] = [];
   private pq: IndexMinPQ<number>;
-
-  private stack: DirectedEdge[] = [];
+  private visited: DirectedEdge[] = [];
+  private G: Digraph;
 
   constructor(
     G: Digraph,
     startCell: CellProps,
+    finishCell: CellProps,
+    algorithm: Algorithm
   ) {
+    this.G = G;
     for(let i = 0; i < G.V(); i++){
       this.distTo[i] = Infinity;
     }
@@ -32,19 +36,22 @@ class Pathfinding {
     while(!this.pq.isEmpty()){
       let v = this.pq.delMin();
       for(let e of G.adj(v)){
-        this.relax(e);
-        this.stack.push(e);
+
+        if(algorithm === Algorithm.Astar) this.relax(e, this.getDistToDest(e.to(), finishCell));
+        else this.relax(e, 0);
+        this.visited.push(e);
       }
     }
   };
   
-  relax(e: DirectedEdge){
+  relax(e: DirectedEdge, huristic: number){
     let v = e.from(), w = e.to();
     if(this.distTo[w] > this.distTo[v] + e.weight()){
       this.distTo[w] = this.distTo[v] + e.weight();
       this.edgeTo[w] = e;
-      if(this.pq.contains(w)) this.pq.decreaseKey(w, this.distTo[w]);
-      else this.pq.insert(w, this.distTo[w]);
+
+      if(this.pq.contains(w)) this.pq.decreaseKey(w, this.distTo[w] + huristic);
+      else                    this.pq.insert(w, this.distTo[w] + huristic);
     }
   }
 
@@ -74,7 +81,7 @@ class Pathfinding {
 
   visitedPath(): number[] {
     let path: number[] = [];
-    for(let e of this.stack){
+    for(let e of this.visited){
       path.push(e.from());
     }
     return path;
@@ -82,6 +89,23 @@ class Pathfinding {
 
   getDistTo(v: number): number {
     return this.distTo[v];
+  }
+
+  getDistToDest(v: number, finishCell: CellProps): number {
+    return this.manhattan(v, finishCell);
+  }
+
+  private manhattan(v: number, finishCell: CellProps): number {
+    // Get v row and col from index
+    let { row, col } = {
+      row: v / this.G.gridWidth(),
+      col: v % this.G.gridWidth()
+    };
+    
+    const h =
+      Math.abs(row - finishCell.row) +
+      Math.abs(col - finishCell.col);
+    return h;
   }
 }
 
