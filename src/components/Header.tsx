@@ -10,7 +10,7 @@ import { SpeedContext } from "./context/Contexts";
 import { Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
 import { InitlizeGridWithRandomWalls } from "./Grid";
 import Watermark from "./statics/Watermark";
-import CellSizeContext from "./context/useCellSize";
+import { CellSizeContext } from "./context/useCellSize";
 
 export const Header = () => {
   return (

@@ -1,14 +1,16 @@
 import Cell, { CellProps, CellSize, SizeGrid, MakeCell } from "./Cell";
-import { CellSizeContext, ControlContext, GridContext } from "./context/Contexts";
 import React, { useState, useEffect, useContext } from "react";
 import * as utils from "../utils";
 import { Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
 import Algortims from "./Animator";
+import { CellSizeContext } from "./context/useCellSize";
+import useGrid from "./context/useGrid";
+import useControl from "./context/useControl";
 
 const Grid = () => {
-  const { grid, setGrid, gridCells, setGridCells } = useContext(GridContext);
+  const { grid, setGrid, gridCells, setGridCells } = useGrid();
   const { cellSize } = useContext(CellSizeContext);
-  const { playing, setPlaying, solved, setSolved } = useContext(ControlContext);
+  const { playing, setPlaying, solved, setSolved } = useControl();
 
   const [cellClicked, setCellClicked] = useState<boolean>(false);
   const [ongoing, setOngoing] = useState<boolean>(false);
@@ -104,7 +106,7 @@ const Grid = () => {
 };
 
 const RenderButton: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
-  const { playing, solved } = useContext(ControlContext);
+  const { playing, solved } = useControl();
 
   if (!playing && !solved && !ongoing) {
     return <p className="text-xl font-semibold">Start</p>;

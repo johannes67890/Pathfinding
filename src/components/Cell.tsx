@@ -1,6 +1,6 @@
 import * as utils from "../utils";
 import React, { useContext } from "react";
-import { CellSizeContext } from "./context/Contexts";
+import { CellSizeContext } from "./context/useCellSize";
 
 export enum CellSize {
   small,

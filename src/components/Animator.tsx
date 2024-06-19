@@ -1,18 +1,16 @@
 import React, { useContext } from "react";
 import { CellProps, SizeGrid, getCellById, getNeighbors } from "./Cell";
-import {
-  CellSizeContext,
-  ControlContext,
-  GridContext,
-  SpeedContext,
-} from "./context/Contexts";
+
+import useCellSize, { CellSizeContext } from "./context/useCellSize";
 import Pathfinding from "../algorithm/Pathfinding";
 import Digraph from "../algorithm/structures/Digraph";
-import { Algorithm } from "./context/Contexts";
 import DirectedEdge from "../algorithm/structures/DirectedEdge";
+import useGrid from "./context/useGrid";
+import useSpeed from "./context/useSpeed";
+import useControl, { Algorithm } from "./context/useControl";
 
 const Algortims = () => {
-  const { grid } = useContext(GridContext);
+  const { grid } = useGrid();
 
   const startNode =
     grid[8][8];
@@ -25,10 +23,10 @@ const AnimatePathfinding: React.FC<{
   startNode: CellProps;
   finishNode: CellProps;
 }> = ({ startNode, finishNode }) => {
-  const { speed, setSpeed } = useContext(SpeedContext);
-  const { grid, gridCells } = useContext(GridContext);
-  const { cellSize } = useContext(CellSizeContext);
-  const { setSolved, algorithm } = useContext(ControlContext);
+  const { speed, setSpeed } = useSpeed();
+  const { grid, gridCells } = useGrid();
+  const { cellSize } = useCellSize();
+  const { setSolved, algorithm } = useControl();
 
   let G = new Digraph(grid);
 

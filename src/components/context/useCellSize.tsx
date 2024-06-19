@@ -10,7 +10,7 @@ export const CellSizeContext = React.createContext<{
   setCellSize: () => {},
 });
 
-const CellSizeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const CellSizeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [cellSize, setCellSize] = useState<CellSize>(CellSize.default);
   const cellValue = useMemo(() => ({ cellSize, setCellSize }), [cellSize]);
 
@@ -21,4 +21,12 @@ const CellSizeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 
-export default CellSizeProvider;
+const useCellSize = () => {
+  const context = useContext(CellSizeContext);
+  if (!context) {
+    throw new Error("useCellSize must be used within a CellSizeProvider");
+  }
+  return context;
+};
+
+export default useCellSize;
