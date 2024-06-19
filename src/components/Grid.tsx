@@ -39,10 +39,9 @@ const Grid = () => {
   useEffect(() => {
       setGrid(InitlizeGrid(cellSize));
       setGridCells(InitlizeGrid(cellSize));
-      // Cleanup function
       return () => {
-        setGrid([]); // or whatever your initial state is
-        setGridCells([]); // or whatever your initial state is
+        setGrid([]);
+        setGridCells([]); 
       };
   }, [cellSize]);
 
@@ -71,7 +70,7 @@ const Grid = () => {
       {grid.map((row, index) => {
         return (
           <div
-            className={utils.classNames(SizeGrid[cellSize][0], "w-max")}
+            className={utils.classNames(SizeGrid[cellSize][0], "w-max", playing ? "pointer-events-none" : "")}
             key={index}
           >
             {row.map((cell, cellIndex) => {
@@ -128,7 +127,7 @@ const RenderButton: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
             d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
             fill="currentFill"
           />
-        </svg>
+</svg>
       </div>
     );
   }
@@ -162,14 +161,12 @@ const RenderButton: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
         version="1.0"
       >
         <defs>
-          <clipPath id="id1">
             <path
               d="M 2.328125 4.222656 L 27.734375 4.222656 L 27.734375 24.542969 L 2.328125 24.542969 Z M 2.328125 4.222656 "
               clip-rule="nonzero"
             />
-          </clipPath>
         </defs>
-        <g clip-path="url(#id1)">
+        <g>
           <path
             fill="rgb(13.729858%, 12.159729%, 12.548828%)"
             d="M 27.5 7.53125 L 24.464844 4.542969 C 24.15625 4.238281 23.65625 4.238281 23.347656 4.542969 L 11.035156 16.667969 L 6.824219 12.523438 C 6.527344 12.230469 6 12.230469 5.703125 12.523438 L 2.640625 15.539062 C 2.332031 15.84375 2.332031 16.335938 2.640625 16.640625 L 10.445312 24.324219 C 10.59375 24.472656 10.796875 24.554688 11.007812 24.554688 C 11.214844 24.554688 11.417969 24.472656 11.566406 24.324219 L 27.5 8.632812 C 27.648438 8.488281 27.734375 8.289062 27.734375 8.082031 C 27.734375 7.875 27.648438 7.679688 27.5 7.53125 Z M 27.5 7.53125 "

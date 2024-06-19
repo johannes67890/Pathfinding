@@ -2,7 +2,6 @@ import { CellProps } from "../components/Cell";
 import Digraph from "./structures/Digraph";
 import DirectedEdge from "./structures/DirectedEdge";
 import IndexMinPQ from "./structures/IndexMinPQ";
-import { Algorithm } from "../components/Contexts";
 /**
  * Dijkstra search algorithm\
  * *Breadth-first search algorithm*
@@ -23,7 +22,7 @@ class Pathfinding {
     G: Digraph,
     startCell: CellProps,
     finishCell: CellProps,
-    algorithm?: Algorithm
+    astar?: boolean
   ) {
     this.G = G;
     for(let i = 0; i < G.V(); i++){
@@ -37,9 +36,9 @@ class Pathfinding {
       let v = this.pq.delMin();
       for(let e of G.adj(v)){
 
-        if(algorithm === Algorithm.Astar) this.relax(e, this.getDistToDest(e.to(), finishCell));
-        else this.relax(e, 0);
-        this.relax(e, 0);
+        if(astar) this.relax(e, this.getDistToDest(e.to(), finishCell));
+        else      this.relax(e, 0);
+        
         this.visited.push(e);
       }
     }

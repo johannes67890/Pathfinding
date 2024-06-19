@@ -51,7 +51,7 @@ export const GridSettings = () => {
   return (
     <div className="flex flex-col gap-1 mx-auto">
       <h2 className="font-bold mx-auto">Cell Size</h2>
-      <FlowbiteBtn.Group outline={true}>
+      <FlowbiteBtn.Group outline={true} >
         <FlowbiteBtn
           disabled={playing}
           color="gray"
