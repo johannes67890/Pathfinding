@@ -1,6 +1,4 @@
-import { useContext } from "react";
 import { CellProps } from "./components/Cell";
-import { GridContext } from "./components/Contexts";
 
 export function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);

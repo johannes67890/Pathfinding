@@ -1,14 +1,8 @@
 import React, { createContext, useMemo, useRef, useState } from "react";
-import { CellProps, CellSize, SizeGrid } from "./Cell";
-import { InitlizeGrid } from "./Grid";
-// creat context for cell size
-export const CellSizeContext = createContext<{
-  cellSize: CellSize;
-  setCellSize: React.Dispatch<React.SetStateAction<CellSize>>;
-}>({
-  cellSize: CellSize.default,
-  setCellSize: () => {},
-});
+import { CellProps, CellSize } from "../Cell";
+import { InitlizeGrid } from "../Grid";
+import CellSizeContext from "./useCellSize";
+
 
 export const GridContext = createContext<{
   grid: CellProps[][];
@@ -54,7 +48,7 @@ export const ControlContext = createContext<{
 });
 
 // Creat nested context for CelllSize and Speed
-export const AppContexts: React.FC<{ children: React.ReactNode }> = ({
+const AppContexts: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [cellSize, setCellSize] = useState<CellSize>(CellSize.default);
@@ -116,3 +110,5 @@ export const AppContexts: React.FC<{ children: React.ReactNode }> = ({
     </CellSizeContext.Provider>
   );
 };
+
+export default AppContexts;

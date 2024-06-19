@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import Grid from "./components/Grid";
 import { Header } from "./components/Header";
-import { AppContexts } from "./components/Contexts";
+import  AppContexts  from "./components/context/Contexts";
 
 const container = document.getElementById("root");
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript

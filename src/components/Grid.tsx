@@ -1,9 +1,9 @@
 import Cell, { CellProps, CellSize, SizeGrid, MakeCell } from "./Cell";
-import { CellSizeContext, ControlContext, GridContext } from "./Contexts";
+import { CellSizeContext, ControlContext, GridContext } from "./context/Contexts";
 import React, { useState, useEffect, useContext } from "react";
 import * as utils from "../utils";
 import { Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
-import Algortims from "./Algortims";
+import Algortims from "./Animator";
 
 const Grid = () => {
   const { grid, setGrid, gridCells, setGridCells } = useContext(GridContext);
@@ -61,7 +61,7 @@ const Grid = () => {
         disabled={playing && !solved ? true : false}
       >
         {playing && !solved && !ongoing ? (
-          <Algortims ongoing={ongoing} />
+          <Algortims />
         ) : null}
 
         <RenderButton ongoing={ongoing} />

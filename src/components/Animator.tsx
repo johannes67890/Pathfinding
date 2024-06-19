@@ -1,27 +1,27 @@
 import React, { useContext } from "react";
-import { CellProps, SizeGrid } from "./Cell";
+import { CellProps, SizeGrid, getCellById, getNeighbors } from "./Cell";
 import {
   CellSizeContext,
   ControlContext,
   GridContext,
   SpeedContext,
-} from "./Contexts";
-import Pathfinding from "../algoritme/Pathfinding";
-import Digraph from "../algoritme/structures/Digraph";
-import { Algorithm } from "./Contexts";
-import DirectedEdge from "../algoritme/structures/DirectedEdge";
+} from "./context/Contexts";
+import Pathfinding from "../algorithm/Pathfinding";
+import Digraph from "../algorithm/structures/Digraph";
+import { Algorithm } from "./context/Contexts";
+import DirectedEdge from "../algorithm/structures/DirectedEdge";
 
-const Algortims: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
+const Algortims = () => {
   const { grid } = useContext(GridContext);
 
   const startNode =
     grid[8][8];
   const finishNode =
     grid[8][27];
-    return <AnimateDijkstra startNode={startNode} finishNode={finishNode} />
+    return <AnimatePathfinding startNode={startNode} finishNode={finishNode} />
 };
 
-const AnimateDijkstra: React.FC<{
+const AnimatePathfinding: React.FC<{
   startNode: CellProps;
   finishNode: CellProps;
 }> = ({ startNode, finishNode }) => {
@@ -78,29 +78,5 @@ const AnimateDijkstra: React.FC<{
 
   return null;
 };
-
-function getNeighbors(cell: CellProps, grid: CellProps[][]): CellProps[] {
-  const neighbors: CellProps[] = [];
-  const { col, row } = cell;
-  if (row > 0) neighbors.push(grid[row - 1][col]); // top
-  if (row < grid.length - 1) neighbors.push(grid[row + 1][col]); // bottom
-  if (col > 0) neighbors.push(grid[row][col - 1]); // left
-  if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]); // right
-  return neighbors;
-}
-
-function getAllCells(grid: CellProps[][]) {
-  const cells = [];
-  for (const row of grid) {
-    for (const cell of row) {
-      cells.push(cell);
-    }
-  }
-  return cells;
-}
-
-function getCellById(id: number, grid: CellProps[][]) {
-  return getAllCells(grid)[id];
-}
 
 export default Algortims;
