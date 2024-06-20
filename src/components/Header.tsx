@@ -1,16 +1,12 @@
 import { useContext, useState } from "react";
 import * as utils from "../utils";
-import { CellSize } from "./Cell";
-import {
-  Algorithm,
-  ControlContext,
-  GridContext,
-} from "./context/Contexts";
-import { SpeedContext } from "./context/Contexts";
 import { Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
 import { InitlizeGridWithRandomWalls } from "./Grid";
 import Watermark from "./statics/Watermark";
-import { CellSizeContext } from "./context/useCellSize";
+import { CellSize, CellSizeContext } from "./context/useCellSize";
+import useControl, { Algorithm } from "./context/useControl";
+import useGrid from "./context/useGrid";
+import useSpeed from "./context/useSpeed";
 
 export const Header = () => {
   return (
@@ -25,8 +21,8 @@ export const Header = () => {
 
 export const GridSettings = () => {
   const { cellSize, setCellSize } = useContext(CellSizeContext);
-  const { playing } = useContext(ControlContext);
-  const { setGrid } = useContext(GridContext);
+  const { playing } = useControl();
+  const { setGrid } = useGrid();
 
   const [strength, setStrength] = useState<number>(5);
 
@@ -151,8 +147,8 @@ const CellSelectorMenu = () => {
 };
 
 const AnimationSpeed = () => {
-  const { speed, setSpeed } = useContext(SpeedContext);
-  const { playing } = useContext(ControlContext);
+  const { speed, setSpeed } = useSpeed();
+  const { playing } = useControl();
 
   return (
     <div className="flex flex-col gap-2">
@@ -197,7 +193,7 @@ const AnimationSpeed = () => {
 
 const Algortims = () => {
   
-  const { playing, algorithm, setAlgorithm } = useContext(ControlContext);
+  const { playing, algorithm, setAlgorithm } = useControl();
   return (
     <div className="flex flex-col gap-2 mx-auto">
       <h2 className="font-bold mx-auto">Algorithms</h2>

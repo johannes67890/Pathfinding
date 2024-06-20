@@ -1,18 +1,6 @@
 import * as utils from "../utils";
-import React, { useContext } from "react";
-import { CellSizeContext } from "./context/useCellSize";
-
-export enum CellSize {
-  small,
-  default,
-  big,
-}
-
-export const SizeGrid: Record<CellSize, [string, string, number, number]> = {
-  [CellSize.small]: ["h-5", "w-5", 31, 63], // norm: ["h-5", "w-5", row: 37, col: 63]
-  [CellSize.default]: ["h-8", "w-8", 19, 39], // norm: ["h-8", "w-8", row: 23, col: 39]
-  [CellSize.big]: ["h-10", "w-10", 15, 31], // norm: ["h-10", "w-10", row: 18, col: 31]
-};
+import React from "react";
+import useCellSize, { CellSize } from "./context/useCellSize";
 
 export type CellProps = {
   id: number;
@@ -23,7 +11,7 @@ export type CellProps = {
   isFinish?: boolean;
   isStart?: boolean;
   isWall?: boolean;
-  size?: CellSize;
+  size?: CellSize | CellSize.default;
   onClick?: () => unknown;
 };
 
@@ -44,6 +32,7 @@ export const MakeCell = (id: number, col: number, row: number) => {
 const Cell = React.forwardRef((props: CellProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
   const {id, onClick, className, size, isStart, isFinish, isWall } =
     props;
+  const { cellSizeRecord } = useCellSize();
 
   const VariantClassName = isFinish
     ? "bg-red-500"
@@ -63,8 +52,7 @@ const Cell = React.forwardRef((props: CellProps, ref: React.ForwardedRef<HTMLBut
       className={utils.classNames(
         className,
         VariantClassName,
-        SizeGrid[size as CellSize][0], // height
-        SizeGrid[size as CellSize][1], // width
+        cellSizeRecord[size as CellSize].className,
         `border border-black`
       )}
     ></button>

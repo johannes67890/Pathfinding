@@ -1,5 +1,5 @@
 import React, { createContext, useMemo, useState, ReactNode, useContext, useRef } from "react";
-import { CellProps, CellSize } from "../Cell";
+import { CellProps } from "../Cell";
 import { InitlizeGrid } from "../Grid";
 import { CellSizeContext } from "./useCellSize";
 

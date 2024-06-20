@@ -1,18 +1,46 @@
-import React, { createContext, useMemo, useState, ReactNode, useContext } from "react";
-import { CellSize } from "../Cell";
+import React, { useMemo, useState, ReactNode, useContext } from "react";
 
-// Create the context outside of the component
+/**
+ * CellSizeContext - Context to manage the cell size. 
+ * 
+ */
+export enum CellSize {
+  small,
+  default,
+  big,
+}
+
+export const cellSizeRecord: Record<CellSize, {className: string, row: number, col: number}> = {
+  [CellSize.small]: {
+    className: "h-5 w-5",
+    row: 31,
+    col: 63,
+  },
+  [CellSize.default]: {
+    className: "h-8 w-8",
+    row: 19,
+    col: 39,
+  },
+  [CellSize.big]: {
+    className: "h-10 w-10",
+    row: 15,
+    col: 31,
+  }
+};
+
 export const CellSizeContext = React.createContext<{
+  cellSizeRecord: Record<CellSize, {className: string, row: number, col: number}>;
   cellSize: CellSize;
   setCellSize: React.Dispatch<React.SetStateAction<CellSize>>;
 }>({
+  cellSizeRecord,
   cellSize: CellSize.default,
   setCellSize: () => {},
 });
 
 export const CellSizeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [cellSize, setCellSize] = useState<CellSize>(CellSize.default);
-  const cellValue = useMemo(() => ({ cellSize, setCellSize }), [cellSize]);
+  const cellValue = useMemo(() => ({ cellSizeRecord, cellSize, setCellSize }), [cellSize]);
 
   return (
     <CellSizeContext.Provider value={cellValue}>

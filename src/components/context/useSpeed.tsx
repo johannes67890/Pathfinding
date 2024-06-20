@@ -6,12 +6,12 @@ export const SpeedContext = createContext<{
     speed: number;
     setSpeed: React.Dispatch<React.SetStateAction<number>>;
   }>({
-    speed: 50,
+    speed: 10,
     setSpeed: () => {},
   });
 
 export const SpeedProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [speed, setSpeed] = useState<number>(50);
+    const [speed, setSpeed] = useState<number>(10);
     const SpeedValue = useMemo(
       () => ({
         speed,

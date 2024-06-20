@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { CellProps, SizeGrid, getCellById, getNeighbors } from "./Cell";
+import { CellProps, getCellById, getNeighbors } from "./Cell";
 
-import useCellSize, { CellSizeContext } from "./context/useCellSize";
+import useCellSize, { CellSizeContext, cellSizeRecord } from "./context/useCellSize";
 import Pathfinding from "../algorithm/Pathfinding";
 import Digraph from "../algorithm/structures/Digraph";
 import DirectedEdge from "../algorithm/structures/DirectedEdge";
@@ -61,14 +61,14 @@ const AnimatePathfinding: React.FC<{
           const spCell = sp[i+1]; // +1 to skip startNode
            setTimeout(() => {
                cell = getCellById(spCell, grid);
-               gridCells.current[cell.row][cell.col].current!.className = `animate-shortest-path border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+               gridCells.current[cell.row][cell.col].current!.className = `animate-shortest-path border border-black ${cellSizeRecord[cellSize].className}`;
              }, 50 * i);
         }
         setSolved(true);
         clearInterval(Interval);
       }
       else if(cell.id !== startNode.id){
-        gridCells.current[cell.row][cell.col].current!.className = `animate-visited-cell border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+        gridCells.current[cell.row][cell.col].current!.className = `animate-visited-cell border border-black ${cellSizeRecord[cellSize].className}`;
       }
 
     i++;

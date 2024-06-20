@@ -6,7 +6,11 @@ import {ControlProvider} from "./useControl";
 import { SpeedProvider } from "./useSpeed";
 
 
-// Creat nested context for CelllSize and Speed
+/**
+ * AppContexts 
+ * @param 
+ * @returns 
+ */
 const AppContexts: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {

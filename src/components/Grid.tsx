@@ -1,21 +1,20 @@
-import Cell, { CellProps, CellSize, SizeGrid, MakeCell } from "./Cell";
+import Cell, { CellProps, MakeCell } from "./Cell";
 import React, { useState, useEffect, useContext } from "react";
 import * as utils from "../utils";
 import { Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
 import Algortims from "./Animator";
-import { CellSizeContext } from "./context/useCellSize";
+import useCellSize, { CellSize, CellSizeContext, cellSizeRecord } from "./context/useCellSize";
 import useGrid from "./context/useGrid";
 import useControl from "./context/useControl";
 
 const Grid = () => {
   const { grid, setGrid, gridCells, setGridCells } = useGrid();
-  const { cellSize } = useContext(CellSizeContext);
+  const { cellSizeRecord, cellSize } = useCellSize();
   const { playing, setPlaying, solved, setSolved } = useControl();
 
   const [cellClicked, setCellClicked] = useState<boolean>(false);
   const [ongoing, setOngoing] = useState<boolean>(false);
   const [refresh, setRefresh] = useState<boolean>(false);
-
 
   useEffect(() => {
     // When animation is done and user wants to refresh the grid.
@@ -30,7 +29,7 @@ const Grid = () => {
             }
             cell.isWall = false;
             cell.weight = 1;
-            gridCells.current[cell.row][cell.col].current!.className = `border border-black ${SizeGrid[cellSize][0]} ${SizeGrid[cellSize][1]}`;
+            gridCells.current[cell.row][cell.col].current!.className = `border border-black ${cellSizeRecord[cellSize].className} ${cellSizeRecord[cellSize].className}`;
           }
         }
         return newGrid;
@@ -72,7 +71,7 @@ const Grid = () => {
       {grid.map((row, index) => {
         return (
           <div
-            className={utils.classNames(SizeGrid[cellSize][0], "w-max", playing ? "pointer-events-none" : "")}
+            className={utils.classNames(cellSizeRecord[cellSize].className, "w-max", playing ? "pointer-events-none" : "")}
             key={index}
           >
             {row.map((cell, cellIndex) => {
@@ -187,9 +186,9 @@ export function InitlizeGridWithRandomWalls(
 ): CellProps[][] {
   let newGridWithWalls: CellProps[][] = [];
   let i = 0;
-  for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
+  for (let row = 0; row <= cellSizeRecord[cellSize].row; row++) {
     const currentRow: any = [];
-    for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
+    for (let col = 0; col <= cellSizeRecord[cellSize].col; col++) {
       const cell = MakeCell(i, col, row); //push current row to Cell
       const strengthVal = 12.5 + 1 - strength;
 
@@ -210,9 +209,9 @@ export function InitlizeGridWithRandomWalls(
 export function InitlizeGrid(cellSize: CellSize): CellProps[][] {
   let newGrid: CellProps[][] = [];
   let i = 0;
-  for (let row = 0; row <= SizeGrid[cellSize][2]; row++) {
+  for (let row = 0; row <= cellSizeRecord[cellSize].row; row++) {
     const currentRow: any = [];
-    for (let col = 0; col <= SizeGrid[cellSize][3]; col++) {
+    for (let col = 0; col <= cellSizeRecord[cellSize].col; col++) {
       currentRow.push(MakeCell(i, col, row)); //push current row to Cell
       i++;
     }
