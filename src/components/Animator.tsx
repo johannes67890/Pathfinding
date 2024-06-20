@@ -1,32 +1,25 @@
-import React, { useContext } from "react";
-import { CellProps, getCellById, getNeighbors } from "./Cell";
+import {  getCellById, getNeighbors } from "./Cell";
 
-import useCellSize, { CellSizeContext, cellSizeRecord } from "./context/useCellSize";
 import Pathfinding from "../algorithm/Pathfinding";
 import Digraph from "../algorithm/structures/Digraph";
 import DirectedEdge from "../algorithm/structures/DirectedEdge";
+import useCellSize, { cellSizeRecord } from "./context/useCellSize";
 import useGrid from "./context/useGrid";
 import useSpeed from "./context/useSpeed";
 import useControl, { Algorithm } from "./context/useControl";
 
-const Algortims = () => {
-  const { grid } = useGrid();
+
+const AnimatePathfinding = () => {
+  const { speed, setSpeed } = useSpeed();
+  const { grid, gridCells } = useGrid();
+  const { cellSize } = useCellSize();
+  const { setSolved, algorithm } = useControl();
 
   const startNode =
     grid[8][8];
   const finishNode =
     grid[8][27];
-    return <AnimatePathfinding startNode={startNode} finishNode={finishNode} />
-};
 
-const AnimatePathfinding: React.FC<{
-  startNode: CellProps;
-  finishNode: CellProps;
-}> = ({ startNode, finishNode }) => {
-  const { speed, setSpeed } = useSpeed();
-  const { grid, gridCells } = useGrid();
-  const { cellSize } = useCellSize();
-  const { setSolved, algorithm } = useControl();
 
   let G = new Digraph(grid);
 
@@ -42,8 +35,8 @@ const AnimatePathfinding: React.FC<{
   }
 
   const pathfinding = new Pathfinding(G, startNode, finishNode, algorithm === Algorithm.Astar ? true : false);
-  let i = 0;
   
+  let i = 0;
   const Interval = setInterval(() => {
       const visitedcellsInOrder = pathfinding.visitedPath();
       let cell = getCellById(visitedcellsInOrder[i], grid);
@@ -77,4 +70,4 @@ const AnimatePathfinding: React.FC<{
   return null;
 };
 
-export default Algortims;
+export default AnimatePathfinding;
