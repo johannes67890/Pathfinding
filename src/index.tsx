@@ -4,7 +4,7 @@ import "./index.css";
 import Grid from "./components/Grid";
 import { Header } from "./components/Header";
 import  AppContexts  from "./components/context/Contexts";
-
+import  App  from "./components/Threejs/App";
 const container = document.getElementById("root");
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
 
@@ -12,10 +12,13 @@ const Index = () => {
   return (
     <React.StrictMode>
       <div className="max-w-7xl mx-auto mt-3">
-        <AppContexts>
+        {/* <AppContexts>
           <Header />
           <Grid />
-        </AppContexts>
+        </AppContexts> */}
+                <Header />
+
+        <App  />
       </div>
     </React.StrictMode>
   );
