@@ -4,7 +4,7 @@ import "./index.css";
 import Grid from "./components/Grid";
 import { Header } from "./components/Header";
 import  AppContexts  from "./components/context/Contexts";
-import  App  from "./components/Threejs/App";
+import  App  from "./components/Threejs/Renderer";
 const container = document.getElementById("root");
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
 

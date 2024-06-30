@@ -1,22 +1,27 @@
 // src/App.tsx
 
-import React, { useRef, useState } from 'react';
+import React, { Component, useContext, useRef, useState } from 'react';
 import { Canvas, ThreeEvent, useFrame } from '@react-three/fiber';
 import { OrthographicCamera, Text } from '@react-three/drei';
 import * as THREE from 'three';
 import Header from '../Header';
-
-interface BubbleProps {
-    position: THREE.Vector3;
-    text: string;
-  }
+import { verticesContext } from './Renderer';
 
 
-const Bubble: React.FC<BubbleProps> = ({ position, text }) => {
-    const meshRef = useRef<THREE.Mesh>(null);
+interface VertexProps {
+  position: THREE.Vector2;
+  text: string;
+}
+
+
+const Vertex: React.FC<VertexProps> = ({ position, text }) => {
+  const e = useContext(verticesContext);
+
+  const meshRef = useRef<THREE.Mesh>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [offset, setOffset] = useState(new THREE.Vector2());
-  const [originalPosition, setOriginalPosition] = useState(new THREE.Vector2());
+  const [originalPosition, setOriginalPosition] = useState(position);
+
 
   useFrame(() => {
     if (meshRef.current && !isDragging) {
@@ -26,6 +31,8 @@ const Bubble: React.FC<BubbleProps> = ({ position, text }) => {
   });
 
   const onMouseDown = (event: ThreeEvent<PointerEvent>) => {
+    console.log(e.vertices)
+
     event.stopPropagation();
     const mousePos = new THREE.Vector2(event.point.x, event.point.y);
     const bubblePos = new THREE.Vector2(meshRef.current!.position.x, meshRef.current!.position.y);
@@ -48,17 +55,16 @@ const Bubble: React.FC<BubbleProps> = ({ position, text }) => {
     setOriginalPosition(new THREE.Vector2(meshRef.current!.position.x, meshRef.current!.position.y));
   };
 
+
   return (
     <mesh
         ref={meshRef}
-        
         onPointerDown={onMouseDown}
         onPointerMove={onMouseMove}
         onPointerUp={onMouseUp}
         >
         <circleGeometry args={[1, 64]} />
         <meshBasicMaterial />
-        
         <Text
             position={[0, 0, 0.1]}
             fontSize={0.5}
@@ -66,11 +72,11 @@ const Bubble: React.FC<BubbleProps> = ({ position, text }) => {
             anchorX="center"
             anchorY="middle"
         >
-        1
+        {text}
       </Text>
     </mesh>
   );
 }
 
 
-export default Bubble;
+export default Vertex;
