@@ -1,27 +1,15 @@
 // src/App.tsx
 
 import React, { Component, useContext, useRef, useState } from 'react';
-import { Canvas, ThreeEvent, useFrame } from '@react-three/fiber';
+import { Canvas, ThreeEvent, Vector2, useFrame } from '@react-three/fiber';
 import { OrthographicCamera, Text } from '@react-three/drei';
 import * as THREE from 'three';
-import Header from '../Header';
-import { verticesContext } from './Renderer';
 
 
-interface VertexProps {
-  position: THREE.Vector2;
-  text: string;
-}
-
-
-const Vertex: React.FC<VertexProps> = ({ position, text }) => {
-  const e = useContext(verticesContext);
-
-  const meshRef = useRef<THREE.Mesh>(null);
+const Vertex: React.FC<{position: THREE.Vector2, text: String, meshRef: React.RefObject<THREE.Mesh>}> = ({position, text, meshRef}) => {
   const [isDragging, setIsDragging] = useState(false);
   const [offset, setOffset] = useState(new THREE.Vector2());
   const [originalPosition, setOriginalPosition] = useState(position);
-
 
   useFrame(() => {
     if (meshRef.current && !isDragging) {
@@ -31,8 +19,6 @@ const Vertex: React.FC<VertexProps> = ({ position, text }) => {
   });
 
   const onMouseDown = (event: ThreeEvent<PointerEvent>) => {
-    console.log(e.vertices)
-
     event.stopPropagation();
     const mousePos = new THREE.Vector2(event.point.x, event.point.y);
     const bubblePos = new THREE.Vector2(meshRef.current!.position.x, meshRef.current!.position.y);
