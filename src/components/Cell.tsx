@@ -1,19 +1,8 @@
 import * as utils from "../utils";
 import React from "react";
 import useCellSize, { CellSize } from "./context/useCellSize";
+import { cell } from "./statics/Types";
 
-export type CellProps = {
-  id: number;
-  col: number;
-  row: number;
-  weight: number;
-  className?: string;
-  isFinish?: boolean;
-  isStart?: boolean;
-  isWall?: boolean;
-  size?: CellSize | CellSize.default;
-  onClick?: () => unknown;
-};
 
 export const MakeCell = (id: number, col: number, row: number) => {
   return {
@@ -29,7 +18,7 @@ export const MakeCell = (id: number, col: number, row: number) => {
 };
 
 
-const Cell = React.forwardRef((props: CellProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
+const Cell = React.forwardRef((props: cell, ref: React.ForwardedRef<HTMLButtonElement>) => {
   const {id, onClick, className, size, isStart, isFinish, isWall } =
     props;
   const { cellSizeRecord } = useCellSize();
@@ -59,8 +48,8 @@ const Cell = React.forwardRef((props: CellProps, ref: React.ForwardedRef<HTMLBut
   );
 });
 
-export function getNeighbors(cell: CellProps, grid: CellProps[][]): CellProps[] {
-  const neighbors: CellProps[] = [];
+export function getNeighbors(cell: cell, grid: cell[][]): cell[] {
+  const neighbors: cell[] = [];
   const { col, row } = cell;
   if (row > 0) neighbors.push(grid[row - 1][col]); // top
   if (row < grid.length - 1) neighbors.push(grid[row + 1][col]); // bottom
@@ -69,7 +58,7 @@ export function getNeighbors(cell: CellProps, grid: CellProps[][]): CellProps[] 
   return neighbors;
 }
 
-export function getAllCells(grid: CellProps[][]) {
+export function getAllCells(grid: cell[][]) {
   const cells = [];
   for (const row of grid) {
     for (const cell of row) {
@@ -79,7 +68,7 @@ export function getAllCells(grid: CellProps[][]) {
   return cells;
 }
 
-export function getCellById(id: number, grid: CellProps[][]) {
+export function getCellById(id: number, grid: cell[][]) {
   return getAllCells(grid)[id];
 }
 

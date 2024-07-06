@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import * as THREE from "three";
 import { verticesContext } from "./Renderer";
 import { Line, LineProps } from "@react-three/drei";

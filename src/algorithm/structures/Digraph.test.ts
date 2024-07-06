@@ -1,10 +1,10 @@
 import {describe, expect, test, beforeEach} from '@jest/globals';
 import Digraph  from './Digraph';
-import { CellProps } from '../../components/Cell';
 import DirectedEdge from './DirectedEdge';
+import { cell } from '../../components/statics/Types';
 
-let G: Digraph;
-let cells: CellProps[] = [
+let G: Digraph<cell>;
+let cells: cell[] = [
     {id: 0 ,row: 0, col: 0, weight: 1},
     {id: 1 ,row: 0, col: 1, weight: 1},
     {id: 2 ,row: 0, col: 2, weight: 1},
@@ -18,7 +18,7 @@ let cells: CellProps[] = [
 
 
 beforeEach(() => {
-    G = new Digraph(undefined, cells);   
+    G = new Digraph(cells);   
     G.addEdge(new DirectedEdge(cells[0].id, cells[1].id, 1));
     G.addEdge(new DirectedEdge(cells[1].id, cells[2].id, 1));
     G.addEdge(new DirectedEdge(cells[2].id, cells[3].id, 1));

@@ -1,0 +1,26 @@
+import { CellSize } from "../context/useCellSize";
+import * as THREE from "three";
+
+type VertexType = { id: number };
+
+export interface cell extends VertexType {
+  col: number;
+  row: number;
+  weight: number;
+  className?: string;
+  isFinish?: boolean;
+  isStart?: boolean;
+  isWall?: boolean;
+  size?: CellSize | CellSize.default;
+  onClick?: () => unknown;
+};
+
+export interface vertex extends VertexType {
+  position: THREE.Vector2;
+  text: string;
+  meshRef: React.RefObject<THREE.Mesh>;
+}
+
+export default VertexType;
+
+

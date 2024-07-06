@@ -5,6 +5,7 @@ import { Canvas, ThreeEvent, Vector2, useFrame } from "@react-three/fiber";
 import { OrthographicCamera, Text } from "@react-three/drei";
 import * as THREE from "three";
 import Edge from "./Edge";
+import { verticesContext } from "./Renderer";
 
 const Vertex: React.FC<{
   position: THREE.Vector2;
@@ -46,6 +47,7 @@ const Vertex: React.FC<{
     );
   };
 
+
   return (
     <>
     <mesh
@@ -66,7 +68,7 @@ const Vertex: React.FC<{
         {text}
       </Text>
     </mesh>
-    <Edge line={{ points: [new THREE.Vector2(2,3), originalPosition] }} />
+    <Edge line={{ points: [originalPosition] }} />
   </>
 );
 };

@@ -1,11 +1,12 @@
 import * as utils from "../utils";
-import Cell, { CellProps, MakeCell } from "./Cell";
+import Cell, { MakeCell } from "./Cell";
 import React, { useState, useEffect } from "react";
 import { Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
 import useCellSize, { CellSize, cellSizeRecord } from "./context/useCellSize";
 import useGrid from "./context/useGrid";
 import useControl from "./context/useControl";
 import AnimatePathfinding from "./Animator";
+import { cell } from "./statics/Types";
 
 const Grid = () => {
   const { grid, setGrid, gridCells, setGridCells } = useGrid();
@@ -183,8 +184,8 @@ const RenderButton: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
 export function InitlizeGridWithRandomWalls(
   cellSize: CellSize,
   strength: number
-): CellProps[][] {
-  let newGridWithWalls: CellProps[][] = [];
+): cell[][] {
+  let newGridWithWalls: cell[][] = [];
   let i = 0;
   for (let row = 0; row <= cellSizeRecord[cellSize].row; row++) {
     const currentRow: any = [];
@@ -206,8 +207,8 @@ export function InitlizeGridWithRandomWalls(
   return newGridWithWalls;
 }
 
-export function InitlizeGrid(cellSize: CellSize): CellProps[][] {
-  let newGrid: CellProps[][] = [];
+export function InitlizeGrid(cellSize: CellSize): cell[][] {
+  let newGrid: cell[][] = [];
   let i = 0;
   for (let row = 0; row <= cellSizeRecord[cellSize].row; row++) {
     const currentRow: any = [];

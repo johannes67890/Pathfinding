@@ -1,4 +1,7 @@
-import { CellProps } from "../components/Cell";
+import { Vector2 } from "three";
+import Cell from "../components/Cell";
+import  VertexType, { cell, vertex } from "../components/statics/Types";
+import Vertex from "../components/Threejs/Vertex";
 import Digraph from "./structures/Digraph";
 import DirectedEdge from "./structures/DirectedEdge";
 import IndexMinPQ from "./structures/IndexMinPQ";
@@ -16,12 +19,12 @@ class Pathfinding {
   private edgeTo: DirectedEdge[] = [];
   private pq: IndexMinPQ<number>;
   private visited: DirectedEdge[] = [];
-  private G: Digraph;
+  private G: Digraph<VertexType>;
 
   constructor(
-    G: Digraph,
-    startCell: CellProps,
-    finishCell: CellProps,
+    G: Digraph<VertexType>,
+    startCell: VertexType,
+    finishCell: VertexType,
     astar?: boolean
   ) {
     this.G = G;
@@ -36,7 +39,7 @@ class Pathfinding {
       let v = this.pq.delMin();
       for(let e of G.adj(v)){
 
-        if(astar) this.relax(e, this.getDistToDest(e.to(), finishCell));
+        if(astar) this.relax(e, this.getDistToDest(e.to(), finishCell as cell | vertex));
         else      this.relax(e, 0);
         
         this.visited.push(e);
@@ -91,21 +94,27 @@ class Pathfinding {
     return this.distTo[v];
   }
 
-  getDistToDest(v: number, finishCell: CellProps): number {
-    return this.manhattan(v, finishCell);
+  getDistToDest<T extends cell | vertex>(v: number, finishCell: T): number {
+    if(finishCell instanceof Cell) return this.manhattan(v, finishCell as cell);
+    // else if(finishCell instanceof Vertex) return this.euclidean(v, finishCell as vertex);
+    else throw new Error("Unknown type of finish cell");
   }
 
-  private manhattan(v: number, finishCell: CellProps): number {
-    // Get v row and col from index
-    let { row, col } = {
-      row: v / this.G.gridWidth(),
-      col: v % this.G.gridWidth()
-    };
+  // private euclidean(v: vertex, finishCell: vertex): Vector2 {
     
-    const h =
-      Math.abs(row - finishCell.row) +
-      Math.abs(col - finishCell.col);
-    return h;
+  // }
+
+  private manhattan(v: number, finishCell: cell): number {
+    // Get v row and col from index
+      let { row, col } = {
+        row: v / this.G.gridWidth(),
+        col: v % this.G.gridWidth()
+      };
+      
+      const h =
+        Math.abs(row - finishCell.row) +
+        Math.abs(col - finishCell.col);
+      return h;
   }
 }
 

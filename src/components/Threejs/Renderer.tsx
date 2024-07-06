@@ -22,7 +22,7 @@ export const verticesContext = createContext<{
 }>({ vertices: [], setVertices: () => {} });
 
 const Renderer = () => {
-  const [vertices, setVertices] = useState<React.RefObject<THREE.Mesh>[]>([]);
+  const [vertices, setVertices] = useState<React.RefObject<THREE.Mesh>[]>([React.createRef<THREE.Mesh>()]);
 
   const verticesContextValue = useMemo(
     () => ({ vertices, setVertices }),
