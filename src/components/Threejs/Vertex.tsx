@@ -1,20 +1,23 @@
 // src/App.tsx
 
-import React, { Component, useContext, useRef, useState } from "react";
-import { Canvas, ThreeEvent, Vector2, useFrame } from "@react-three/fiber";
-import { OrthographicCamera, Text } from "@react-three/drei";
+import React, { useContext, useState } from "react";
+import { ThreeEvent} from "@react-three/fiber";
+import {  Text } from "@react-three/drei";
 import * as THREE from "three";
 import Edge from "./Edge";
 import { verticesContext } from "./Renderer";
 
+
 const Vertex: React.FC<{
-  position: THREE.Vector2;
   text: String;
   meshRef: React.RefObject<THREE.Mesh>;
-}> = ({ position, text, meshRef }) => {
+  children?: React.ReactNode;
+}> = ({ text, meshRef, children }) => {
+  const { vertices } = useContext(verticesContext);
+
   const [isDragging, setIsDragging] = useState(false);
   const [offset, setOffset] = useState(new THREE.Vector2());
-  const [originalPosition, setOriginalPosition] = useState(position);
+  const [originalPosition, setOriginalPosition] = useState(new THREE.Vector2(0, 0));
 
   const onMouseDown = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();
@@ -67,8 +70,8 @@ const Vertex: React.FC<{
       >
         {text}
       </Text>
+    {children}
     </mesh>
-    <Edge line={{ points: [originalPosition] }} />
   </>
 );
 };

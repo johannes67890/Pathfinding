@@ -16,8 +16,9 @@ export interface cell extends VertexType {
 };
 
 export interface vertex extends VertexType {
-  position: THREE.Vector2;
   text: string;
+  outdegree: vertex[];
+  indegree: vertex[];
   meshRef: React.RefObject<THREE.Mesh>;
 }
 

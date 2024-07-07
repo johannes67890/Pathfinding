@@ -1,28 +1,25 @@
 import React, {
-  MutableRefObject,
-  Ref,
   createContext,
   useMemo,
-  useRef,
   useState,
 } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { OrthographicCamera } from "@react-three/drei";
-import * as THREE from "three";
 
 import Vertex from "./Vertex";
+import { vertex } from "../statics/Types";
 import Edge from "./Edge";
 
 // Create a context to store the vertices
 export const verticesContext = createContext<{
-  vertices: React.RefObject<THREE.Mesh>[];
+  vertices: vertex[];
   setVertices: React.Dispatch<
-    React.SetStateAction<React.RefObject<THREE.Mesh>[]>
+    React.SetStateAction<vertex[]>
   >;
 }>({ vertices: [], setVertices: () => {} });
 
 const Renderer = () => {
-  const [vertices, setVertices] = useState<React.RefObject<THREE.Mesh>[]>([React.createRef<THREE.Mesh>()]);
+  const [vertices, setVertices] = useState<vertex[]>([]);
 
   const verticesContextValue = useMemo(
     () => ({ vertices, setVertices }),
@@ -31,27 +28,61 @@ const Renderer = () => {
 
   const addVertex = () => {
     setVertices((prev) => {
-      const newRef = React.createRef<THREE.Mesh>();
-      return [...prev, newRef];
+      return [
+        ...prev,
+        {
+          id: prev.length,
+          outdegree: [],
+          indegree: [],
+          text: `${prev.length + 1}`,
+          meshRef: React.createRef(),
+        },
+      ];
     });
   };
 
+  const addEdge = (from: vertex, to: vertex) => {
+    setVertices((prev) => {
+      const newVertices = prev.map((v) => {
+        if (v.id === from.id) {
+          v.outdegree.push(to);
+        }
+        return v;
+      });
+      return newVertices;
+    });
+  }
+
   return (
     <>
-      <button className=" bg-gray-400" onClick={addVertex}>
+      <button className=" bg-gray-400 m-4" onClick={addVertex}>
         Add Vertex
       </button>
-      <Canvas style={{ height: "60vh", background: "grey" }}>
+      <button className=" bg-gray-400" onClick={() => addEdge(vertices[0], vertices[1])}>
+        Add Edge
+      </button>
+      <Canvas style={{ height: "60vh", background: "lightgrey", border: "black" }}>
         <OrthographicCamera makeDefault position={[0, 0, 5]} zoom={30} />
         <verticesContext.Provider value={verticesContextValue}>
-          {vertices.map((ref, index) => {
+          {vertices.map((v, index) => {
             return (
               <Vertex
                 key={index}
-                meshRef={ref}
-                position={new THREE.Vector2(0, 0)}
+                meshRef={v.meshRef}
                 text={`${index + 1}`}
-              />
+              >
+                {v.outdegree.map((out, index) => {
+                return (
+                  <Edge
+                    key={index}
+                    meshRef={React.createRef()}
+                    from={v}
+                    to={out}
+                  />
+                );
+              })
+            }
+              </Vertex>
             );
           })}
         </verticesContext.Provider>

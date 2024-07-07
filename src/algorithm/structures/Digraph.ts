@@ -21,7 +21,6 @@ class Digraph<T extends VertexType> {
             this._V = cells.length;
             for (let i = 0; i < this._V; i++) {
                 this._adj[cells[i].id] = new Bag<DirectedEdge>();
-
             }
             return;
         }else 
