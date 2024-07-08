@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import * as THREE from "three";
 import { verticesContext } from "./Renderer";
 import { Line, LineProps } from "@react-three/drei";
@@ -10,19 +10,24 @@ const Edge: React.FC<{
   to: vertex;
   meshRef: React.RefObject<THREE.Mesh>;
 }> = ({from, to, meshRef }) => {
-  useFrame(() => {
-  });
+  // useLayoutEffect(() => {
+  //   meshRef.current!.geometry.setFromPoints([
+  //     from.meshRef.current!.position,
+  //     to.meshRef.current!.position,
+  //   ]);
+  // }, [from, to]);
+
+  const s = new THREE.Vector3(0, 0, 0);
+  const v = from.meshRef.current!.position.negate().add(to.meshRef.current!.position);
 
   return (
-    <mesh ref={meshRef}>
           <Line
             points={[
-              from.meshRef.current!.position,
-              to.meshRef.current!.position,
+              s,
+              v,
             ]}
             color="blue"
           />
-    </mesh>
   );
 };
 

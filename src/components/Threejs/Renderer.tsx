@@ -43,14 +43,12 @@ const Renderer = () => {
 
   const addEdge = (from: vertex, to: vertex) => {
     setVertices((prev) => {
-      const newVertices = prev.map((v) => {
-        if (v.id === from.id) {
-          v.outdegree.push(to);
-        }
-        return v;
-      });
+      const newVertices: vertex[] = [...prev];
+      newVertices[from.id].outdegree.push(to);
+      newVertices[to.id].indegree.push(from);
       return newVertices;
     });
+    console.log(vertices);
   }
 
   return (
@@ -72,6 +70,7 @@ const Renderer = () => {
                 text={`${index + 1}`}
               >
                 {v.outdegree.map((out, index) => {
+                  
                 return (
                   <Edge
                     key={index}
