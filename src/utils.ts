@@ -8,6 +8,7 @@ export function classNames(...classes: (false | null | undefined | string)[]) {
   return classes.filter(Boolean).join(" "); // function to combind classNames
 }
 
+
 export class Timer {
   public timerId: any;
   public start: number;
