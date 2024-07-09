@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { verticesContext } from "./Renderer";
-import { Line, LineProps } from "@react-three/drei";
+import { Line, LineProps, RenderCubeTexture, Text } from "@react-three/drei";
 import { vertex } from "../Types";
 import { useFrame } from "@react-three/fiber";
 
@@ -13,6 +13,8 @@ const Edge: React.FC<{
     new THREE.Vector3(),
     new THREE.Vector3(),
   ]);
+  const [midpoint, setMidpoint] = useState(new THREE.Vector3());
+
 
   useFrame(() => {
     if (from.meshRef.current && to.meshRef.current) {
@@ -32,10 +34,27 @@ const Edge: React.FC<{
         .add(to.meshRef.current.position)
         .sub(scaledDirection);
       setPoints([start, end]);
+
+      const mid = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5);
+      setMidpoint(mid);
     }
   });
 
-  return <Line needsUpdate={true} points={points} color="blue" />;
+  return(
+    <>
+      <Line needsUpdate={true} points={points} color="blue"  />
+      
+      <Text
+        position={midpoint}
+        fontSize={0.4}
+        color="black"
+        anchorX="center"
+        anchorY="middle"
+      >
+        Label
+      </Text>
+    </>
+  );
 };
 
 export default Edge;

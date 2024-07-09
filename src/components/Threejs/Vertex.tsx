@@ -1,16 +1,18 @@
 // src/App.tsx
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { ThreeEvent, useThree } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
 import * as THREE from "three";
-import Edge from "./Edge";
+import { verticesContext } from "./Renderer";
 
 const Vertex: React.FC<{
   text: String;
   meshRef: React.RefObject<THREE.Mesh>;
   children?: React.ReactNode;
 }> = ({ text, meshRef, children }) => {
+  const { vertices } = useContext(verticesContext);
+
   const { camera } = useThree();
   const [isDragging, setIsDragging] = useState(false);
 
@@ -40,8 +42,6 @@ const Vertex: React.FC<{
       const bounds = calculateViewportBounds();
       const mousePos = new THREE.Vector3(event.point.x, event.point.y, event.point.z);
 
-      console.log(mousePos);
-      console.log(bounds);
 
       // Clamp the newPosition to be within the viewport bounds
       meshRef.current!.position.x = THREE.MathUtils.clamp(mousePos.x, bounds.minX, bounds.maxX);
@@ -50,6 +50,18 @@ const Vertex: React.FC<{
   };
 
   const onMouseUp = () => {
+    const currVertex = new THREE.Box3().setFromObject(meshRef.current!);
+
+    vertices.forEach((vertex) => {
+      if (vertex.meshRef.current && vertex.meshRef.current !== meshRef.current) {
+        const v = new THREE.Box3().setFromObject(vertex.meshRef.current!);
+        if (v.intersectsBox(currVertex)) {
+          console.log("Intersected");
+        }
+      }
+    });
+
+
     setIsDragging(false);
   };
 
