@@ -42,6 +42,7 @@ const Renderer = () => {
   };
 
   const addEdge = (from: vertex, to: vertex) => {
+    if(from.outdegree.includes(to)) return;
     setVertices((prev) => {
       const newVertices: vertex[] = [...prev];
       newVertices[from.id].outdegree.push(to);
@@ -74,7 +75,6 @@ const Renderer = () => {
                 return (
                   <Edge
                     key={index}
-                    meshRef={React.createRef()}
                     from={v}
                     to={out}
                   />

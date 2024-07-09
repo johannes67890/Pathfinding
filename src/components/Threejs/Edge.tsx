@@ -1,34 +1,41 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { verticesContext } from "./Renderer";
 import { Line, LineProps } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
 import { vertex } from "../statics/Types";
+import { useFrame } from "@react-three/fiber";
 
 const Edge: React.FC<{
   from: vertex;
   to: vertex;
-  meshRef: React.RefObject<THREE.Mesh>;
-}> = ({from, to, meshRef }) => {
-  // useLayoutEffect(() => {
-  //   meshRef.current!.geometry.setFromPoints([
-  //     from.meshRef.current!.position,
-  //     to.meshRef.current!.position,
-  //   ]);
-  // }, [from, to]);
+}> = ({ from, to }) => {
+  const [points, setPoints] = useState([
+    new THREE.Vector3(),
+    new THREE.Vector3(),
+  ]);
 
-  const s = new THREE.Vector3(0, 0, 0);
-  const v = from.meshRef.current!.position.negate().add(to.meshRef.current!.position);
+  useFrame(() => {
+    if (from.meshRef.current && to.meshRef.current) {
+      // Calculate the direction vector
+      const direction = new THREE.Vector3()
+        .copy(to.meshRef.current.position)
+        .sub(from.meshRef.current.position)
+        .normalize();
+      // Scale the direction vector by the radius of the vertex size (1)
+      const scaledDirection = direction.multiplyScalar(1);
 
-  return (
-          <Line
-            points={[
-              s,
-              v,
-            ]}
-            color="blue"
-          />
-  );
+      // Calculate the start and end points of the line
+      const start = new THREE.Vector3(0, 0, 0).add(scaledDirection);
+      const end = new THREE.Vector3()
+        .copy(from.meshRef.current.position)
+        .negate()
+        .add(to.meshRef.current.position)
+        .sub(scaledDirection);
+      setPoints([start, end]);
+    }
+  });
+
+  return <Line needsUpdate={true} points={points} color="blue" />;
 };
 
 export default Edge;
