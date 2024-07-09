@@ -1,20 +1,31 @@
 // src/App.tsx
 
-import React, { useContext, useEffect, useState } from "react";
-import { ThreeEvent} from "@react-three/fiber";
-import {  Text } from "@react-three/drei";
+import React, { useEffect, useState } from "react";
+import { ThreeEvent, useThree } from "@react-three/fiber";
+import { Text } from "@react-three/drei";
 import * as THREE from "three";
 import Edge from "./Edge";
-import { verticesContext } from "./Renderer";
-
 
 const Vertex: React.FC<{
   text: String;
   meshRef: React.RefObject<THREE.Mesh>;
   children?: React.ReactNode;
 }> = ({ text, meshRef, children }) => {
+  const { camera } = useThree();
   const [isDragging, setIsDragging] = useState(false);
 
+  // Calculate the viewport boundaries in world coordinates
+  const calculateViewportBounds = () => {
+    const leftBottom = new THREE.Vector3(-1, -1, 0).unproject(camera);
+    const rightTop = new THREE.Vector3(1, 1, 0).unproject(camera);
+
+    return {
+      minX: leftBottom.x + 1,
+      maxX: rightTop.x -1,
+      minY: leftBottom.y + 1,
+      maxY: rightTop.y - 1,
+    };
+  };
 
   const onMouseDown = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();
@@ -26,9 +37,15 @@ const Vertex: React.FC<{
 
   const onMouseMove = (event: ThreeEvent<PointerEvent>) => {
     if (isDragging) {
-      const mousePos = new THREE.Vector2( event.point.x, event.point.y);
-      meshRef.current!.position.x = mousePos.x;
-      meshRef.current!.position.y = mousePos.y;
+      const bounds = calculateViewportBounds();
+      const mousePos = new THREE.Vector3(event.point.x, event.point.y, event.point.z);
+
+      console.log(mousePos);
+      console.log(bounds);
+
+      // Clamp the newPosition to be within the viewport bounds
+      meshRef.current!.position.x = THREE.MathUtils.clamp(mousePos.x, bounds.minX, bounds.maxX);
+      meshRef.current!.position.y = THREE.MathUtils.clamp(mousePos.y, bounds.minY, bounds.maxY);
     }
   };
 
@@ -36,30 +53,29 @@ const Vertex: React.FC<{
     setIsDragging(false);
   };
 
-
   return (
     <>
-    <mesh
-      ref={meshRef}
-      onPointerDown={onMouseDown}
-      onPointerMove={onMouseMove}
-      onPointerUp={onMouseUp}
-    >
-      <circleGeometry args={[1, 64]} />
-      <meshBasicMaterial />
-      <Text
-        position={[0, 0, 0.1]}
-        fontSize={0.5}
-        color="black"
-        anchorX="center"
-        anchorY="middle"
+      <mesh
+        ref={meshRef}
+        onPointerDown={onMouseDown}
+        onPointerMove={onMouseMove}
+        onPointerUp={onMouseUp}
       >
-        {text}
-      </Text>
-      {children}
-    </mesh>
-  </>
-);
+        <circleGeometry args={[1, 64]} />
+        <meshBasicMaterial />
+        <Text
+          position={[0, 0, 0.1]}
+          fontSize={0.5}
+          color="black"
+          anchorX="center"
+          anchorY="middle"
+        >
+          {text}
+        </Text>
+        {children}
+      </mesh>
+    </>
+  );
 };
 
 export default Vertex;

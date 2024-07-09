@@ -60,7 +60,7 @@ const Renderer = () => {
       <button className=" bg-gray-400" onClick={() => addEdge(vertices[0], vertices[1])}>
         Add Edge
       </button>
-      <Canvas style={{ height: "60vh", background: "lightgrey", border: "black" }}>
+      <Canvas style={{ height: "70vh", border: "solid", borderWidth: "1px" }}>
         <OrthographicCamera makeDefault position={[0, 0, 5]} zoom={30} />
         <verticesContext.Provider value={verticesContextValue}>
           {vertices.map((v, index) => {
