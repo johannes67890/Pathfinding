@@ -1,9 +1,9 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import Grid from "./components/Grid";
-import { Header } from "./components/Header";
-import  AppContexts  from "./components/context/Contexts";
+import Grid from "./components/grid/Grid";
+import { HeaderGraph } from "./components/Headers";
+import  AppContexts  from "./components/grid/context/Contexts";
 import  App  from "./components/Threejs/Renderer";
 const container = document.getElementById("root");
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
@@ -16,7 +16,7 @@ const Index = () => {
           <Header />
           <Grid />
         </AppContexts> */}
-                <Header />
+                <HeaderGraph />
 
         <App  />
       </div>

@@ -1,8 +1,8 @@
 import {  getCellById, getNeighbors } from "./Cell";
 
-import Pathfinding from "../algorithm/Pathfinding";
-import Digraph from "../algorithm/structures/Digraph";
-import DirectedEdge from "../algorithm/structures/DirectedEdge";
+import Pathfinding from "../../algorithm/Pathfinding";
+import Digraph from "../../algorithm/structures/Digraph";
+import DirectedEdge from "../../algorithm/structures/DirectedEdge";
 import useCellSize, { cellSizeRecord } from "./context/useCellSize";
 import useGrid from "./context/useGrid";
 import useSpeed from "./context/useSpeed";

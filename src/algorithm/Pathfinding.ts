@@ -1,6 +1,6 @@
 import { Vector2 } from "three";
-import Cell from "../components/Cell";
-import  VertexType, { cell, vertex } from "../components/statics/Types";
+import Cell from "../components/grid/Cell";
+import  VertexType, { cell, vertex } from "../components/Types";
 import Vertex from "../components/Threejs/Vertex";
 import Digraph from "./structures/Digraph";
 import DirectedEdge from "./structures/DirectedEdge";

@@ -1,13 +1,13 @@
 import React, { createContext, useMemo, useState, ReactNode, useContext, useRef } from "react";
-import { CellProps } from "../Cell";
 import { InitlizeGrid } from "../Grid";
 import { CellSizeContext } from "./useCellSize";
+import { cell } from "../../Types";
 
 export const GridContext = createContext<{
-    grid: CellProps[][];
-    setGrid: React.Dispatch<React.SetStateAction<CellProps[][]>>;
+    grid: cell[][];
+    setGrid: React.Dispatch<React.SetStateAction<cell[][]>>;
     gridCells: React.MutableRefObject<React.RefObject<HTMLButtonElement>[][]>;
-    setGridCells: (newGrid: CellProps[][]) => void;
+    setGridCells: (newGrid: cell[][]) => void;
   }>({
     grid: [],
     setGrid: () => {},
@@ -18,14 +18,14 @@ export const GridContext = createContext<{
 export const GridContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const {cellSize} = useContext(CellSizeContext);
 
-    const [grid, setGrid] = useState<CellProps[][]>(InitlizeGrid(cellSize));
+    const [grid, setGrid] = useState<cell[][]>(InitlizeGrid(cellSize));
     const gridCells = useRef<React.RefObject<HTMLButtonElement>[][]>(grid.map((row) => row.map(() => React.createRef())));
     const GridValue = useMemo(
       () => ({
         grid,
         setGrid,
         gridCells,
-        setGridCells: (newGrid: CellProps[][]) => {
+        setGridCells: (newGrid: cell[][]) => {
           gridCells.current = newGrid.map((row) => row.map(() => React.createRef()));
         }
       }),

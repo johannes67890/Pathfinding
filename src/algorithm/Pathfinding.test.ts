@@ -2,7 +2,7 @@ import {describe, expect, test, beforeEach} from '@jest/globals';
 import Digraph  from './structures/Digraph';
 import DirectedEdge from './structures/DirectedEdge';
 import Pathfinding from './Pathfinding';
-import { cell } from '../components/statics/Types';
+import { cell } from '../components/Types';
 
 let G: Digraph<cell>;
 let Dijkstra: Pathfinding;

@@ -1,4 +1,4 @@
-import { CellSize } from "../context/useCellSize";
+import { CellSize } from "./grid/context/useCellSize";
 import * as THREE from "three";
 
 type VertexType = { id: number };

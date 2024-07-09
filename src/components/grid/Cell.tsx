@@ -1,7 +1,7 @@
-import * as utils from "../utils";
+import * as utils from "../../utils";
 import React from "react";
 import useCellSize, { CellSize } from "./context/useCellSize";
-import { cell } from "./statics/Types";
+import { cell } from "../Types";
 
 
 export const MakeCell = (id: number, col: number, row: number) => {

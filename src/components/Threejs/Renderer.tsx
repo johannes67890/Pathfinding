@@ -7,7 +7,7 @@ import { Canvas } from "@react-three/fiber";
 import { OrthographicCamera } from "@react-three/drei";
 
 import Vertex from "./Vertex";
-import { vertex } from "../statics/Types";
+import { vertex } from "../Types";
 import Edge from "./Edge";
 
 // Create a context to store the vertices

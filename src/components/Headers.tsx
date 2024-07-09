@@ -1,20 +1,30 @@
 import { useContext, useState } from "react";
 import * as utils from "../utils";
 import { Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
-import { InitlizeGridWithRandomWalls } from "./Grid";
-import Watermark from "./statics/Watermark";
-import { CellSize, CellSizeContext } from "./context/useCellSize";
-import useControl, { Algorithm } from "./context/useControl";
-import useGrid from "./context/useGrid";
-import useSpeed from "./context/useSpeed";
+import { InitlizeGridWithRandomWalls } from "./grid/Grid";
+import Watermark from "./static/Watermark";
+import { CellSize, CellSizeContext } from "./grid/context/useCellSize";
+import useControl, { Algorithm } from "./grid/context/useControl";
+import useGrid from "./grid/context/useGrid";
+import useSpeed from "./grid/context/useSpeed";
+import CellColorGuide from "./grid/static/CellColorGuide";
 
-export const Header = () => {
+export const HeaderGrid = () => {
   return (
     <div className="rounded-t-md grid grid-cols-4 grid-flow-col my-4">
       <Watermark />
-      <CellSelectorMenu />
+      <CellColorGuide />
       <GridSettings />
       <AnimationSpeed />
+    </div>
+  );
+};
+
+export const HeaderGraph = () => {
+  return (
+    <div className="rounded-t-md grid grid-cols-4 grid-flow-col my-4">
+      <Watermark />
+      
     </div>
   );
 };
@@ -87,61 +97,6 @@ export const GridSettings = () => {
           </datalist>
         </div>
       </div>
-    </div>
-  );
-};
-
-export enum CellVariant {
-  startCell,
-  endCell,
-  wall,
-  visited,
-  visiting,
-}
-
-export const CellColorRecord: Record<CellVariant, string> = {
-  [CellVariant.startCell]: "bg-green-600",
-  [CellVariant.endCell]: "bg-red-600",
-  [CellVariant.wall]: "bg-gray-900",
-  [CellVariant.visited]: "bg-blue-700",
-  [CellVariant.visiting]: "bg-yellow-300",
-};
-
-const CellTextRecord: Record<CellVariant, string> = {
-  [CellVariant.startCell]: "Start Cell",
-  [CellVariant.endCell]: "End Cell",
-  [CellVariant.wall]: "Wall",
-  [CellVariant.visited]: "Visited",
-  [CellVariant.visiting]: "Currently Visiting",
-};
-
-const CellSelectorMenu = () => {
-  let CellColorSelector: Array<string> = [];
-
-  for (let i = 0; i < Object.keys(CellColorRecord).length; i++) {
-    // loop though CellVariant
-    const element = CellColorRecord[i as CellVariant]; // cast i as CellColor type
-    CellColorSelector.push(element);
-  }
-  return (
-    <div className="mx-auto">
-      <ul className="flex gap-1 p-1 flex-col">
-        {CellColorSelector.map((bgColor, index) => {
-          return (
-            <li className="flex gap-2" key={index}>
-              <span className="w-28 my-auto text-xs font-bold">
-                {CellTextRecord[index as CellVariant]}
-              </span>
-              <rect
-                className={utils.classNames(
-                  bgColor,
-                  "h-6 w-6 my-auto rounded-md"
-                )}
-              ></rect>
-            </li>
-          );
-        })}
-      </ul>
     </div>
   );
 };
@@ -224,4 +179,3 @@ const Algortims = () => {
   );
 };
 
-export default Header;

@@ -1,7 +1,7 @@
 import {describe, expect, test, beforeEach} from '@jest/globals';
 import Digraph  from './Digraph';
 import DirectedEdge from './DirectedEdge';
-import { cell } from '../../components/statics/Types';
+import { cell } from '../../components/Types';
 
 let G: Digraph<cell>;
 let cells: cell[] = [

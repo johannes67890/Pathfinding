@@ -18,7 +18,7 @@ const Vertex: React.FC<{
 
   const onMouseDown = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();
-    
+
     if (event.point.distanceTo(meshRef.current!.position) < 1) {
       setIsDragging(true);
     }
@@ -56,7 +56,7 @@ const Vertex: React.FC<{
       >
         {text}
       </Text>
-    {children}
+      {children}
     </mesh>
   </>
 );
