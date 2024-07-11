@@ -1,5 +1,5 @@
 
-import { Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
+import { Button as FlowbiteBtn } from "flowbite-react";
 import useControl, { Algorithm } from "../context/useControl";
 
 const AlgorithmSelector = () => {

@@ -1,9 +1,8 @@
-
+import logo from "../assets/vertex.svg";
 import { Html } from "@react-three/drei";
 import * as THREE from "three";
 import { useThree } from "@react-three/fiber";
-
-
+import { ListGroup, ListGroupItem } from "flowbite-react";
 
 
 const ContextMenu = () => {
@@ -12,14 +11,16 @@ const ContextMenu = () => {
   return (
     <mesh position={new THREE.Vector3(pointer.x, pointer.y, 0).unproject(camera).addScaledVector(new THREE.Vector3(1,-1), 0.25)}>
       <Html>
-        <div 
-          className="absolute bg-white border border-gray-300 shadow-lg z-10"
-          style={{ pointerEvents: 'auto' }}
-          onContextMenu={(e) => e.preventDefault()}
-        >
-          TEST
+        <div className="w-24">
+
+          <ListGroup>
+            <ListGroupItem icon={logo} >Add Vertex</ListGroupItem >
+            <ListGroupItem >Settings</ListGroupItem >
+            <ListGroupItem >Messages</ListGroupItem >
+            <ListGroupItem >Download</ListGroupItem >
+          </ListGroup>
         </div>
-    </Html>
+      </Html>
     </mesh>
   );
 };

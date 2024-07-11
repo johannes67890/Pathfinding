@@ -55,18 +55,21 @@ const Renderer = () => {
   const [showMenu, setshowMenu] = useState<boolean>(false)
 
   const handleContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
+    
     event.preventDefault();
-
+    
     setshowMenu(true);
   };
   
-  const handleClick = () => {
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    // only show menu on right click
+    if (event.button !== 2 && !showMenu) return;
     setshowMenu(!showMenu);
   };
 
   return (
     <>
-      {/* <SaveImage /> */}
+    
       <button className=" bg-gray-400 m-4" onClick={addVertex}>
         Add Vertex
       </button>

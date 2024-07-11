@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
+import { Button as FlowbiteBtn } from "flowbite-react";
 import { CellSize, CellSizeContext } from "../context/useCellSize";
 import useControl from "../context/useControl";
 import useGrid from "../context/useGrid";

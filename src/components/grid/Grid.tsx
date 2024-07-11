@@ -1,7 +1,7 @@
 import * as utils from "../../utils";
 import Cell, { MakeCell } from "./Cell";
 import React, { useState, useEffect } from "react";
-import { Button as FlowbiteBtn } from "flowbite-react/lib/esm/components/Button";
+import { Button as FlowbiteBtn } from "flowbite-react";
 import useCellSize, { CellSize, cellSizeRecord } from "./context/useCellSize";
 import useGrid from "./context/useGrid";
 import useControl from "./context/useControl";
