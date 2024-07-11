@@ -1,4 +1,4 @@
-import logo from "../assets/vertex.svg";
+import vertexIcon from "../assets/plus.svg";
 import { Html } from "@react-three/drei";
 import * as THREE from "three";
 import { useThree } from "@react-three/fiber";
@@ -11,13 +11,12 @@ const ContextMenu = () => {
   return (
     <mesh position={new THREE.Vector3(pointer.x, pointer.y, 0).unproject(camera).addScaledVector(new THREE.Vector3(1,-1), 0.25)}>
       <Html>
-        <div className="w-24">
-
+        <div className="w-32">
           <ListGroup>
-            <ListGroupItem icon={logo} >Add Vertex</ListGroupItem >
-            <ListGroupItem >Settings</ListGroupItem >
-            <ListGroupItem >Messages</ListGroupItem >
-            <ListGroupItem >Download</ListGroupItem >
+            <ListGroupItem>Add Vertex</ListGroupItem >
+            <ListGroupItem>Add Edge</ListGroupItem >
+            <ListGroupItem>Messages</ListGroupItem >
+            <ListGroupItem className="bg-red-200">Remove</ListGroupItem >
           </ListGroup>
         </div>
       </Html>
