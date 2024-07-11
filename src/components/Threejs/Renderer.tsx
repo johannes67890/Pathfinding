@@ -3,12 +3,13 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrthographicCamera } from "@react-three/drei";
-
+import { Canvas, ThreeEvent, useThree } from "@react-three/fiber";
+import { Html, OrthographicCamera } from "@react-three/drei";
+import * as THREE from "three";
 import Vertex from "./Vertex";
 import { vertex } from "../Types";
 import Edge from "./Edge";
+import ContextMenu from "./controls/ContextMenu";
 
 // Create a context to store the vertices
 export const verticesContext = createContext<{
@@ -49,18 +50,31 @@ const Renderer = () => {
       newVertices[to.id].indegree.push(from);
       return newVertices;
     });
-    console.log(vertices);
   }
+
+  const [showMenu, setshowMenu] = useState<boolean>(false)
+
+  const handleContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+
+    setshowMenu(true);
+  };
+  
+  const handleClick = () => {
+    setshowMenu(!showMenu);
+  };
 
   return (
     <>
+      {/* <SaveImage /> */}
       <button className=" bg-gray-400 m-4" onClick={addVertex}>
         Add Vertex
       </button>
       <button className=" bg-gray-400" onClick={() => addEdge(vertices[0], vertices[1])}>
         Add Edge
       </button>
-      <Canvas style={{ height: "70vh", border: "solid", borderWidth: "1px" }}>
+      <Canvas onContextMenu={handleContextMenu} onClick={handleClick} style={{ height: "70vh", border: "solid", borderWidth: "1px" }}>
+      {showMenu && <ContextMenu />}
         <OrthographicCamera makeDefault position={[0, 0, 5]} zoom={30} />
         <verticesContext.Provider value={verticesContextValue}>
           {vertices.map((v, index) => {
@@ -68,7 +82,7 @@ const Renderer = () => {
               <Vertex
                 key={index}
                 meshRef={v.meshRef}
-                text={`${index + 1}`}
+                text={`${index}`}
               >
                 {v.outdegree.map((out, index) => {
                   

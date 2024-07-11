@@ -11,7 +11,7 @@ const Vertex: React.FC<{
   meshRef: React.RefObject<THREE.Mesh>;
   children?: React.ReactNode;
 }> = ({ text, meshRef, children }) => {
-  const { vertices } = useContext(verticesContext);
+  const { vertices, setVertices } = useContext(verticesContext);
 
   const { camera } = useThree();
   const [isDragging, setIsDragging] = useState(false);
@@ -31,6 +31,11 @@ const Vertex: React.FC<{
 
   const onMouseDown = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();
+
+    // Right click - add edge
+    if(event.button == 2){
+      console.log("Right click");
+    }
 
     if (event.point.distanceTo(meshRef.current!.position) < 1) {
       setIsDragging(true);
