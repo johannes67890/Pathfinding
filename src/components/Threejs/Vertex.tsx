@@ -8,9 +8,10 @@ import { verticesContext } from "./Renderer";
 
 const Vertex: React.FC<{
   text: String;
+  position: THREE.Vector3;
   meshRef: React.RefObject<THREE.Mesh>;
   children?: React.ReactNode;
-}> = ({ text, meshRef, children }) => {
+}> = ({ text, position, meshRef, children }) => {
   const { vertices, setVertices } = useContext(verticesContext);
 
   const { camera } = useThree();
@@ -31,12 +32,6 @@ const Vertex: React.FC<{
 
   const onMouseDown = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();
-
-    // Right click - add edge
-    if(event.button == 2){
-      console.log("Right click");
-    }
-
     if (event.point.distanceTo(meshRef.current!.position) < 1) {
       setIsDragging(true);
     }
@@ -55,25 +50,13 @@ const Vertex: React.FC<{
   };
 
   const onMouseUp = () => {
-    const currVertex = new THREE.Box3().setFromObject(meshRef.current!);
-
-    vertices.forEach((vertex) => {
-      if (vertex.meshRef.current && vertex.meshRef.current !== meshRef.current) {
-        const v = new THREE.Box3().setFromObject(vertex.meshRef.current!);
-        if (v.intersectsBox(currVertex)) {
-          console.log("Intersected");
-        }
-      }
-    });
-
-
     setIsDragging(false);
   };
-
   return (
     <>
       <mesh
         ref={meshRef}
+        position={position}
         onPointerDown={onMouseDown}
         onPointerMove={onMouseMove}
         onPointerUp={onMouseUp}
@@ -81,7 +64,6 @@ const Vertex: React.FC<{
         <circleGeometry args={[1, 64]} />
         <meshBasicMaterial />
         <Text
-          position={[0, 0, 0.1]}
           fontSize={0.5}
           color="black"
           anchorX="center"
