@@ -27,18 +27,18 @@ const Renderer = () => {
     [vertices]
   );
 
-  const [showMenu, setshowMenu] = useState<boolean>(false)
+  const [menuHidden, setMenuHidden] = useState<boolean>(true);
 
   const handleContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
-    
     event.preventDefault();
-    setshowMenu(true);
+    setMenuHidden(false);
   };
   
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     // only show menu on right click
-    if (event.button !== 2 && !showMenu) return;
-    setshowMenu(!showMenu);
+    if(event.button != 2 && !menuHidden){
+      setMenuHidden(true);
+    }
   };
 
   return (
@@ -46,28 +46,28 @@ const Renderer = () => {
       <Canvas onContextMenu={handleContextMenu} onClick={handleClick} style={{ height: "70vh", border: "solid", borderWidth: "1px", borderRadius: "5px" }}>
         <OrthographicCamera makeDefault position={[0, 0, 5]} zoom={30} />
         <verticesContext.Provider value={verticesContextValue}>
-          {showMenu && <ContextMenu />}
           {vertices.map((v, index) => {
             return (
               <Vertex
-                key={index}
-                position={v.position}
-                meshRef={v.meshRef}
-                text={`${index}`}
+              key={index}
+              position={v.position}
+              meshRef={v.meshRef}
+              text={`${index}`}
               >
                 {v.outdegree.map((out, index) => {
-                return (
-                  <Edge
+                  return (
+                    <Edge
                     key={index}
                     from={v}
                     to={out}
-                  />
-                );
-              })
-            }
+                    />
+                  );
+                })
+              }
               </Vertex>
             );
           })}
+          <ContextMenu hidden={menuHidden}/>
         </verticesContext.Provider>
       </Canvas>
     </>
