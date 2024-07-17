@@ -8,7 +8,8 @@ import { useFrame } from "@react-three/fiber";
 const Edge: React.FC<{
   from: vertex;
   to: vertex;
-}> = ({ from, to }) => {
+  weight?: number;
+}> = ({ from, to, weight }) => {
   const [points, setPoints] = useState([
     new THREE.Vector3(),
     new THREE.Vector3(),
@@ -51,7 +52,7 @@ const Edge: React.FC<{
         anchorX="center"
         anchorY="middle"
       >
-        Label
+       {weight ? weight : ""}
       </Text>
     </>
   );

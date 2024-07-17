@@ -23,6 +23,12 @@ export interface vertex extends VertexType {
   meshRef: React.RefObject<THREE.Mesh>;
 }
 
+export interface edge extends VertexType {
+  from: vertex;
+  to: vertex;
+  weight: number;
+}
+
 export default VertexType;
 
 

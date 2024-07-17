@@ -67,10 +67,16 @@ const ContextMenu: React.FC<{hidden: boolean}> = ({hidden}) => {
     else {
       setVertices((prev) => {
         const newVertices: vertex[] = [...prev];
+        // Set the new id for each vertex
         newVertices.splice(intersectedVertex.id, 1);
         for (let i = 0; i < newVertices.length; i++) {
           newVertices[i].id = i;
         }
+        // Remove the connected edges from the other vertices
+        newVertices.forEach((v) => {
+          v.outdegree = v.outdegree.filter((out) => out.id !== intersectedVertex.id);
+          v.indegree = v.indegree.filter((indegree) => indegree.id !== intersectedVertex.id);
+        });
         return newVertices;
       });
     }

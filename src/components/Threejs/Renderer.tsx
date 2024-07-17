@@ -60,6 +60,7 @@ const Renderer = () => {
                     key={index}
                     from={v}
                     to={out}
+                    weight={1}
                     />
                   );
                 })
