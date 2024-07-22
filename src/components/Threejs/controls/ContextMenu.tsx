@@ -99,30 +99,38 @@ const ContextMenu: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     return undefined;
   }
 
+  useEffect(() => {
+    console.log(edge);
+  }, [edge]);
+  useEffect(() => {
+    console.log("component rerendered");
+  });
+
   return (
     <>
       {/* Reset Edge pair component */}
-      <mesh position={new THREE.Vector3(0,10)}>
-        <Html>
-          <Button className="absolute w-12 h-12">
-           <h1>test</h1>
+      {/* TODO: Buggy wont render */}
+      <mesh position={new THREE.Vector3(0,10.5)}>
+        <Html style={edge ? {display: "block"} : {display: "none"}}>
+          <Button onClick={() => setEdge(undefined)} className="absolute bg-red-300 text-black w-24 h-10 -translate-x-1/2">
+            <h1>Reset</h1>
           </Button>
         </Html>
       </mesh>
 
-      <mesh position={mousePos.addScaledVector(new THREE.Vector3(1, -1), 0.25)}>
-      <Html style={hidden ? { display: "none" } : { display: "block{}" }}>
-        <div>
-          <ListGroup className="w-24 px-1">
-            <ListGroupItem onClick={addVertex}>Add Vertex</ListGroupItem >
-            <ListGroupItem
-              onClick={addEdge}>
-              {`${edge == undefined ? "Start edge" : "End edge"}`}
-            </ListGroupItem >
-            <ListGroupItem onClick={removeVertex}>Remove</ListGroupItem >
-          </ListGroup>
-        </div>
-      </Html>
+    <mesh position={mousePos.addScaledVector(new THREE.Vector3(1, -1), 0.25)}>
+        <Html style={hidden ? { display: "none" } : { display: "block" }}>
+          <div>
+            <ListGroup className="w-24 px-1">
+              <ListGroupItem onClick={addVertex}>Add Vertex</ListGroupItem >
+              <ListGroupItem
+                onClick={addEdge}>
+                {`${edge == undefined ? "Start edge" : "End edge"}`}
+              </ListGroupItem >
+              <ListGroupItem onClick={removeVertex}>Remove</ListGroupItem >
+            </ListGroup>
+          </div>
+        </Html>
     </mesh>
     </>
   );
