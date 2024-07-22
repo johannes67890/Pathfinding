@@ -1,10 +1,10 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import Grid from "./components/Grid";
-import { Header } from "./components/Header";
-import  AppContexts  from "./components/context/Contexts";
-
+import Grid from "./components/grid/Grid";
+import {  HeaderGraph, HeaderGrid } from "./components/Headers";
+import GridContexts from "./components/grid/context/GridContexts";
+import Renderer from "./components/Threejs/Renderer";
 const container = document.getElementById("root");
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
 
@@ -12,10 +12,12 @@ const Index = () => {
   return (
     <React.StrictMode>
       <div className="max-w-7xl mx-auto mt-3">
-        <AppContexts>
-          <Header />
+        {/* <GridContexts>
+          <HeaderGrid />
           <Grid />
-        </AppContexts>
+        </GridContexts> */}
+        <HeaderGraph />
+        <Renderer  />
       </div>
     </React.StrictMode>
   );

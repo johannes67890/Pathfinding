@@ -11,7 +11,7 @@ import { SpeedProvider } from "./useSpeed";
  * @param 
  * @returns 
  */
-const AppContexts: React.FC<{ children: React.ReactNode }> = ({
+const GridContexts: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   return (
@@ -27,4 +27,4 @@ const AppContexts: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export default AppContexts;
+export default GridContexts;

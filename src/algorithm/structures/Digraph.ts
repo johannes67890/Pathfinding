@@ -1,33 +1,37 @@
-import { CellProps } from "../../components/Cell";
+import VertexType, { cell } from "../../components/Types";
 import DirectedEdge from "./DirectedEdge";
 /**
  * 
  */
 
-class Digraph {
+class Digraph<T extends VertexType> {
     private _V: number = 0;
     private _E: number = 0;
     private _adj: Bag<DirectedEdge>[] = [];
-    private _grid: CellProps[][] = [];
-    constructor(grid?: CellProps[][], cells?: CellProps[]) {
-        
-        if (cells) {
-            this._V = cells.length;
-            for (let i = 0; i < this._V; i++) {
-                this._adj[cells[i].id] = new Bag<DirectedEdge>();
-            }
-        }else if(grid) {
-            this._grid = grid;
+    private _grid: cell[][];
+    constructor(vertices: T[] | T[][]) {
+    
+        // grid of cells
+        if(vertices[0] instanceof Array) {
+            const grid = vertices as T[][];
             // Create a bag for each cell in the grid
-            const cells: CellProps[] = [];
+            const cells: T[] = [];
             for (const row of grid) for (const cell of row) cells.push(cell);
             
             this._V = cells.length;
             for (let i = 0; i < this._V; i++) {
                 this._adj[cells[i].id] = new Bag<DirectedEdge>();
             }
-        }
+            return;
+        }else 
 
+        // array of cells
+        vertices = vertices as T[];
+        this._V = vertices.length;
+        for (let i = 0; i < this._V; i++) {
+            this._adj[vertices[i].id] = new Bag<DirectedEdge>();
+        }
+        
     }
 
     V(): number {
@@ -36,7 +40,7 @@ class Digraph {
     E(): number {
         return this._E;
     }
-    grid(): CellProps[][] {
+    grid(): cell[][] {
         return this._grid;
     }
     gridWidth(): number {
