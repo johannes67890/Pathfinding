@@ -8,15 +8,16 @@ class Digraph<T extends VertexType> {
     private _V: number = 0;
     private _E: number = 0;
     private _adj: Bag<DirectedEdge>[] = [];
-    private _grid: cell[][];
+    private _grid: T[][];
     constructor(vertices: T[] | T[][]) {
     
         // grid of cells
         if(vertices[0] instanceof Array) {
-            const grid = vertices as T[][];
+            this._grid = vertices as T[][];
+            
             // Create a bag for each cell in the grid
             const cells: T[] = [];
-            for (const row of grid) for (const cell of row) cells.push(cell);
+            for (const row of this._grid) for (const cell of row) cells.push(cell);
             
             this._V = cells.length;
             for (let i = 0; i < this._V; i++) {
@@ -24,14 +25,13 @@ class Digraph<T extends VertexType> {
             }
             return;
         }else 
-
         // array of cells
         vertices = vertices as T[];
         this._V = vertices.length;
         for (let i = 0; i < this._V; i++) {
             this._adj[vertices[i].id] = new Bag<DirectedEdge>();
         }
-        
+        return;
     }
 
     V(): number {
@@ -40,7 +40,7 @@ class Digraph<T extends VertexType> {
     E(): number {
         return this._E;
     }
-    grid(): cell[][] {
+    grid(): T[][] {
         return this._grid;
     }
     gridWidth(): number {

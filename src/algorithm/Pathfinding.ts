@@ -38,7 +38,6 @@ class Pathfinding {
     while(!this.pq.isEmpty()){
       let v = this.pq.delMin();
       for(let e of G.adj(v)){
-
         if(astar) this.relax(e, this.getDistToDest(e.to(), finishCell as cell | vertex));
         else      this.relax(e, 0);
         
@@ -95,9 +94,10 @@ class Pathfinding {
   }
 
   getDistToDest<T extends cell | vertex>(v: number, finishCell: T): number {
-    if(finishCell instanceof Cell) return this.manhattan(v, finishCell as cell);
+    // if(finishCell instanceof Cell) return this.manhattan(v, finishCell as cell);
     // else if(finishCell instanceof Vertex) return this.euclidean(v, finishCell as vertex);
-    else throw new Error("Unknown type of finish cell");
+    return this.manhattan(v, finishCell as cell);
+    // else throw new Error("Unknown type of finish cell");
   }
 
   // private euclidean(v: vertex, finishCell: vertex): Vector2 {
@@ -105,6 +105,7 @@ class Pathfinding {
   // }
 
   private manhattan(v: number, finishCell: cell): number {
+    console.log(this.G)
     // Get v row and col from index
       let { row, col } = {
         row: v / this.G.gridWidth(),

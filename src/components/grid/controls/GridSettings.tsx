@@ -16,10 +16,11 @@ const GridSettings = () => {
     return (
       <div className="flex flex-col gap-1 mx-auto">
         <h2 className="font-bold mx-auto">Cell Size</h2>
-        <FlowbiteBtn.Group outline={true} >
+        <FlowbiteBtn.Group outline={true} className="flex">
           <FlowbiteBtn
             disabled={playing}
             color="gray"
+            className="min-w-20"
             onClick={() => setCellSize(CellSize.big)}
           >
             Big
@@ -27,6 +28,7 @@ const GridSettings = () => {
           <FlowbiteBtn
             disabled={playing}
             color="gray"
+            className="min-w-20"
             onClick={() => setCellSize(CellSize.default)}
           >
             Default
@@ -34,6 +36,8 @@ const GridSettings = () => {
           <FlowbiteBtn
             disabled={playing}
             color="gray"
+            className="min-w-20"
+
             onClick={() => setCellSize(CellSize.small)}
           >
             Small
