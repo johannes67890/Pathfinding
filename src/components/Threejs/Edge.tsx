@@ -1,6 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { verticesContext } from "./Renderer";
 import { Line, LineProps, RenderCubeTexture, Text } from "@react-three/drei";
 import { vertex } from "../Types";
 import { useFrame } from "@react-three/fiber";

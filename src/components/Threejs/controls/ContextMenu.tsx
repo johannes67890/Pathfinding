@@ -4,15 +4,16 @@ import * as THREE from "three";
 import { useThree } from "@react-three/fiber";
 import { Button, ListGroup, ListGroupItem } from "flowbite-react";
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { verticesContext } from "../Renderer";
 import { vertex } from "../../Types";
+import useVertices from "../context/useVertices";
+import useEdge from "../context/useEdge";
 
 
 
 const ContextMenu: React.FC<{ hidden: boolean }> = ({ hidden }) => {
-  const { pointer, camera,  size } = useThree();
-  const { vertices, setVertices } = useContext(verticesContext);
-  const [edge, setEdge] = useState<vertex | undefined>();
+  const { pointer, camera } = useThree();
+  const {vertices, setVertices} = useVertices();
+  const {edge, setEdge} = useEdge();
   const mousePos = new THREE.Vector3(pointer.x, pointer.y, 0).unproject(camera);
 
   const addVertex = () => {
@@ -34,7 +35,7 @@ const ContextMenu: React.FC<{ hidden: boolean }> = ({ hidden }) => {
 
   const addEdge = () => {
     const v = getIntersectedVertex(mousePos);
-    console.log(v);
+    
     if (v == undefined) return;
     if (edge == undefined) {
       setEdge(v);
@@ -99,19 +100,12 @@ const ContextMenu: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     return undefined;
   }
 
-  useEffect(() => {
-    console.log(edge);
-  }, [edge]);
-  useEffect(() => {
-    console.log("component rerendered");
-  });
-
   return (
     <>
       {/* Reset Edge pair component */}
       {/* TODO: Buggy wont render */}
       <mesh position={new THREE.Vector3(0,10.5)}>
-        <Html style={edge ? {display: "block"} : {display: "none"}}>
+        <Html style={hidden && !edge ? { display: "none" } : { display: "block" }}>
           <Button onClick={() => setEdge(undefined)} className="absolute bg-red-300 text-black w-24 h-10 -translate-x-1/2">
             <h1>Reset</h1>
           </Button>

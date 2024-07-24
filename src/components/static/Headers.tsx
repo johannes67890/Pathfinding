@@ -1,8 +1,8 @@
-import Watermark from "./static/Watermark";
-import CellColorGuide from "./grid/controls/CellColorGuide";
-import GridSettings from "./grid/controls/GridSettings";
-import AnimationSpeed from "./grid/controls/AnimationSpeed";
-import AlgorithmSelector from "./grid/controls/AlgorithmSelector";
+import Watermark from "./Watermark";
+import CellColorGuide from "../grid/controls/CellColorGuide";
+import GridSettings from "../grid/controls/GridSettings";
+import AnimationSpeed from "../grid/controls/AnimationSpeed";
+import AlgorithmSelector from "../grid/controls/AlgorithmSelector";
 
 export const HeaderGrid = () => {
   return (
@@ -22,7 +22,6 @@ export const HeaderGraph = () => {
   return (
     <div className="rounded-t-md grid grid-cols-4 grid-flow-col my-4">
       <Watermark />
-      
     </div>
   );
 };

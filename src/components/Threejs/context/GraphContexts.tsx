@@ -1,6 +1,6 @@
-import React from "react";
-
-
+import React, { useEffect } from "react";
+import { EdgeProvider } from "./useEdge";
+import { VerticesProvider } from "./useVertices";
 
 /**
  * AppContexts 
@@ -10,9 +10,16 @@ import React from "react";
 const GraphContexts: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  useEffect(() => {
+    console.log("GraphContexts mounted");
+  });
   return (
     <>
-        {children}
+      <VerticesProvider>
+
+          {children}
+    
+      </VerticesProvider>
     </>
         
   );

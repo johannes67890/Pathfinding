@@ -3,13 +3,13 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import Grid from "./components/grid/Grid";
-import {  HeaderGraph, HeaderGrid } from "./components/Headers";
+import {  HeaderGraph, HeaderGrid } from "./components/static/Headers";
 import GridContexts from "./components/grid/context/GridContexts";
 import Renderer from "./components/Threejs/Renderer";
 import { Route, Routes, ErrorResponse, Navigate } from "react-router";
-import Root from "./components/Root";
-import Error from "./components/Error";
-import NotFound from "./components/NotFound";
+import Root from "./components/static/Root";
+import Error from "./components/static/Error";
+import NotFound from "./components/static/NotFound";
 const container = document.getElementById("root");
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
 
@@ -30,13 +30,13 @@ const Index = () => {
             errorElement={<Error />}
             />
             
-
             <Route path="/graph" element={
               <>
                 <HeaderGraph />
                 <Renderer  />
               </>
             } />
+            
           <Route path="*" element={<NotFound />} />
           {/* <Route path="/grid/*" element={<Navigate to="/grid" replace />} /> */}
           </Routes>

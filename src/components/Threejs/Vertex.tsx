@@ -1,10 +1,9 @@
 // src/App.tsx
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ThreeEvent, useThree } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
 import * as THREE from "three";
-import { verticesContext } from "./Renderer";
 
 const Vertex: React.FC<{
   text: String;
@@ -12,8 +11,6 @@ const Vertex: React.FC<{
   meshRef: React.RefObject<THREE.Mesh>;
   children?: React.ReactNode;
 }> = ({ text, position, meshRef, children }) => {
-  const { vertices, setVertices } = useContext(verticesContext);
-
   const { camera } = useThree();
   const [isDragging, setIsDragging] = useState(false);
 
@@ -52,6 +49,10 @@ const Vertex: React.FC<{
   const onMouseUp = () => {
     setIsDragging(false);
   };
+
+  useEffect(() => {
+    console.log("Vertex mounted");
+});
   return (
     <>
       <mesh

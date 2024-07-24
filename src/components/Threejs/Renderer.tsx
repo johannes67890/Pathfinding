@@ -1,26 +1,16 @@
-import React, { createContext, useMemo, useState } from "react";
-import { Canvas, ThreeEvent, useThree } from "@react-three/fiber";
-import { Html, OrthographicCamera } from "@react-three/drei";
-import * as THREE from "three";
+import React, { useEffect, useState } from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrthographicCamera } from "@react-three/drei";
 import Vertex from "./Vertex";
-import { vertex } from "../Types";
 import Edge from "./Edge";
 import ContextMenu from "./controls/ContextMenu";
-
-// Create a context to store the vertices
-export const verticesContext = createContext<{
-  vertices: vertex[];
-  setVertices: React.Dispatch<React.SetStateAction<vertex[]>>;
-}>({ vertices: [], setVertices: () => {} });
+import GraphContexts from "./context/GraphContexts";
+import useVertices, { VerticesProvider } from "./context/useVertices";
+import useEdge from "./context/useEdge";
 
 const Renderer = () => {
-  const [vertices, setVertices] = useState<vertex[]>([]);
-
-  const verticesContextValue = useMemo(
-    () => ({ vertices, setVertices }),
-    [vertices]
-  );
-
+  const { vertices } = useVertices();
+  const { edge } = useEdge();
   const [menuHidden, setMenuHidden] = useState<boolean>(true);
 
   const handleContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -29,12 +19,14 @@ const Renderer = () => {
   };
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    // only show menu on right click
-    if (event.button != 2 && !menuHidden) {
+    if (event.button !== 2 && !menuHidden) {
       setMenuHidden(true);
     }
   };
 
+  useEffect(() => {
+    console.log("Renderer mounted", vertices);
+  });
   return (
     <>
       <Canvas
@@ -48,23 +40,17 @@ const Renderer = () => {
         }}
       >
         <OrthographicCamera makeDefault position={[0, 0, 5]} zoom={30} />
-        <verticesContext.Provider value={verticesContextValue}>
-          {vertices.map((v, index) => {
-            return (
-              <Vertex
-                key={index}
-                position={v.position}
-                meshRef={v.meshRef}
-                text={`${index}`}
-              >
-                {v.outdegree.map((out, index) => {
-                  return <Edge key={index} from={v} to={out} weight={1} />;
-                })}
+          <VerticesProvider>
+            {vertices.map((v, index) => (
+              console.log(vertices),
+              <Vertex key={v.id} position={v.position} meshRef={v.meshRef} text={`${index}`}>
+                {v.outdegree.map((out, index) => (
+                  <Edge key={index} from={v} to={out} weight={1} />
+                ))}
               </Vertex>
-            );
-          })}
-          <ContextMenu hidden={menuHidden} />
-        </verticesContext.Provider>
+            ))}
+            <ContextMenu hidden={menuHidden} />
+          </VerticesProvider>
       </Canvas>
     </>
   );
