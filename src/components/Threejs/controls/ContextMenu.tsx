@@ -43,6 +43,9 @@ const ContextMenu: React.FC<{ hidden: boolean }> = ({ hidden }) => {
       // Change the color of the vertex to indicate that it is the start of the edge
       v.meshRef.current!.material = new THREE.MeshBasicMaterial({ color: 0x50c3ff });
 
+    }else if (v.id == edge.id) {
+      edge.meshRef.current!.material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      setEdge(undefined);
     } else {
       if (v.id == edge.id) return;
       setVertices((prev) => {
