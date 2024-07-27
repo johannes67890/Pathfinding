@@ -14,6 +14,7 @@ const Vertex: React.FC<{
 }> = ({ text, position, meshRef, children }) => {
   const { camera } = useThree();
   const [isDragging, setIsDragging] = useState(false);
+  
   // Calculate the viewport boundaries in world coordinates
   const calculateViewportBounds = () => {
     const leftBottom = new THREE.Vector3(-1, -1, 0).unproject(camera);
@@ -60,7 +61,6 @@ const Vertex: React.FC<{
         onPointerUp={onMouseUp}
       >
         <circleGeometry args={[1, 64]} />
-        <meshBasicMaterial />
         <Text
           fontSize={0.5}
           color="black"

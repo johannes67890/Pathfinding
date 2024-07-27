@@ -53,7 +53,7 @@ const VerticesContent = () => {
       {vertices.map((v, index) => (
         <Vertex key={v.id} position={v.position} meshRef={v.meshRef} text={`${index}`}>
           {v.outdegree.map((out, index) => (
-            <Edge key={index} from={v} to={out} weight={1} />
+            <Edge key={index} from={v} to={out} weight={1} directed={true} />
           ))}
         </Vertex>
       ))}

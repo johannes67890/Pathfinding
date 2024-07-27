@@ -40,6 +40,9 @@ const ContextMenu: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     if (v == undefined) return;
     if (edge == undefined) {
       setEdge(v);
+      // Change the color of the vertex to indicate that it is the start of the edge
+      v.meshRef.current!.material = new THREE.MeshBasicMaterial({ color: 0x50c3ff });
+
     } else {
       if (v.id == edge.id) return;
       setVertices((prev) => {
@@ -54,10 +57,12 @@ const ContextMenu: React.FC<{ hidden: boolean }> = ({ hidden }) => {
         if (!newVertices[v.id].indegree.some(vertex => vertex.id === edge.id)) {
           newVertices[v.id].indegree.push(edge);
         }
-        console.log(newVertices);
         return newVertices;
       });
+      edge.meshRef.current!.material = new THREE.MeshBasicMaterial({ color: 0xffffff });
       setEdge(undefined);
+      
+
     }
   };
 

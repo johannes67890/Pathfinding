@@ -8,12 +8,14 @@ const Edge: React.FC<{
   from: vertex;
   to: vertex;
   weight?: number;
-}> = ({ from, to, weight }) => {
+  directed?: boolean;
+}> = ({ from, to, weight, directed }) => {
   const [points, setPoints] = useState([
     new THREE.Vector3(),
     new THREE.Vector3(),
   ]);
   const [midpoint, setMidpoint] = useState(new THREE.Vector3());
+  const arrowRef = useRef<THREE.ArrowHelper | null>(null);
 
 
   useFrame(() => {
@@ -37,22 +39,37 @@ const Edge: React.FC<{
 
       const mid = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5);
       setMidpoint(mid);
+
+      // Update the arrow helper
+      if (arrowRef.current) {
+        arrowRef.current.setDirection(direction);
+        arrowRef.current.setLength(start.distanceTo(end), 0.5, 0.25);
+        arrowRef.current.position.copy(start);
+      }
     }
   });
 
   return(
     <>
-      <Line needsUpdate={true} points={points} color="blue"  />
-      
-      <Text
-        position={midpoint}
-        fontSize={0.4}
-        color="black"
-        anchorX="center"
-        anchorY="middle"
-      >
-       {weight ? weight : ""}
-      </Text>
+      {directed ? 
+      <arrowHelper renderOrder={1} ref={arrowRef} args={[new THREE.Vector3(), new THREE.Vector3(), 1, 0xff0000]} />
+      : <Line renderOrder={1} needsUpdate={true} points={points} color="blue" /> }
+
+      <mesh renderOrder={2} position={midpoint} >
+        <meshBasicMaterial />
+        <circleGeometry args={[0.4, 32]} />
+      </mesh>
+
+        <Text
+        renderOrder={3}
+          position={midpoint}
+          fontSize={0.5}
+          color="black"
+          anchorX="center"
+          anchorY="middle"
+        >
+        {weight ? weight : ""}
+        </Text>
     </>
   );
 };
