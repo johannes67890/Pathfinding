@@ -24,12 +24,11 @@ const Renderer = () => {
   };
 
   return (
-   
       <Canvas
         onContextMenu={handleContextMenu}
         onClick={handleClick}
         style={{
-          height: "70vh",
+          height: "75vh",
           border: "solid",
           borderWidth: "1px",
           borderRadius: "5px",
