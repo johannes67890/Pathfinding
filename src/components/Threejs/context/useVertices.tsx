@@ -15,9 +15,7 @@ export const VerticesProvider: React.FC<{ children: React.ReactNode }> = ({
     () => ({ vertices, setVertices }),
     [vertices]
   );
-  useEffect(() => {
-    console.log("VerticesProvider mounted");
-  });
+  
   return (
     <verticesContext.Provider value={verticesContextValue}>
       {children}

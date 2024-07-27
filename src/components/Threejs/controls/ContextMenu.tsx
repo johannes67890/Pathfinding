@@ -7,6 +7,7 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from "
 import { vertex } from "../../Types";
 import useVertices from "../context/useVertices";
 import useEdge from "../context/useEdge";
+import ResetEdge from "./ResetEdge";
 
 
 
@@ -53,7 +54,7 @@ const ContextMenu: React.FC<{ hidden: boolean }> = ({ hidden }) => {
         if (!newVertices[v.id].indegree.some(vertex => vertex.id === edge.id)) {
           newVertices[v.id].indegree.push(edge);
         }
-
+        console.log(newVertices);
         return newVertices;
       });
       setEdge(undefined);
@@ -100,18 +101,9 @@ const ContextMenu: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     return undefined;
   }
 
+
   return (
     <>
-      {/* Reset Edge pair component */}
-      {/* TODO: Buggy wont render */}
-      <mesh position={new THREE.Vector3(0,10.5)}>
-        <Html style={hidden && !edge ? { display: "none" } : { display: "block" }}>
-          <Button onClick={() => setEdge(undefined)} className="absolute bg-red-300 text-black w-24 h-10 -translate-x-1/2">
-            <h1>Reset</h1>
-          </Button>
-        </Html>
-      </mesh>
-
     <mesh position={mousePos.addScaledVector(new THREE.Vector3(1, -1), 0.25)}>
         <Html style={hidden ? { display: "none" } : { display: "block" }}>
           <div>

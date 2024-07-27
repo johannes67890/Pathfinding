@@ -4,15 +4,14 @@ import { OrthographicCamera } from "@react-three/drei";
 import Vertex from "./Vertex";
 import Edge from "./Edge";
 import ContextMenu from "./controls/ContextMenu";
-import GraphContexts from "./context/GraphContexts";
 import useVertices, { VerticesProvider } from "./context/useVertices";
-import useEdge from "./context/useEdge";
+import useEdge, { EdgeProvider } from "./context/useEdge";
+import ResetEdge from "./controls/ResetEdge";
+import GraphContexts from "./context/GraphContexts";
 
 const Renderer = () => {
-  const { vertices } = useVertices();
-  const { edge } = useEdge();
   const [menuHidden, setMenuHidden] = useState<boolean>(true);
-
+  const {edge} = useEdge();
   const handleContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
     setMenuHidden(false);
@@ -24,11 +23,8 @@ const Renderer = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("Renderer mounted", vertices);
-  });
   return (
-    <>
+   
       <Canvas
         onContextMenu={handleContextMenu}
         onClick={handleClick}
@@ -40,18 +36,27 @@ const Renderer = () => {
         }}
       >
         <OrthographicCamera makeDefault position={[0, 0, 5]} zoom={30} />
-          <VerticesProvider>
-            {vertices.map((v, index) => (
-              console.log(vertices),
-              <Vertex key={v.id} position={v.position} meshRef={v.meshRef} text={`${index}`}>
-                {v.outdegree.map((out, index) => (
-                  <Edge key={index} from={v} to={out} weight={1} />
-                ))}
-              </Vertex>
-            ))}
-            <ContextMenu hidden={menuHidden} />
-          </VerticesProvider>
+        <GraphContexts>
+          <VerticesContent />
+          <ResetEdge />
+          <ContextMenu hidden={menuHidden} />
+        </GraphContexts>
       </Canvas>
+  );
+};
+
+const VerticesContent = () => {
+  const { vertices } = useVertices();
+
+  return (
+    <>
+      {vertices.map((v, index) => (
+        <Vertex key={v.id} position={v.position} meshRef={v.meshRef} text={`${index}`}>
+          {v.outdegree.map((out, index) => (
+            <Edge key={index} from={v} to={out} weight={1} />
+          ))}
+        </Vertex>
+      ))}
     </>
   );
 };

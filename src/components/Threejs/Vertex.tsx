@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ThreeEvent, useThree } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
 import * as THREE from "three";
+import useVertices from "./context/useVertices";
 
 const Vertex: React.FC<{
   text: String;
@@ -13,7 +14,6 @@ const Vertex: React.FC<{
 }> = ({ text, position, meshRef, children }) => {
   const { camera } = useThree();
   const [isDragging, setIsDragging] = useState(false);
-
   // Calculate the viewport boundaries in world coordinates
   const calculateViewportBounds = () => {
     const leftBottom = new THREE.Vector3(-1, -1, 0).unproject(camera);
@@ -49,10 +49,7 @@ const Vertex: React.FC<{
   const onMouseUp = () => {
     setIsDragging(false);
   };
-
-  useEffect(() => {
-    console.log("Vertex mounted");
-});
+  
   return (
     <>
       <mesh
