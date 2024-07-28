@@ -1,10 +1,8 @@
 import { Vector2 } from "three";
-import Cell from "../components/grid/Cell";
-import  VertexType, { cell, vertex } from "../components/Types";
-import Vertex from "../components/Threejs/Vertex";
-import Digraph from "./structures/Digraph";
-import DirectedEdge from "./structures/DirectedEdge";
-import IndexMinPQ from "./structures/IndexMinPQ";
+import  VertexType, { cell, vertex } from "../components/pages/tools/Types";
+import Digraph from "../structures/Digraph";
+import DirectedEdge from "../structures/DirectedEdge";
+import IndexMinPQ from "../structures/IndexMinPQ";
 /**
  * Dijkstra search algorithm\
  * *Breadth-first search algorithm*

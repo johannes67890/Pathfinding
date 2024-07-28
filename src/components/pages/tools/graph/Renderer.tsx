@@ -11,7 +11,6 @@ import GraphContexts from "./context/GraphContexts";
 
 const Renderer = () => {
   const [menuHidden, setMenuHidden] = useState<boolean>(true);
-  const {edge} = useEdge();
   const handleContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
     setMenuHidden(false);
