@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrthographicCamera } from "@react-three/drei";
 import Edge from "./Edge";
 import ContextMenu from "./controls/ContextMenu";
-import useVertices, { VerticesProvider } from "./context/useVertices";
-import useEdge, { EdgeProvider } from "./context/useEdge";
+import useVertices from "./context/useVertices";
 import ResetEdge from "./controls/ResetEdge";
 import GraphContexts from "./context/GraphContexts";
 import { Vertex } from "@models/graphTypes";

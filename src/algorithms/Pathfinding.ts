@@ -1,8 +1,10 @@
 import { Vector2 } from "three";
-import  VertexType, { cell, vertex } from "../components/tools/Types";
 import Digraph from "../structures/Digraph";
 import DirectedEdge from "../structures/DirectedEdge";
 import IndexMinPQ from "../structures/IndexMinPQ";
+import Node from "@models/generics";
+import Cell from "@models/gridTypes";
+import { Vertex } from "@models/graphTypes";
 /**
  * Dijkstra search algorithm\
  * *Breadth-first search algorithm*
@@ -17,12 +19,12 @@ class Pathfinding {
   private edgeTo: DirectedEdge[] = [];
   private pq: IndexMinPQ<number>;
   private visited: DirectedEdge[] = [];
-  private G: Digraph<VertexType>;
+  private G: Digraph<Node>;
 
   constructor(
-    G: Digraph<VertexType>,
-    startCell: VertexType,
-    finishCell: VertexType,
+    G: Digraph<Node>,
+    startCell: Node,
+    finishCell: Node,
     astar?: boolean
   ) {
     this.G = G;
@@ -36,7 +38,7 @@ class Pathfinding {
     while(!this.pq.isEmpty()){
       let v = this.pq.delMin();
       for(let e of G.adj(v)){
-        if(astar) this.relax(e, this.getDistToDest(e.to(), finishCell as cell | vertex));
+        if(astar) this.relax(e, this.getDistToDest(e.to(), finishCell as Cell | Vertex));
         else      this.relax(e, 0);
         
         this.visited.push(e);
@@ -91,10 +93,10 @@ class Pathfinding {
     return this.distTo[v];
   }
 
-  getDistToDest<T extends cell | vertex>(v: number, finishCell: T): number {
+  getDistToDest<T extends Cell | Vertex>(v: number, finishCell: T): number {
     // if(finishCell instanceof Cell) return this.manhattan(v, finishCell as cell);
     // else if(finishCell instanceof Vertex) return this.euclidean(v, finishCell as vertex);
-    return this.manhattan(v, finishCell as cell);
+    return this.manhattan(v, finishCell as Cell);
     // else throw new Error("Unknown type of finish cell");
   }
 
@@ -102,7 +104,7 @@ class Pathfinding {
     
   // }
 
-  private manhattan(v: number, finishCell: cell): number {
+  private manhattan(v: number, finishCell: Cell): number {
     console.log(this.G)
     // Get v row and col from index
       let { row, col } = {

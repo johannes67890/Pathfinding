@@ -2,11 +2,12 @@ import {describe, expect, test, beforeEach} from '@jest/globals';
 import Digraph  from '../structures/Digraph';
 import DirectedEdge from '../structures/DirectedEdge';
 import Pathfinding from './Pathfinding';
-import { cell } from '../components/tools/Types';
+import Cell from '@models/gridTypes';
 
-let G: Digraph<cell>;
+
+let G: Digraph<Cell>;
 let Dijkstra: Pathfinding;
-let cells: cell[] = [
+let cells: Cell[] = [
     {id: 0 ,row: 0, col: 0, weight: 1},
     {id: 1 ,row: 0, col: 1, weight: 1},
     {id: 2 ,row: 0, col: 2, weight: 1},
@@ -17,8 +18,8 @@ let cells: cell[] = [
     {id: 7 ,row: 2, col: 1, weight: 1},
     {id: 8 ,row: 2, col: 2, weight: 1},
 ];
-let startCell: cell = cells[0];
-let finishCell: cell = cells[2];
+let startCell: Cell = cells[0];
+let finishCell: Cell = cells[2];
 
 
 beforeEach(() => {

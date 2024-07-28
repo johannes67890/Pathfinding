@@ -1,7 +1,7 @@
 import * as THREE from "three";
 
-type NodeType = { id: number };
+type Node = { id: number };
 
-export default NodeType;
+export default Node;
 
 

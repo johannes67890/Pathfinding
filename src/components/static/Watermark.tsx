@@ -2,7 +2,7 @@ import Return from "./Return"
 
 const Watermark = () => {
   return (
-    <div className="flex flex-col my-auto">
+    <div className="flex flex-col my-auto max-w-xs">
         <h1 className="text-4xl justify-center mx-auto">Pathfinding</h1>
         <span className="text-center italic border-b border-black mb-1 pb-2">
           visualized
@@ -24,5 +24,27 @@ const Watermark = () => {
       </div>
   )
 }
+
+
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+
+export const WatermarkSkeleton: React.FC = () => {
+  return (
+    <div className="flex flex-col my-auto max-w-xs justify-center">
+      <div className="flex align-middle items-center justify-center flex-col">
+      <Skeleton height={40} width={200}/>
+      <Skeleton height={20} width={150} className="mt-2 mb-1" />
+      </div>
+      <div className="flex mx-auto gap-1 py-1">
+        <div className="flex flex-col mx-auto items-center">
+          <Skeleton height={20} width={60} />
+          <Skeleton height={15} width={80} className="mt-1" />
+        </div>
+        <Skeleton circle={true} height={44} width={44} />
+      </div>
+    </div>
+  );
+};
 
 export default Watermark
