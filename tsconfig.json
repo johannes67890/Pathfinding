@@ -24,8 +24,10 @@
       "@utils/*": ["src/utils/*"],
       "@models/*": ["src/models/*"],
       "@pages/*": ["src/pages/*"],
+      "@assets/*": ["src/assets/*"],
     }
   },
+  
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
