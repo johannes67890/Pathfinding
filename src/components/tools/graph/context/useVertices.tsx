@@ -1,15 +1,15 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { vertex } from "../../Types";
+import { Vertex } from "@models/graphTypes";
 
 export const verticesContext = createContext<{
-  vertices: vertex[];
-  setVertices: React.Dispatch<React.SetStateAction<vertex[]>>;
+  vertices: Vertex[];
+  setVertices: React.Dispatch<React.SetStateAction<Vertex[]>>;
 }>({ vertices: [], setVertices: () => {} });
 
 export const VerticesProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [vertices, setVertices] = useState<vertex[]>([]);
+  const [vertices, setVertices] = useState<Vertex[]>([]);
 
   const verticesContextValue = useMemo(
     () => ({ vertices, setVertices }),

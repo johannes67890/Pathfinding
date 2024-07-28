@@ -1,5 +1,5 @@
 import { Vector2 } from "three";
-import  VertexType, { cell, vertex } from "../components/pages/tools/Types";
+import  VertexType, { cell, vertex } from "../components/tools/Types";
 import Digraph from "../structures/Digraph";
 import DirectedEdge from "../structures/DirectedEdge";
 import IndexMinPQ from "../structures/IndexMinPQ";

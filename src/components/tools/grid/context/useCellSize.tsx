@@ -1,14 +1,5 @@
+import { CellSize } from "@models/gridTypes";
 import React, { useMemo, useState, ReactNode, useContext } from "react";
-
-/**
- * CellSizeContext - Context to manage the cell size. 
- * 
- */
-export enum CellSize {
-  small,
-  default,
-  big,
-}
 
 export const cellSizeRecord: Record<CellSize, {className: string, row: number, col: number}> = {
   [CellSize.small]: {

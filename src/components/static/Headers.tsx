@@ -1,10 +1,10 @@
 import Watermark from "./Watermark";
 
 import Return from "./Return";
-import CellColorGuide from "../pages/tools/grid/controls/CellColorGuide";
-import GridSettings from "../pages/tools/grid/controls/GridSettings";
-import AnimationSpeed from "../pages/tools/grid/controls/AnimationSpeed";
-import AlgorithmSelector from "../pages/tools/grid/controls/AlgorithmSelector";
+import CellColorGuide from "../tools/grid/controls/CellColorGuide";
+import GridSettings from "../tools/grid/controls/GridSettings";
+import AnimationSpeed from "../tools/grid/controls/AnimationSpeed";
+import AlgorithmSelector from "../tools/grid/controls/AlgorithmSelector";
 
 export const HeaderGrid = () => {
   return (

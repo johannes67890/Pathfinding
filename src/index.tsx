@@ -2,14 +2,15 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
-import Grid from "./components/grid/Grid";
 import {  HeaderGraph, HeaderGrid } from "./components/static/Headers";
-import GridContexts from "./components/grid/context/GridContexts";
-import Renderer from "./components/Threejs/Renderer";
+
 import { Route, Routes, ErrorResponse, Navigate } from "react-router";
 import Root from "./components/static/Root";
 import Error from "./components/static/Error";
 import NotFound from "./components/static/NotFound";
+import GridContexts from "./components/tools/grid/context/GridContexts";
+import Grid from "./components/tools/grid/Grid";
+import Renderer from "./components/tools/graph/Renderer";
 const container = document.getElementById("root");
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
 

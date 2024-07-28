@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrthographicCamera } from "@react-three/drei";
-import Vertex from "./Vertex";
 import Edge from "./Edge";
 import ContextMenu from "./controls/ContextMenu";
 import useVertices, { VerticesProvider } from "./context/useVertices";
 import useEdge, { EdgeProvider } from "./context/useEdge";
 import ResetEdge from "./controls/ResetEdge";
 import GraphContexts from "./context/GraphContexts";
+import { Vertex } from "@models/graphTypes";
+import Node from "./Node";
 
 const Renderer = () => {
   const [menuHidden, setMenuHidden] = useState<boolean>(true);
@@ -49,11 +50,11 @@ const VerticesContent = () => {
   return (
     <>
       {vertices.map((v, index) => (
-        <Vertex key={v.id} position={v.position} meshRef={v.meshRef} text={`${index}`}>
-          {v.outdegree.map((out, index) => (
+        <Node key={v.id} position={v.position} meshRef={v.meshRef} text={`${index}`}>
+          {v.outdegree.map((out: Vertex, index: number) => (
             <Edge key={index} from={v} to={out} weight={1} directed={true} />
           ))}
-        </Vertex>
+        </Node>
       ))}
     </>
   );

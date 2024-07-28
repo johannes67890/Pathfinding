@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
 import { Button as FlowbiteBtn } from "flowbite-react";
-import { CellSize, CellSizeContext } from "../context/useCellSize";
+import { CellSizeContext } from "../context/useCellSize";
 import useControl from "../context/useControl";
 import useGrid from "../context/useGrid";
 import { InitlizeGridWithRandomWalls } from "../Grid";
+import { CellSize } from "@models/gridTypes";
 
 
 const GridSettings = () => {

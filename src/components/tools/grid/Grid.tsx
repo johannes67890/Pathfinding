@@ -1,12 +1,13 @@
-import * as utils from "../../utils";
-import Cell, { MakeCell } from "./Cell";
+import * as utils from "../../../utils/utils";
+import GridCell, { MakeCell } from "./GridCell";
 import React, { useState, useEffect } from "react";
 import { Button as FlowbiteBtn } from "flowbite-react";
-import useCellSize, { CellSize, cellSizeRecord } from "./context/useCellSize";
+import useCellSize, { cellSizeRecord } from "./context/useCellSize";
 import useGrid from "./context/useGrid";
 import useControl from "./context/useControl";
 import AnimatePathfinding from "./Animator";
-import { cell } from "../Types";
+import Cell, { CellSize } from "@models/gridTypes";
+
 
 const Grid = () => {
   const { grid, setGrid, gridCells, setGridCells } = useGrid();
@@ -77,7 +78,7 @@ const Grid = () => {
           >
             {row.map((cell, cellIndex) => {
               return (
-                <Cell
+                <GridCell
                   id={cellIndex}
                   row={cell.row}
                   col={cell.col}
@@ -95,7 +96,7 @@ const Grid = () => {
                   }}
                   size={cellSize}
                   weight={cell.weight}
-                ></Cell>
+                />
               );
             })}
           </div>
@@ -184,8 +185,8 @@ const RenderButton: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
 export function InitlizeGridWithRandomWalls(
   cellSize: CellSize,
   strength: number
-): cell[][] {
-  let newGridWithWalls: cell[][] = [];
+): Cell[][] {
+  let newGridWithWalls: Cell[][] = [];
   let i = 0;
   for (let row = 0; row <= cellSizeRecord[cellSize].row; row++) {
     const currentRow: any = [];
@@ -207,8 +208,8 @@ export function InitlizeGridWithRandomWalls(
   return newGridWithWalls;
 }
 
-export function InitlizeGrid(cellSize: CellSize): cell[][] {
-  let newGrid: cell[][] = [];
+export function InitlizeGrid(cellSize: CellSize): Cell[][] {
+  let newGrid: Cell[][] = [];
   let i = 0;
   for (let row = 0; row <= cellSizeRecord[cellSize].row; row++) {
     const currentRow: any = [];

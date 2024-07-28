@@ -1,8 +1,7 @@
-import * as utils from "../../utils";
+import * as utils from "../../../utils/utils";
 import React from "react";
-import useCellSize, { CellSize } from "./context/useCellSize";
-import { cell } from "../Types";
-
+import useCellSize from "./context/useCellSize";
+import cell, { CellSize } from "@models/gridTypes";
 
 export const MakeCell = (id: number, col: number, row: number) => {
   return {
@@ -18,7 +17,7 @@ export const MakeCell = (id: number, col: number, row: number) => {
 };
 
 
-const Cell = React.forwardRef((props: cell, ref: React.ForwardedRef<HTMLButtonElement>) => {
+const GridCell = React.forwardRef((props: cell, ref: React.ForwardedRef<HTMLButtonElement>) => {
   const {id, onClick, className, size, isStart, isFinish, isWall } =
     props;
   const { cellSizeRecord } = useCellSize();
@@ -72,4 +71,4 @@ export function getCellById(id: number, grid: cell[][]) {
   return getAllCells(grid)[id];
 }
 
-export default Cell;
+export default GridCell;

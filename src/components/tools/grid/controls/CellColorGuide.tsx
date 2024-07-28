@@ -1,4 +1,5 @@
-import * as utils from "../../../utils";
+import * as utils from "@utils/utils";
+
 enum CellVariant {
     startCell,
     endCell,

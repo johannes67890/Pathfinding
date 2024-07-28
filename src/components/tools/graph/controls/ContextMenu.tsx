@@ -4,10 +4,10 @@ import * as THREE from "three";
 import { useThree } from "@react-three/fiber";
 import { Button, ListGroup, ListGroupItem } from "flowbite-react";
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { vertex } from "../../Types";
 import useVertices from "../context/useVertices";
 import useEdge from "../context/useEdge";
 import ResetEdge from "./ResetEdge";
+import { Vertex } from "@models/graphTypes";
 
 
 
@@ -49,7 +49,7 @@ const ContextMenu: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     } else {
       if (v.id == edge.id) return;
       setVertices((prev) => {
-        const newVertices: vertex[] = [...prev];
+        const newVertices: Vertex[] = [...prev];
 
         // Check and add vertex to outdegree if not already present
         if (!newVertices[edge.id].outdegree.some(vertex => vertex.id === v.id)) {
@@ -76,7 +76,7 @@ const ContextMenu: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     if (intersectedVertex == undefined) return;
     else {
       setVertices((prev) => {
-        const newVertices: vertex[] = [...prev];
+        const newVertices: Vertex[] = [...prev];
         // Set the new id for each vertex
         newVertices.splice(intersectedVertex.id, 1);
         for (let i = 0; i < newVertices.length; i++) {
@@ -97,7 +97,7 @@ const ContextMenu: React.FC<{ hidden: boolean }> = ({ hidden }) => {
    * @param vector The vector to check for intersection
    * @returns The vertex that intersects with the vector
    */
-  function getIntersectedVertex(vector: THREE.Vector3): vertex | undefined {
+  function getIntersectedVertex(vector: THREE.Vector3): Vertex | undefined {
     const currVector = new THREE.Box3().setFromCenterAndSize(vector, new THREE.Vector3(1, 1, 1));
 
     for (let i = 0; i < vertices.length; i++) {

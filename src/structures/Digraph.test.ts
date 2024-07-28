@@ -1,10 +1,10 @@
 import {describe, expect, test, beforeEach} from '@jest/globals';
 import Digraph  from './Digraph';
 import DirectedEdge from './DirectedEdge';
-import { cell } from '../components/pages/tools/Types';
+import Cell from '@models/gridTypes';
 
-let G: Digraph<cell>;
-let cells: cell[] = [
+let G: Digraph<Cell>;
+let cells: Cell[] = [
     {id: 0 ,row: 0, col: 0, weight: 1},
     {id: 1 ,row: 0, col: 1, weight: 1},
     {id: 2 ,row: 0, col: 2, weight: 1},

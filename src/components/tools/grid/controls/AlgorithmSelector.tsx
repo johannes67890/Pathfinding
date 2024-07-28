@@ -1,7 +1,7 @@
 
 import { Button as FlowbiteBtn } from "flowbite-react";
 import useControl, { Algorithm } from "../context/useControl";
-import { classNames } from "../../../utils";
+import { classNames } from "../../../../utils/utils";
 
 const AlgorithmSelector = () => {
     const { playing, algorithm, setAlgorithm } = useControl();

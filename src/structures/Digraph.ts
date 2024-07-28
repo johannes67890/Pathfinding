@@ -1,4 +1,4 @@
-import VertexType, { cell } from "../components/pages/tools/Types";
+import VertexType from "@models/generics";
 import DirectedEdge from "./DirectedEdge";
 /**
  * 

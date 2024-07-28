@@ -1,12 +1,12 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { Line, LineProps, RenderCubeTexture, Text } from "@react-three/drei";
-import { vertex } from "../Types";
 import { useFrame } from "@react-three/fiber";
+import { Vertex } from "@models/graphTypes";
 
 const Edge: React.FC<{
-  from: vertex;
-  to: vertex;
+  from: Vertex;
+  to: Vertex;
   weight?: number;
   directed?: boolean;
 }> = ({ from, to, weight, directed }) => {

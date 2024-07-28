@@ -1,12 +1,12 @@
-import {  getCellById, getNeighbors } from "./Cell";
+import {  getCellById, getNeighbors } from "./GridCell";
 
-import Pathfinding from "../../algorithm/Pathfinding";
-import Digraph from "../../algorithm/structures/Digraph";
-import DirectedEdge from "../../algorithm/structures/DirectedEdge";
 import useCellSize, { cellSizeRecord } from "./context/useCellSize";
 import useGrid from "./context/useGrid";
 import useSpeed from "./context/useSpeed";
 import useControl, { Algorithm } from "./context/useControl";
+import Digraph from "../../../structures/Digraph";
+import DirectedEdge from "../../../structures/DirectedEdge";
+import Pathfinding from "../../../algorithms/Pathfinding";
 
 
 const AnimatePathfinding = () => {
