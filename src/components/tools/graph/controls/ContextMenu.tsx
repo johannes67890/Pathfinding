@@ -6,7 +6,6 @@ import { Button, ListGroup, ListGroupItem } from "flowbite-react";
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import useVertices from "../context/useVertices";
 import useEdge from "../context/useEdge";
-import ResetEdge from "./ResetEdge";
 import { Vertex } from "@models/graphTypes";
 
 

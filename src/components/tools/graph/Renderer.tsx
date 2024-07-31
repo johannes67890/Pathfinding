@@ -4,7 +4,6 @@ import { OrthographicCamera } from "@react-three/drei";
 import Edge from "./Edge";
 import ContextMenu from "./controls/ContextMenu";
 import useVertices from "./context/useVertices";
-import ResetEdge from "./controls/ResetEdge";
 import GraphContexts from "./context/GraphContexts";
 import { Vertex } from "@models/graphTypes";
 import Node from "./Node";
@@ -36,7 +35,6 @@ const Renderer = () => {
         <OrthographicCamera makeDefault position={[0, 0, 5]} zoom={30} />
         <GraphContexts>
           <VerticesContent />
-          <ResetEdge />
           <ContextMenu hidden={menuHidden} />
         </GraphContexts>
       </Canvas>
