@@ -33,10 +33,8 @@ const Renderer = () => {
         }}
       >
         <OrthographicCamera makeDefault position={[0, 0, 5]} zoom={30} />
-        <GraphContexts>
           <VerticesContent />
           <ContextMenu hidden={menuHidden} />
-        </GraphContexts>
       </Canvas>
   );
 };

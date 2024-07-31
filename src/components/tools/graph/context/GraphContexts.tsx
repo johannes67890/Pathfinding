@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { EdgeProvider } from "./useEdge";
 import { VerticesProvider } from "./useVertices";
-import ResetEdge from "../controls/ResetEdge";
 import ContextMenu from "../controls/ContextMenu";
+import { StartStopProvider } from "./useStartStop";
 
 /**
  * AppContexts
@@ -15,7 +15,9 @@ const GraphContexts: React.FC<{ children: React.ReactNode }> = ({
   return (
     <VerticesProvider>
       <EdgeProvider>
-        {children}
+        <StartStopProvider>
+          {children}
+        </StartStopProvider>
       </EdgeProvider>
     </VerticesProvider>
   );

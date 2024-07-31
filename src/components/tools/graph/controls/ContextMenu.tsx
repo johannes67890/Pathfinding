@@ -7,6 +7,8 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from "
 import useVertices from "../context/useVertices";
 import useEdge from "../context/useEdge";
 import { Vertex } from "@models/graphTypes";
+import useStartStop from "../context/useStartStop";
+import { calculateViewportBounds } from "@utils/utils";
 
 
 
@@ -14,6 +16,7 @@ const ContextMenu: React.FC<{ hidden: boolean }> = ({ hidden }) => {
   const { pointer, camera } = useThree();
   const {vertices, setVertices} = useVertices();
   const {edge, setEdge} = useEdge();
+  const { start, stop, setStart, setStop } = useStartStop();
   const mousePos = new THREE.Vector3(pointer.x, pointer.y, 0).unproject(camera);
 
   const addVertex = () => {
@@ -91,6 +94,38 @@ const ContextMenu: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     }
   };
 
+  
+  const setStartVertex = () => {
+    const intersectedVertex = getIntersectedVertex(mousePos);
+
+    const color = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+
+    if (intersectedVertex == undefined) return;
+    else {
+      if (start != undefined && start.id != intersectedVertex.id) {
+        start.meshRef.current!.material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      } 
+      setStart(intersectedVertex);
+      intersectedVertex.meshRef.current!.material = color;
+    }
+  }
+
+  const setStopVertex = () => {
+    const intersectedVertex = getIntersectedVertex(mousePos);
+
+    const color = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+
+    if (intersectedVertex == undefined) return;
+    else {
+      if (stop != undefined && stop.id != intersectedVertex.id) {
+        stop.meshRef.current!.material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      } 
+      setStop(intersectedVertex);
+      intersectedVertex.meshRef.current!.material = color;
+    }
+  }
+  
+
   /**
    * Get the vertex that intersects with a vector
    * @param vector The vector to check for intersection
@@ -102,27 +137,29 @@ const ContextMenu: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     for (let i = 0; i < vertices.length; i++) {
       const v = new THREE.Box3().setFromObject(vertices[i].meshRef.current!);
       if (v.intersectsBox(currVector)) {
+        console.log("intersected ",vertices[i]);
         return vertices[i];
       }
     }
     return undefined;
   }
-
-
+  
   return (
     <>
     <mesh position={mousePos.addScaledVector(new THREE.Vector3(1, -1), 0.25)}>
         <Html style={hidden ? { display: "none" } : { display: "block" }}>
-          <div>
-            <ListGroup className="w-24 px-1">
-              <ListGroupItem onClick={addVertex}>Add Vertex</ListGroupItem >
-              <ListGroupItem
-                onClick={addEdge}>
-                {`${edge == undefined ? "Start edge" : "End edge"}`}
-              </ListGroupItem >
-              <ListGroupItem onClick={removeVertex}>Remove</ListGroupItem >
+            <ListGroup className="w-24 px-1 border border-gray-400">
+                <ListGroupItem onClick={addVertex}>Add Vertex</ListGroupItem >
+                <ListGroupItem
+                  onClick={addEdge}>
+                  {`${edge == undefined ? "Start edge" : "End edge"}`}
+                </ListGroupItem >
+                <ListGroupItem onClick={removeVertex}>Remove</ListGroupItem >
+                <hr className=" border-black" />
+                <ListGroupItem onClick={setStartVertex}>Set Start</ListGroupItem >
+                <ListGroupItem onClick={setStopVertex}>Set Stop</ListGroupItem >
+          
             </ListGroup>
-          </div>
         </Html>
     </mesh>
     </>

@@ -1,3 +1,5 @@
+import * as THREE from "three";
+
 export function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -33,3 +35,19 @@ export class Timer {
     this.timerId = window.setTimeout(this.callback, this.remaining);
   }
 }
+
+
+// Calculate the viewport boundaries in world coordinates
+export const calculateViewportBounds = () => {
+  const camera = new THREE.PerspectiveCamera();
+
+  const leftBottom = new THREE.Vector3(-1, -1, 0).unproject(camera);
+  const rightTop = new THREE.Vector3(1, 1, 0).unproject(camera);
+
+  return {
+    minX: leftBottom.x + 1,
+    maxX: rightTop.x -1,
+    minY: leftBottom.y + 1,
+    maxY: rightTop.y - 1,
+  };
+};
