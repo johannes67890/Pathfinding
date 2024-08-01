@@ -5,7 +5,6 @@ import { ThreeEvent, useThree } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
 import * as THREE from "three";
 import useVertices from "./context/useVertices";
-import { calculateViewportBounds } from "@utils/utils";
 
 const Vertex: React.FC<{
   text: String;
@@ -23,6 +22,21 @@ const Vertex: React.FC<{
     }
   };
 
+// Calculate the viewport boundaries in world coordinates
+const calculateViewportBounds = () => {
+  
+
+  const leftBottom = new THREE.Vector3(-1, -1, 0).unproject(camera);
+  const rightTop = new THREE.Vector3(1, 1, 0).unproject(camera);
+
+  return {
+    minX: leftBottom.x + 1,
+    maxX: rightTop.x -1,
+    minY: leftBottom.y + 1,
+    maxY: rightTop.y - 1,
+  };
+};
+
   const onMouseMove = (event: ThreeEvent<PointerEvent>) => {
     if (isDragging) {
       const bounds = calculateViewportBounds();
@@ -39,6 +53,7 @@ const Vertex: React.FC<{
     setIsDragging(false);
   };
   
+
   return (
     <>
       <mesh

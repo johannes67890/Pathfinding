@@ -36,18 +36,3 @@ export class Timer {
   }
 }
 
-
-// Calculate the viewport boundaries in world coordinates
-export const calculateViewportBounds = () => {
-  const camera = new THREE.PerspectiveCamera();
-
-  const leftBottom = new THREE.Vector3(-1, -1, 0).unproject(camera);
-  const rightTop = new THREE.Vector3(1, 1, 0).unproject(camera);
-
-  return {
-    minX: leftBottom.x + 1,
-    maxX: rightTop.x -1,
-    minY: leftBottom.y + 1,
-    maxY: rightTop.y - 1,
-  };
-};
