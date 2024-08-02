@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { EdgeProvider } from "./useEdge";
 import { VerticesProvider } from "./useVertices";
-import ContextMenu from "../controls/ContextMenu";
 import { StartStopProvider } from "./useStartStop";
 
 /**
@@ -9,18 +8,15 @@ import { StartStopProvider } from "./useStartStop";
  * @param
  * @returns
  */
+// eslint-disable-next-line react/function-component-definition
 const GraphContexts: React.FC<{ children: React.ReactNode }> = ({
   children,
-}) => {
-  return (
-    <VerticesProvider>
-      <EdgeProvider>
-        <StartStopProvider>
-          {children}
-        </StartStopProvider>
-      </EdgeProvider>
-    </VerticesProvider>
-  );
-};
+}) => (
+  <VerticesProvider>
+    <EdgeProvider>
+      <StartStopProvider>{children}</StartStopProvider>
+    </EdgeProvider>
+  </VerticesProvider>
+);
 
 export default GraphContexts;

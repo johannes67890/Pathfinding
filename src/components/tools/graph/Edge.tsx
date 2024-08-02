@@ -1,6 +1,6 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import * as THREE from "three";
-import { Line, LineProps, RenderCubeTexture, Text } from "@react-three/drei";
+import { Line, Text } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { Vertex } from "@models/graphTypes";
 
@@ -16,7 +16,6 @@ const Edge: React.FC<{
   ]);
   const [midpoint, setMidpoint] = useState(new THREE.Vector3());
   const arrowRef = useRef<THREE.ArrowHelper | null>(null);
-
 
   useFrame(() => {
     if (from.meshRef.current && to.meshRef.current) {
@@ -37,7 +36,9 @@ const Edge: React.FC<{
         .sub(scaledDirection);
       setPoints([start, end]);
 
-      const mid = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5);
+      const mid = new THREE.Vector3()
+        .addVectors(start, end)
+        .multiplyScalar(0.5);
       setMidpoint(mid);
 
       // Update the arrow helper
@@ -49,27 +50,33 @@ const Edge: React.FC<{
     }
   });
 
-  return(
+  return (
     <>
-      {directed ? 
-      <arrowHelper renderOrder={1} ref={arrowRef} args={[new THREE.Vector3(), new THREE.Vector3(), 1, 0xff0000]} />
-      : <Line renderOrder={1} needsUpdate={true} points={points} color="blue" /> }
+      {directed ? (
+        <arrowHelper
+          renderOrder={1}
+          ref={arrowRef}
+          args={[new THREE.Vector3(), new THREE.Vector3(), 1, 0xff0000]}
+        />
+      ) : (
+        <Line renderOrder={1} needsUpdate points={points} color="blue" />
+      )}
 
-      <mesh renderOrder={2} position={midpoint} >
+      <mesh renderOrder={2} position={midpoint}>
         <meshBasicMaterial />
         <circleGeometry args={[0.4, 32]} />
       </mesh>
 
-        <Text
+      <Text
         renderOrder={3}
-          position={midpoint}
-          fontSize={0.5}
-          color="black"
-          anchorX="center"
-          anchorY="middle"
-        >
-        {weight ? weight : ""}
-        </Text>
+        position={midpoint}
+        fontSize={0.5}
+        color="black"
+        anchorX="center"
+        anchorY="middle"
+      >
+        {weight || ""}
+      </Text>
     </>
   );
 };

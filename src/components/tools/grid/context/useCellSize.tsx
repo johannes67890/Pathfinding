@@ -1,7 +1,10 @@
 import { CellSize } from "@models/gridTypes";
 import React, { useMemo, useState, ReactNode, useContext } from "react";
 
-export const cellSizeRecord: Record<CellSize, {className: string, row: number, col: number}> = {
+export const cellSizeRecord: Record<
+  CellSize,
+  { className: string; row: number; col: number }
+> = {
   [CellSize.small]: {
     className: "h-5 w-5",
     row: 31,
@@ -16,11 +19,14 @@ export const cellSizeRecord: Record<CellSize, {className: string, row: number, c
     className: "h-10 w-10",
     row: 15,
     col: 31,
-  }
+  },
 };
 
 export const CellSizeContext = React.createContext<{
-  cellSizeRecord: Record<CellSize, {className: string, row: number, col: number}>;
+  cellSizeRecord: Record<
+    CellSize,
+    { className: string; row: number; col: number }
+  >;
   cellSize: CellSize;
   setCellSize: React.Dispatch<React.SetStateAction<CellSize>>;
 }>({
@@ -29,9 +35,14 @@ export const CellSizeContext = React.createContext<{
   setCellSize: () => {},
 });
 
-export const CellSizeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const CellSizeProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [cellSize, setCellSize] = useState<CellSize>(CellSize.default);
-  const cellValue = useMemo(() => ({ cellSizeRecord, cellSize, setCellSize }), [cellSize]);
+  const cellValue = useMemo(
+    () => ({ cellSizeRecord, cellSize, setCellSize }),
+    [cellSize],
+  );
 
   return (
     <CellSizeContext.Provider value={cellValue}>

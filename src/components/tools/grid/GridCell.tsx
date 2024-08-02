@@ -1,51 +1,49 @@
-import * as utils from "../../../utils/utils";
 import React from "react";
-import useCellSize from "./context/useCellSize";
 import cell, { CellSize } from "@models/gridTypes";
+import * as utils from "../../../utils/utils";
+import useCellSize from "./context/useCellSize";
 
-export const MakeCell = (id: number, col: number, row: number) => {
-  return {
-    id,
-    col,
-    row,
-    weight: 1,
-    isStart: row === 8 && col === 8,
-    isFinish: row === 8 && col === 27,
-    isVisited: false,
-    isWall: false,
-  };
-};
-
-
-const GridCell = React.forwardRef((props: cell, ref: React.ForwardedRef<HTMLButtonElement>) => {
-  const {id, onClick, className, size, isStart, isFinish, isWall } =
-    props;
-  const { cellSizeRecord } = useCellSize();
-
-  const VariantClassName = isFinish
-    ? "bg-red-500"
-    : isStart
-    ? "bg-green-500"
-    : isWall
-    ? "bg-black"
-    : "";
-
-  return (
-    <button
-      ref={ref}
-      id={`${id}`}
-      onClick={(e) => {
-        if (onClick) onClick();
-      }}
-      className={utils.classNames(
-        className,
-        VariantClassName,
-        cellSizeRecord[size as CellSize].className,
-        `border border-black`
-      )}
-    ></button>
-  );
+export const MakeCell = (id: number, col: number, row: number) => ({
+  id,
+  col,
+  row,
+  weight: 1,
+  isStart: row === 8 && col === 8,
+  isFinish: row === 8 && col === 27,
+  isVisited: false,
+  isWall: false,
 });
+
+const GridCell = React.forwardRef(
+  (props: cell, ref: React.ForwardedRef<HTMLButtonElement>) => {
+    const { id, onClick, className, size, isStart, isFinish, isWall } = props;
+    const { cellSizeRecord } = useCellSize();
+
+    const VariantClassName = isFinish
+      ? "bg-red-500"
+      : isStart
+        ? "bg-green-500"
+        : isWall
+          ? "bg-black"
+          : "";
+
+    return (
+      <button
+        ref={ref}
+        id={`${id}`}
+        onClick={() => {
+          if (onClick) onClick();
+        }}
+        className={utils.classNames(
+          className,
+          VariantClassName,
+          cellSizeRecord[size as CellSize].className,
+          `border border-black`,
+        )}
+      />
+    );
+  },
+);
 
 export function getNeighbors(cell: cell, grid: cell[][]): cell[] {
   const neighbors: cell[] = [];

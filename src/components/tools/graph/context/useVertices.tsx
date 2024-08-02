@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useContext, useMemo, useState } from "react";
 import { Vertex } from "@models/graphTypes";
 
 export const verticesContext = createContext<{
@@ -13,9 +13,9 @@ export const VerticesProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const verticesContextValue = useMemo(
     () => ({ vertices, setVertices }),
-    [vertices]
+    [vertices],
   );
-  
+
   return (
     <verticesContext.Provider value={verticesContextValue}>
       {children}

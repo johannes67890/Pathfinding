@@ -1,5 +1,5 @@
-import Node from "./generics";
 import * as THREE from "three";
+import Node from "./generics";
 
 export interface Vertex extends Node {
   text: string;

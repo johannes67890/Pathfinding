@@ -1,14 +1,13 @@
-import { Vector2 } from "three";
-import Digraph from "../structures/Digraph";
-import DirectedEdge from "../structures/DirectedEdge";
-import IndexMinPQ from "../structures/IndexMinPQ";
 import Node from "@models/generics";
 import Cell from "@models/gridTypes";
 import { Vertex } from "@models/graphTypes";
+import Digraph from "../structures/Digraph";
+import DirectedEdge from "../structures/DirectedEdge";
+import IndexMinPQ from "../structures/IndexMinPQ";
 /**
  * Dijkstra search algorithm\
  * *Breadth-first search algorithm*
- * 
+ *
  * @param grid Grid of cells
  * @param startCell Start cell
  * @param finishCell Finish cell
@@ -16,44 +15,55 @@ import { Vertex } from "@models/graphTypes";
  */
 class Pathfinding {
   private distTo: number[] = [];
+
   private edgeTo: DirectedEdge[] = [];
+
   private pq: IndexMinPQ<number>;
+
   private visited: DirectedEdge[] = [];
+
   private G: Digraph<Node>;
 
   constructor(
     G: Digraph<Node>,
     startCell: Node,
     finishCell: Node,
-    astar?: boolean
+    astar?: boolean,
   ) {
     this.G = G;
-    for(let i = 0; i < G.V(); i++){
+    for (let i = 0; i < G.V(); i++) {
       this.distTo[i] = Infinity;
     }
     this.distTo[startCell.id] = 0;
 
     this.pq = new IndexMinPQ<number>(G.V());
     this.pq.insert(startCell.id, 0);
-    while(!this.pq.isEmpty()){
-      let v = this.pq.delMin();
-      for(let e of G.adj(v)){
-        if(astar) this.relax(e, this.getDistToDest(e.to(), finishCell as Cell | Vertex));
-        else      this.relax(e, 0);
-        
+    while (!this.pq.isEmpty()) {
+      const v = this.pq.delMin();
+
+      for (const e of G.adj(v)) {
+        if (astar)
+          this.relax(
+            e,
+            this.getDistToDest(e.to(), finishCell as Cell | Vertex),
+          );
+        else this.relax(e, 0);
+
         this.visited.push(e);
       }
     }
-  };
-  
-  relax(e: DirectedEdge, huristic: number){
-    let v = e.from(), w = e.to();
-    if(this.distTo[w] > this.distTo[v] + e.weight()){
+  }
+
+  relax(e: DirectedEdge, huristic: number) {
+    const v = e.from();
+    const w = e.to();
+    if (this.distTo[w] > this.distTo[v] + e.weight()) {
       this.distTo[w] = this.distTo[v] + e.weight();
       this.edgeTo[w] = e;
 
-      if(this.pq.contains(w)) this.pq.decreaseKey(w, this.distTo[w] + huristic);
-      else                    this.pq.insert(w, this.distTo[w] + huristic);
+      if (this.pq.contains(w))
+        this.pq.decreaseKey(w, this.distTo[w] + huristic);
+      else this.pq.insert(w, this.distTo[w] + huristic);
     }
   }
 
@@ -62,28 +72,28 @@ class Pathfinding {
   }
 
   pathTo(v: number): DirectedEdge[] {
-    if(!this.hasPathTo(v)) throw new Error("No path to vertex");
-    let path = [];
-    for(let e = this.edgeTo[v]; e !== undefined; e = this.edgeTo[e.from()]){
+    if (!this.hasPathTo(v)) throw new Error("No path to vertex");
+    const path = [];
+    for (let e = this.edgeTo[v]; e !== undefined; e = this.edgeTo[e.from()]) {
       path.push(e);
     }
     return path.reverse();
   }
 
   pathToByIndex(v: number): number[] {
-    if(!this.hasPathTo(v)) throw new Error("No path to vertex");
-    let path: number[] = [];
-    
-    for(let e of this.pathTo(v)){
+    if (!this.hasPathTo(v)) throw new Error("No path to vertex");
+    const path: number[] = [];
+
+    for (const e of this.pathTo(v)) {
       path.push(e.from());
     }
-  
+
     return path; // remove start node, to not overlap start cell in grid
   }
 
   visitedPath(): number[] {
-    let path: number[] = [];
-    for(let e of this.visited){
+    const path: number[] = [];
+    for (const e of this.visited) {
       path.push(e.from());
     }
     return path;
@@ -101,23 +111,19 @@ class Pathfinding {
   }
 
   // private euclidean(v: vertex, finishCell: vertex): Vector2 {
-    
+
   // }
 
   private manhattan(v: number, finishCell: Cell): number {
-    console.log(this.G)
     // Get v row and col from index
-      let { row, col } = {
-        row: v / this.G.gridWidth(),
-        col: v % this.G.gridWidth()
-      };
-      
-      const h =
-        Math.abs(row - finishCell.row) +
-        Math.abs(col - finishCell.col);
-      return h;
+    const { row, col } = {
+      row: v / this.G.gridWidth(),
+      col: v % this.G.gridWidth(),
+    };
+
+    const h = Math.abs(row - finishCell.row) + Math.abs(col - finishCell.col);
+    return h;
   }
 }
-
 
 export default Pathfinding;

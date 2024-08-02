@@ -6,30 +6,20 @@ import LoadingCircle, {
 } from "src/components/static/LoadingScreen";
 import { WatermarkSkeleton } from "../components/static/Watermark";
 
-const Home = () => {
+function Home() {
+  return <TestHome />;
+}
 
-  return (
-    <>
-      <TestHome />
-    </>
-  );
-};
-
-
-
-const TestHome = () => {
+function TestHome() {
   const Watermark = React.lazy(() => import("../components/static/Watermark"));
 
   return (
-    <>
-      <SkeletonTheme baseColor="#d9d9d9">
-          <Suspense fallback={<WatermarkSkeleton />}>
-            <Watermark />
-          </Suspense>
-      </SkeletonTheme>
-    </>
+    <SkeletonTheme baseColor="#d9d9d9">
+      <Suspense fallback={<WatermarkSkeleton />}>
+        <Watermark />
+      </Suspense>
+    </SkeletonTheme>
   );
 }
-
 
 export default Home;

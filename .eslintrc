@@ -1,0 +1,37 @@
+{
+    "extends": [
+      "airbnb",
+      "airbnb-typescript",
+      "prettier",
+      "plugin:react/recommended",
+    ],
+    "parserOptions": {
+      "project": "./tsconfig.json",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "plugins": [
+      "prettier",
+      "react"
+    ],
+    "rules": {
+      "semi": 0,
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx", "ts"] }],
+      "prettier/prettier": [
+        "error", {
+          "semi": true
+        }
+      ],
+      // React
+      "react/jsx-no-bind": "off",
+      "react/function-component-definition": ["error", { "namedComponents": "arrow-function" }],
+      "react/require-default-props": ["error", { "ignoreFunctionalComponents": true }],
+      // TypeScript
+      "max-classes-per-file": ["error", 2],
+      "no-restricted-syntax": 0,
+      "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+      "no-continue": "off"
+    }
+  
+  }
