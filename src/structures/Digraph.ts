@@ -67,7 +67,7 @@ class Digraph<T extends VertexType> {
   addEdge(e: DirectedEdge): void {
     const v = e.from();
     this._adj[v].add(e);
-    this._E++;
+    this._E += 1;
   }
 
   edges(): Iterable<DirectedEdge> {
@@ -84,7 +84,7 @@ class Digraph<T extends VertexType> {
     let indegree = 0;
     for (let i = 0; i < this._V; i++) {
       for (const e of this._adj[i].iterator()) {
-        if (e.to() === v) indegree++;
+        if (e.to() === v) indegree += 1;
       }
     }
     return indegree;
@@ -111,7 +111,7 @@ class Bag<T> implements IBag<T> {
 
   add(item: T): void {
     this.bag.push(item);
-    this.N++;
+    this.N += 1;
   }
 
   size(): number {

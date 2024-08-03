@@ -1,9 +1,6 @@
 import React, { Suspense } from "react";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import LoadingCircle, {
-  LoadingComponent,
-} from "src/components/static/LoadingScreen";
 import { WatermarkSkeleton } from "../components/static/Watermark";
 
 function Home() {

@@ -1,14 +1,13 @@
-import React, { Suspense, useEffect } from "react";
+import React from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 
-import { Route, Routes, ErrorResponse, Navigate } from "react-router";
+import { Route, Routes } from "react-router";
 import Home from "@pages/Home";
 import GridTool from "@pages/GridTool";
 import GraphTool from "@pages/GraphTool";
 import NotFound from "./components/static/NotFound";
-import { HeaderGraph, HeaderGrid } from "./components/static/Headers";
 
 const container = document.getElementById("root");
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript

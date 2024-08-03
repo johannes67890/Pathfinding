@@ -41,11 +41,11 @@ class IndexMinPQ<Key> {
   }
 
   delMin(): number {
-    if (this.n == 0) throw new Error("Priority queue underflow");
+    if (this.n === 0) throw new Error("Priority queue underflow");
     const min = this.pq[1];
-    this.exch(1, this.n--);
+    this.exch(1, (this.n -= 1));
     this.sink(1);
-    if (min != this.pq[this.n + 1])
+    if (min !== this.pq[this.n + 1])
       throw new Error("Index is not in the priority queue");
     this.qp[min] = -1; // delete
     this.keys[min] = undefined as any; // to help with garbage collection
@@ -55,7 +55,7 @@ class IndexMinPQ<Key> {
 
   insert(i: number, key: Key): void {
     this.validateIndex(i);
-    this.n++;
+    this.n += 1;
     this.qp[i] = this.n;
     this.pq[this.n] = i;
     this.keys[i] = key;
@@ -106,7 +106,7 @@ class IndexMinPQ<Key> {
   sink(k: number): void {
     while (2 * k <= this.n) {
       let j = 2 * k;
-      if (j < this.n && this.greater(j, j + 1)) j++;
+      if (j < this.n && this.greater(j, j + 1)) j += 1;
       if (!this.greater(k, j)) break;
       this.exch(k, j);
       k = j;

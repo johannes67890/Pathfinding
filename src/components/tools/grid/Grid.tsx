@@ -27,7 +27,7 @@ export function InitlizeGrid(cellSize: CellSize): Cell[][] {
 
 const Grid = () => {
   const { grid, setGrid, gridCells, setGridCells } = useGrid();
-  const { cellSizeRecord, cellSize } = useCellSize();
+  const { cellSize } = useCellSize();
   const { playing, setPlaying, solved, setSolved } = useControl();
 
   const [cellClicked, setCellClicked] = useState<boolean>(false);
@@ -120,7 +120,7 @@ const Grid = () => {
       ))}
     </div>
   );
-}
+};
 
 const RenderButton: React.FC<{ ongoing: boolean }> = ({ ongoing }) => {
   const { playing, solved } = useControl();

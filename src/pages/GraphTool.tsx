@@ -3,7 +3,6 @@ import { HeaderGraph } from "src/components/static/Headers";
 import Return from "src/components/static/Return";
 import Watermark from "src/components/static/Watermark";
 import GraphContexts from "src/components/tools/graph/context/GraphContexts";
-import { VerticesProvider } from "src/components/tools/graph/context/useVertices";
 import Renderer from "src/components/tools/graph/Renderer";
 
 function GraphTool() {

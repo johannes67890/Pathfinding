@@ -3,8 +3,9 @@ import { Button as FlowbiteBtn } from "flowbite-react";
 import useControl, { Algorithm } from "../context/useControl";
 import { classNames } from "../../../../utils/utils";
 
-const AlgorithmSelector = () => {
+function AlgorithmSelector() {
   const { playing, algorithm, setAlgorithm } = useControl();
+  return (
     <div className="flex flex-col gap-2 mx-auto">
       <h2 className="font-bold mx-auto">Algorithms</h2>
       <FlowbiteBtn.Group outline className="flex">
@@ -38,7 +39,8 @@ const AlgorithmSelector = () => {
           Astar (A*)
         </FlowbiteBtn>
       </FlowbiteBtn.Group>
-    </div>;
-};
+    </div>
+  );
+}
 
 export default AlgorithmSelector;

@@ -14,18 +14,20 @@ import AlgorithmSelector from "../tools/grid/controls/AlgorithmSelector";
 import useVertices from "../tools/graph/context/useVertices";
 import useStartStop from "../tools/graph/context/useStartStop";
 
-export const HeaderGrid = () => {
-  <div className="rounded-t-md grid grid-cols-[min-content,1fr,1fr,1fr,1fr] gap-5 grid-flow-col my-4">
-    <Return />
-    <Watermark />
-    <CellColorGuide />
-    <GridSettings />
-    <div className="flex flex-col gap-2">
-      <AnimationSpeed />
-      <AlgorithmSelector />
+export function HeaderGrid() {
+  return (
+    <div className="rounded-t-md grid grid-cols-[min-content,1fr,1fr,1fr,1fr] gap-5 grid-flow-col my-4">
+      <Return />
+      <Watermark />
+      <CellColorGuide />
+      <GridSettings />
+      <div className="flex flex-col gap-2">
+        <AnimationSpeed />
+        <AlgorithmSelector />
+      </div>
     </div>
-  </div>;
-};
+  );
+}
 
 export const HeaderGraph = () => {
   const { vertices } = useVertices();
