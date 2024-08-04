@@ -42,6 +42,7 @@ describe("Dijkstra", () => {
     expect(path).toEqual(expectedPath);
   });
   test("PathTo V.2", () => {
+    // eslint-disable-next-line prefer-destructuring
     finishCell = cells[3];
     const path = Dijkstra.pathTo(finishCell.id);
     const expectedPath = [

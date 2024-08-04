@@ -19,17 +19,15 @@ const GridCell = React.forwardRef(
     const { id, onClick, className, size, isStart, isFinish, isWall } = props;
     const { cellSizeRecord } = useCellSize();
 
-    const VariantClassName = isFinish
-      ? "bg-red-500"
-      : isStart
-        ? "bg-green-500"
-        : isWall
-          ? "bg-black"
-          : "";
+    let VariantClassName = "";
+    if (isFinish) VariantClassName = "bg-red-500";
+    else if (isStart) VariantClassName = "bg-green-500";
+    else if (isWall) VariantClassName = "bg-black";
 
     return (
       <button
         ref={ref}
+        type="button"
         id={`${id}`}
         onClick={() => {
           if (onClick) onClick();
@@ -40,14 +38,17 @@ const GridCell = React.forwardRef(
           cellSizeRecord[size as CellSize].className,
           `border border-black`,
         )}
-      />
+      >
+        {id}
+      </button>
     );
   },
 );
+GridCell.displayName = "GridCell";
 
-export function getNeighbors(cell: cell, grid: cell[][]): cell[] {
+export function getNeighbors(currCell: cell, grid: cell[][]): cell[] {
   const neighbors: cell[] = [];
-  const { col, row } = cell;
+  const { col, row } = currCell;
   if (row > 0) neighbors.push(grid[row - 1][col]); // top
   if (row < grid.length - 1) neighbors.push(grid[row + 1][col]); // bottom
   if (col > 0) neighbors.push(grid[row][col - 1]); // left
@@ -58,8 +59,8 @@ export function getNeighbors(cell: cell, grid: cell[][]): cell[] {
 export function getAllCells(grid: cell[][]) {
   const cells = [];
   for (const row of grid) {
-    for (const cell of row) {
-      cells.push(cell);
+    for (const c of row) {
+      cells.push(c);
     }
   }
   return cells;

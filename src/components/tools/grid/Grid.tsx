@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useState, useEffect } from "react";
 import { Button as FlowbiteBtn } from "flowbite-react";
 import Cell, { CellSize } from "@models/gridTypes";
@@ -10,20 +11,6 @@ import useCellSize, { cellSizeRecord } from "./context/useCellSize";
 import useGrid from "./context/useGrid";
 import useControl from "./context/useControl";
 import AnimatePathfinding from "./Animator";
-
-export function InitlizeGrid(cellSize: CellSize): Cell[][] {
-  const newGrid: Cell[][] = [];
-  let i = 0;
-  for (let row = 0; row <= cellSizeRecord[cellSize].row; row++) {
-    const currentRow: any = [];
-    for (let col = 0; col <= cellSizeRecord[cellSize].col; col++) {
-      currentRow.push(MakeCell(i, col, row)); // push current row to Cell
-      i += 1;
-    }
-    newGrid.push(currentRow);
-  }
-  return newGrid; // push to grid
-}
 
 const Grid = () => {
   const { grid, setGrid, gridCells, setGridCells } = useGrid();
@@ -68,8 +55,16 @@ const Grid = () => {
   function OnStart() {
     setPlaying(!playing);
     setSolved(false);
-    playing && !solved && !ongoing ? setOngoing(true) : setOngoing(false);
-    playing && solved && !ongoing ? setRefresh(true) : setRefresh(false);
+
+    // Set Ongoing
+    if (playing && !solved && !ongoing) {
+      setOngoing(true);
+    } else setOngoing(false);
+
+    // Set Refresh
+    if (playing && solved && !ongoing) {
+      setRefresh(true);
+    } else setRefresh(false);
   }
 
   return (
@@ -160,6 +155,20 @@ export function InitlizeGridWithRandomWalls(
     newGridWithWalls.push(currentRow);
   }
   return newGridWithWalls;
+}
+
+export function InitlizeGrid(cellSize: CellSize): Cell[][] {
+  const newGrid: Cell[][] = [];
+  let i = 0;
+  for (let row = 0; row <= cellSizeRecord[cellSize].row; row++) {
+    const currentRow: any = [];
+    for (let col = 0; col <= cellSizeRecord[cellSize].col; col++) {
+      currentRow.push(MakeCell(i, col, row)); // push current row to Cell
+      i += 1;
+    }
+    newGrid.push(currentRow);
+  }
+  return newGrid; // push to grid
 }
 
 export default Grid;

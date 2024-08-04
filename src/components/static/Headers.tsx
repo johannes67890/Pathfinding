@@ -33,7 +33,7 @@ export const HeaderGraph = () => {
   const { vertices } = useVertices();
   const { start, stop } = useStartStop();
 
-  function animate() {
+  function animate(): DirectedEdge[] | undefined {
     const di = new Digraph<Vertex>(vertices);
 
     vertices.map((v) => {
@@ -58,6 +58,7 @@ export const HeaderGraph = () => {
       return v;
     });
 
+    // eslint-disable-next-line consistent-return
     return c.pathTo(stop.id);
   }
 
