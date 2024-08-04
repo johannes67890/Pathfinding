@@ -43,7 +43,9 @@ class IndexMinPQ<Key> {
   delMin(): number {
     if (this.n === 0) throw new Error("Priority queue underflow");
     const min = this.pq[1];
-    this.exch(1, (this.n -= 1));
+    // To use `this.n -= 1` instead of `this.n--` would cause an error
+    // eslint-disable-next-line no-plusplus
+    this.exch(1, this.n--);
     this.sink(1);
     if (min !== this.pq[this.n + 1])
       throw new Error("Index is not in the priority queue");
