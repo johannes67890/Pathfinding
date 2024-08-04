@@ -4,10 +4,12 @@ import GridContexts from "src/components/tools/grid/context/GridContexts";
 import Grid from "src/components/tools/grid/Grid";
 
 function GridTool() {
-  <GridContexts>
-    <HeaderGrid />
-    <Grid />
-  </GridContexts>;
+  return (
+    <GridContexts>
+      <HeaderGrid />
+      <Grid />
+    </GridContexts>
+  );
 }
 
 export default GridTool;
