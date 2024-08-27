@@ -20,8 +20,17 @@
       "semi": 0,
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx", "ts"] }],
       "prettier/prettier": [
-        "error", {
-          "semi": true
+        "warn",
+        {
+          // "semi": false,
+          // "bracketSpacing": true,
+          // "printWidth": 140,
+          // "jsxSingleQuote": true,
+          // "singleQuote": false,
+          // "trailingComma": "none",
+          // "tabWidth": 4,
+          "useTabs": false,
+          "endOfLine": "auto"
         }
       ],
       // React
