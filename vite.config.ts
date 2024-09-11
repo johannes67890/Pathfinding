@@ -8,6 +8,16 @@ export default defineConfig({
   plugins: [
     react(),
     tsconfigPaths(),
+    {
+      name: "markdown-loader",
+      // eslint-disable-next-line consistent-return
+      transform(code, id) {
+        if (id.slice(-3) === ".md") {
+          // For .md files, get the raw content
+          return `export default ${JSON.stringify(code)};`;
+        }
+      }
+    },
     svgr({
       // svgr options: https://react-svgr.com/docs/options/
       svgrOptions: {
