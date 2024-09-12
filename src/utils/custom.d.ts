@@ -3,4 +3,15 @@ declare module "*.svg" {
   const content: any;
   export default content;
 }
-declare module "*.md";
+
+export interface MarkdownType {
+  path: string;
+  frontmatter?: {
+    title: string;
+    date: string;
+  };
+}
+declare module "*.md" {
+  const content: MarkdownType;
+  export default content;
+}
