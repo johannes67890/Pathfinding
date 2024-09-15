@@ -50,6 +50,7 @@ const Renderer = () => {
         border: "solid",
         borderWidth: "1px",
         borderRadius: "5px",
+        position: "unset",
       }}
     >
       <OrthographicCamera makeDefault position={[0, 0, 5]} zoom={30} />

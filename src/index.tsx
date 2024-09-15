@@ -8,6 +8,7 @@ import Home from "@pages/Home";
 import GridTool from "@pages/GridTool";
 import GraphTool from "@pages/GraphTool";
 import NotFound from "./components/static/NotFound";
+import NavHeader from "./components/nav/NavHeader";
 
 const container = document.getElementById("root");
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
@@ -16,6 +17,7 @@ function Index() {
   return (
     <React.StrictMode>
       <BrowserRouter>
+        <NavHeader />
         <div className="max-w-7xl mx-auto mt-3">
           <Routes>
             <Route path="/" element={<Home />} />

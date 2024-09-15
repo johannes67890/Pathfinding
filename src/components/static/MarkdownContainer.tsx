@@ -18,8 +18,13 @@ contributors?: string;
 interface Cite {
     title: string;
     url: string;
-
 }
+
+// const MarkdownContainer = () => {
+//   <div>
+    
+//   </div>
+// }
 
 const MarkdownWrapper: React.FC<{
   file: string;
@@ -40,4 +45,4 @@ const MarkdownWrapper: React.FC<{
     </div>
 );
 
-export default MarkdownWrapper;
+// export default MarkdownContainer;
