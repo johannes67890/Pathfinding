@@ -7,7 +7,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      
       animation: {
         "visited-cell": "upscale 400ms ease-in both",
         "shortest-path": "upscaleShortest 400ms ease-in both",
